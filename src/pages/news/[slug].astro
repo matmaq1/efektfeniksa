@@ -1,183 +1,104 @@
 ---
-import { getCollection, render } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const newsEntries = await getCollection('news');
-  return newsEntries.map(entry => ({
-    params: { slug: entry.id },
-    props: { entry },
+  const allNews = await getCollection('news');
+  return allNews.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
   }));
 }
 
-interface Props {
-  entry: CollectionEntry<'news'>;
-}
-
-const { entry } = Astro.props;
-const { Content } = await render(entry);
-
-function formatDate(date: Date): string {
-  return new Intl.DateTimeFormat('pl-PL', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  }).format(date);
-}
+const { post } = Astro.props;
+const { Content } = await post.render();
 ---
 
-<Base title={entry.data.title} description={entry.data.description}>
-  <article class="article">
-    <header class="article-header">
-      <div class="container-narrow">
-        <a href="/news" class="back-link">← Wszystkie aktualności</a>
-        <time class="article-date" datetime={entry.data.pubDate.toISOString()}>
-          {formatDate(entry.data.pubDate)}
-        </time>
-        <h1 class="article-title">{entry.data.title}</h1>
-        <p class="article-author">Autor: {entry.data.author}</p>
+<Base title={`${post.data.title} | Efekt Feniksa`}>
+  <Nav />
+  
+  <main class="pt-32 pb-24 px-6 md:px-12 max-w-4xl mx-auto">
+    <!-- Back Link -->
+    <a href="/news" class="inline-flex items-center gap-2 text-primary font-bold uppercase tracking-wider text-sm mb-12 hover:text-primary/80 transition-colors">
+      <span class="material-symbols-outlined text-sm">arrow_back</span>
+      Back to News
+    </a>
+
+    <!-- Article Header -->
+    <header class="mb-12">
+      <h1 class="text-5xl md:text-7xl font-headline font-extrabold tracking-tighter text-on-surface mb-6">
+        {post.data.title}
+      </h1>
+      <div class="flex items-center gap-4 text-on-surface-variant text-sm">
+        <span>{post.data.date.toLocaleDateString('pl-PL')}</span>
+        <span>•</span>
+        <span>Efekt Feniksa</span>
       </div>
     </header>
 
-    <div class="article-content">
-      <div class="container-narrow">
-        <Content />
+    <!-- Article Content -->
+    <article class="prose prose-invert max-w-none">
+      <Content />
+    </article>
+
+    <!-- CTA Section -->
+    <section class="mt-24 p-12 bg-gradient-to-br from-surface-container-low to-surface-container-highest relative overflow-hidden">
+      <div class="relative z-10 text-center max-w-2xl mx-auto">
+        <h2 class="text-3xl font-headline font-bold mb-6 text-on-surface">Interested? Don't miss out.</h2>
+        <p class="text-on-surface-variant mb-8">Register now to be part of Efekt Feniksa and experience the magic of public speaking.</p>
+        <button class="bg-[#FF6B00] text-black px-10 py-4 rounded-full font-bold uppercase tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-primary/30">
+          Register Now
+        </button>
       </div>
-    </div>
-  </article>
+      <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-primary/10 rounded-full blur-[100px]"></div>
+    </section>
+  </main>
+
+  <style>
+    /* Prose customizations for dark theme */
+    .prose {
+      --prose-body: #e6e1e1;
+      --prose-headings: #e6e1e1;
+      --prose-links: #FF6B00;
+      --prose-code: #FF6B00;
+      --prose-hr: #363434;
+      --prose-quotes: #d1c5b4;
+      --prose-captions: #d1c5b4;
+      --prose-th-borders: #363434;
+      --prose-td-borders: #201f1f;
+    }
+
+    :global(.prose) p {
+      color: #e6e1e1;
+      line-height: 1.8;
+    }
+
+    :global(.prose) h2, :global(.prose) h3 {
+      color: #e6e1e1;
+      font-family: 'Noto Serif', serif;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    :global(.prose) a {
+      color: #FF6B00;
+      text-decoration: none;
+      border-bottom: 1px solid #FF6B00;
+    }
+
+    :global(.prose) a:hover {
+      opacity: 0.8;
+    }
+
+    :global(.prose) blockquote {
+      border-left: 4px solid #FF6B00;
+      color: #d1c5b4;
+      font-style: italic;
+    }
+
+    :global(.prose) strong {
+      color: #FF6B00;
+    }
+  </style>
 </Base>
-
-<style>
-  .article {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-  }
-
-  .container-narrow {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-  }
-
-  .article-header {
-    margin-bottom: 3rem;
-  }
-
-  .back-link {
-    display: inline-block;
-    font-size: 0.9375rem;
-    font-weight: 500;
-    color: var(--gold-primary);
-    margin-bottom: 2rem;
-    transition: transform 0.3s ease;
-  }
-
-  .back-link:hover {
-    transform: translateX(-4px);
-  }
-
-  .article-date {
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--gold-primary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 1rem;
-  }
-
-  .article-title {
-    font-size: 3rem;
-    line-height: 1.2;
-    color: var(--text-ebony);
-    margin-bottom: 1rem;
-  }
-
-  .article-author {
-    font-size: 1rem;
-    color: var(--text-ebony);
-    opacity: 0.7;
-  }
-
-  .article-content {
-    font-size: 1.0625rem;
-    line-height: 1.8;
-    color: var(--text-ebony);
-  }
-
-  .article-content :global(h2) {
-    font-size: 2rem;
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
-    color: var(--gold-primary);
-  }
-
-  .article-content :global(h3) {
-    font-size: 1.5rem;
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
-    color: var(--text-ebony);
-  }
-
-  .article-content :global(p) {
-    margin-bottom: 1.5rem;
-  }
-
-  .article-content :global(ul),
-  .article-content :global(ol) {
-    margin-bottom: 1.5rem;
-    padding-left: 1.5rem;
-  }
-
-  .article-content :global(li) {
-    margin-bottom: 0.75rem;
-  }
-
-  .article-content :global(strong) {
-    font-weight: 700;
-    color: var(--gold-primary);
-  }
-
-  .article-content :global(a) {
-    color: var(--gold-primary);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    transition: opacity 0.3s ease;
-  }
-
-  .article-content :global(a:hover) {
-    opacity: 0.8;
-  }
-
-  .article-content :global(blockquote) {
-    border-left: 4px solid var(--gold-primary);
-    padding-left: 1.5rem;
-    margin: 2rem 0;
-    font-style: italic;
-    opacity: 0.9;
-  }
-
-  @media (max-width: 768px) {
-    .article {
-      padding-top: 4rem;
-      padding-bottom: 4rem;
-    }
-
-    .article-title {
-      font-size: 2rem;
-    }
-
-    .article-content {
-      font-size: 1rem;
-    }
-
-    .article-content :global(h2) {
-      font-size: 1.5rem;
-    }
-
-    .article-content :global(h3) {
-      font-size: 1.25rem;
-    }
-  }
-</style>

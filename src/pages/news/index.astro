@@ -1,167 +1,48 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+import { getCollection } from 'astro:content';
 
 const allNews = await getCollection('news');
-const sortedNews = allNews.sort((a, b) =>
-  b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
-
-function formatDate(date: Date): string {
-  return new Intl.DateTimeFormat('pl-PL', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  }).format(date);
-}
 ---
 
-<Base title="Aktualności">
-  <div class="news-hero">
-    <div class="container">
-      <h1 class="page-title">Aktualności</h1>
-      <p class="page-subtitle">Bądź na bieżąco z wydarzeniami Efektu Feniksa</p>
-    </div>
-  </div>
-
-  <section class="section">
-    <div class="container">
-      <div class="news-grid">
-        {sortedNews.map((post) => (
-          <article class="news-card">
-            <a href={`/news/${post.id}`} class="news-link">
-              <time class="news-date" datetime={post.data.pubDate.toISOString()}>
-                {formatDate(post.data.pubDate)}
-              </time>
-              <h2 class="news-title">{post.data.title}</h2>
-              <p class="news-description">{post.data.description}</p>
-              <div class="news-meta">
-                <span class="news-author">{post.data.author}</span>
-                <span class="news-arrow">→</span>
-              </div>
-            </a>
-          </article>
-        ))}
+<Base title="News | Efekt Feniksa">
+  <Nav />
+  
+  <main class="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
+    <!-- Header -->
+    <header class="mb-20">
+      <div class="flex flex-col md:flex-row items-baseline gap-4 mb-4">
+        <span class="text-primary font-label text-sm tracking-[0.2em] uppercase">Latest Updates</span>
+        <h1 class="text-5xl md:text-7xl font-headline font-extrabold tracking-tighter text-on-surface">
+          News <span class="text-primary">2024</span>
+        </h1>
       </div>
+      <p class="max-w-2xl text-on-surface-variant text-lg font-light leading-relaxed">
+        Stay informed about the latest announcements, updates, and stories from Efekt Feniksa.
+      </p>
+    </header>
+
+    <!-- News Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {allNews.map((post) => (
+        <a href={`/news/${post.slug}`} class="group bg-surface-container-low border border-primary/20 hover:border-primary/60 transition-all duration-300 overflow-hidden">
+          <div class="aspect-video bg-surface-container-high"></div>
+          <div class="p-6">
+            <span class="text-primary text-xs font-bold uppercase tracking-wider">News</span>
+            <h3 class="text-on-surface font-headline text-xl font-bold mt-3 mb-3 group-hover:text-primary transition-colors">
+              {post.data.title}
+            </h3>
+            <p class="text-on-surface-variant text-sm font-light leading-relaxed mb-4">
+              {post.data.excerpt || post.body.substring(0, 100)}
+            </p>
+            <div class="flex items-center gap-3 text-primary text-sm font-bold uppercase tracking-wider">
+              <span>Read More</span>
+              <span class="material-symbols-outlined text-sm transition-transform group-hover:translate-x-1">arrow_forward</span>
+            </div>
+          </div>
+        </a>
+      ))}
     </div>
-  </section>
+  </main>
 </Base>
-
-<style>
-  .news-hero {
-    padding: 8rem 0 4rem;
-    background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
-    text-align: center;
-    color: var(--bg-ivory);
-  }
-
-  .page-title {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-  }
-
-  .page-subtitle {
-    font-size: 1.25rem;
-    opacity: 0.95;
-  }
-
-  .news-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    max-width: 900px;
-    margin: 0 auto;
-  }
-
-  .news-card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    overflow: hidden;
-  }
-
-  .news-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0px 24px 48px rgba(28, 27, 27, 0.1);
-  }
-
-  .news-link {
-    display: block;
-    padding: 2rem;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .news-date {
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--gold-primary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 0.75rem;
-  }
-
-  .news-title {
-    font-size: 1.75rem;
-    color: var(--text-ebony);
-    margin-bottom: 0.75rem;
-    transition: color 0.3s ease;
-  }
-
-  .news-link:hover .news-title {
-    color: var(--gold-primary);
-  }
-
-  .news-description {
-    font-size: 1rem;
-    line-height: 1.7;
-    color: var(--text-ebony);
-    opacity: 0.8;
-    margin-bottom: 1.5rem;
-  }
-
-  .news-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 1rem;
-    border-top: 2px solid rgba(119, 90, 25, 0.1);
-  }
-
-  .news-author {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--text-ebony);
-    opacity: 0.7;
-  }
-
-  .news-arrow {
-    font-size: 1.5rem;
-    color: var(--gold-primary);
-    transition: transform 0.3s ease;
-  }
-
-  .news-link:hover .news-arrow {
-    transform: translateX(4px);
-  }
-
-  @media (max-width: 768px) {
-    .page-title {
-      font-size: 2rem;
-    }
-
-    .news-hero {
-      padding: 6rem 0 3rem;
-    }
-
-    .news-link {
-      padding: 1.5rem;
-    }
-
-    .news-title {
-      font-size: 1.5rem;
-    }
-  }
-</style>
