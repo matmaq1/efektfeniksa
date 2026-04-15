@@ -29,7 +29,7 @@ function formatDate(date: Date): string {
       <div class="news-grid">
         {sortedNews.map((post) => (
           <article class="news-card">
-            <a href={`/news/${post.slug}`} class="news-link">
+            <a href={`/news/${post.id}`} class="news-link">
               <time class="news-date" datetime={post.data.pubDate.toISOString()}>
                 {formatDate(post.data.pubDate)}
               </time>
