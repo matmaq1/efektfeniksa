@@ -1,164 +1,43 @@
 ---
-const navItems = [
-  { href: '/', label: 'Start' },
-  { href: '/agenda', label: 'Agenda' },
-  { href: '/speakers', label: 'Prelegenci' },
-  { href: '/news', label: 'Aktualności' }
-];
 ---
 
-<nav class="nav">
-  <div class="nav-container">
-    <a href="/" class="nav-logo">
-      <span class="logo-text">Efekt Feniksa</span>
-    </a>
+<nav class="fixed top-0 w-full z-50 glass-nav border-b border-primary/10">
+  <div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
+    <div class="text-2xl font-bold tracking-tighter text-primary drop-shadow-[0_0_15px_rgba(255,107,0,0.4)] font-noto-serif uppercase">
+      Efekt Feniksa
+    </div>
+    
+    <div class="hidden md:flex items-center space-x-8">
+      <a href="/" class="font-noto-serif tracking-tight uppercase text-sm text-primary border-b-2 border-primary pb-1 hover:text-primary/80 transition-colors">
+        Home
+      </a>
+      <a href="/news" class="font-noto-serif tracking-tight uppercase text-sm text-neutral-400 hover:text-primary transition-colors">
+        News
+      </a>
+      <a href="/agenda" class="font-noto-serif tracking-tight uppercase text-sm text-neutral-400 hover:text-primary transition-colors">
+        Agenda
+      </a>
+      <a href="/speakers" class="font-noto-serif tracking-tight uppercase text-sm text-neutral-400 hover:text-primary transition-colors">
+        Speakers
+      </a>
+    </div>
 
-    <input type="checkbox" id="nav-toggle" class="nav-toggle">
-    <label for="nav-toggle" class="nav-hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </label>
+    <button class="px-6 py-2 rounded-full gradient-bg text-neutral-950 font-bold text-sm btn-glow transition-transform active:scale-95 uppercase tracking-wider">
+      Register Now
+    </button>
 
-    <ul class="nav-menu">
-      {navItems.map(item => (
-        <li class="nav-item">
-          <a href={item.href} class="nav-link">{item.label}</a>
-        </li>
-      ))}
-    </ul>
+    <!-- Mobile hamburger menu button -->
+    <button class="md:hidden text-primary" aria-label="Toggle menu">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
   </div>
 </nav>
 
 <style>
-  .nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    background: rgba(252, 249, 248, 0.8);
-    backdrop-filter: blur(12px);
-    box-shadow: var(--shadow);
-  }
-
-  .nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 1rem 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .nav-logo {
-    font-family: 'Noto Serif', serif;
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: var(--gold-primary);
-  }
-
-  .logo-text {
-    background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .nav-toggle {
-    display: none;
-  }
-
-  .nav-hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    padding: 0.5rem;
-  }
-
-  .nav-hamburger span {
-    width: 25px;
-    height: 2px;
-    background: var(--gold-primary);
-    transition: all 0.3s ease;
-  }
-
-  .nav-menu {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
-  }
-
-  .nav-link {
-    font-weight: 500;
-    color: var(--text-ebony);
-    transition: color 0.3s ease;
-    position: relative;
-  }
-
-  .nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--gold-primary);
-    transition: width 0.3s ease;
-  }
-
-  .nav-link:hover {
-    color: var(--gold-primary);
-  }
-
-  .nav-link:hover::after {
-    width: 100%;
-  }
-
-  @media (max-width: 768px) {
-    .nav-hamburger {
-      display: flex;
-    }
-
-    .nav-menu {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      flex-direction: column;
-      gap: 0;
-      background: rgba(252, 249, 248, 0.98);
-      backdrop-filter: blur(12px);
-      padding: 0;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-    }
-
-    .nav-item {
-      border-bottom: 1px solid rgba(119, 90, 25, 0.1);
-    }
-
-    .nav-link {
-      display: block;
-      padding: 1.25rem 1.5rem;
-    }
-
-    .nav-toggle:checked ~ .nav-menu {
-      max-height: 400px;
-    }
-
-    .nav-toggle:checked ~ .nav-hamburger span:nth-child(1) {
-      transform: rotate(45deg) translate(7px, 7px);
-    }
-
-    .nav-toggle:checked ~ .nav-hamburger span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .nav-toggle:checked ~ .nav-hamburger span:nth-child(3) {
-      transform: rotate(-45deg) translate(7px, -7px);
-    }
+  .glass-nav {
+    background: rgba(20, 19, 19, 0.7);
+    backdrop-filter: blur(20px);
   }
 </style>
