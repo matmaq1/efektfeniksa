@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
+import PhoenixAnimation from '../components/PhoenixAnimation.astro';
 ---
 
 <Base title="Efekt Feniksa | Home">
@@ -11,15 +12,9 @@ import Nav from '../components/Nav.astro';
     <div class="absolute inset-0 z-0">
       <div class="absolute inset-0 bg-gradient-to-b from-transparent via-surface/60 to-surface z-10"></div>
       <div class="absolute inset-0 phoenix-ember-overlay z-[5]"></div>
-      <img alt="Phoenix rising from flames" class="w-full h-full object-cover brightness-[0.6] contrast-[1.2]" src="https://images.unsplash.com/photo-1604147706283-d7119b5b822c?w=1400&h=1400&fit=crop" style="animation: subtleZoom 20s ease-in-out infinite;" />
+      <PhoenixAnimation />
     </div>
     
-    <style>
-      @keyframes subtleZoom {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-      }
-    </style>
     <div class="relative z-20 text-center max-w-5xl px-6">
       <span class="inline-block px-4 py-1 rounded-full border border-primary/40 text-primary text-xs font-bold tracking-[0.2em] uppercase mb-8 bg-primary/10">
         Toastmasters International
@@ -31,10 +26,15 @@ import Nav from '../components/Nav.astro';
       <p class="font-body text-xl md:text-2xl text-on-surface-variant max-w-2xl mx-auto mb-12 font-light leading-relaxed">
         Ogólnopolski Konkurs Mówców Toastmasters. Doświadcz odrodzenia pasji, siły słowa i wspólnoty, która płonie jasnym blaskiem.
       </p>
+      <div class="text-on-surface-variant mb-12">
+        <p class="text-2xl font-bold text-primary mb-2">28-30 Sierpnia 2026</p>
+        <p class="text-xl">Kalisz, Polska</p>
+        <p class="text-sm opacity-70 mt-2">ul. Główna 1, 62-800 Kalisz (Centrum Kultury i Sztuki)</p>
+      </div>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
-        <button class="px-10 py-5 rounded-full gradient-bg text-neutral-950 font-extrabold text-lg ember-glow btn-glow transition-all">
-          Zarejestruj się
-        </button>
+        <a href="/tickets" class="px-10 py-5 rounded-full gradient-bg text-neutral-950 font-extrabold text-lg ember-glow btn-glow transition-all">
+          Kup Bilety
+        </a>
         <button class="px-10 py-5 rounded-full border border-primary/40 text-primary font-bold text-lg hover:bg-primary/10 transition-all bg-black/20">
           Dowiedz się więcej
         </button>
@@ -51,26 +51,59 @@ import Nav from '../components/Nav.astro';
   <!-- Countdown Section -->
   <section class="py-24 bg-surface-container-low relative">
     <div class="max-w-7xl mx-auto px-8">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+      <div id="countdown" class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
         <div class="text-center">
-          <div class="text-5xl md:text-7xl font-headline font-bold text-primary mb-2 drop-shadow-[0_0_15px_rgba(255,107,0,0.2)]">14</div>
+          <div id="days" class="text-5xl md:text-7xl font-headline font-bold text-primary mb-2 drop-shadow-[0_0_15px_rgba(255,107,0,0.2)]">00</div>
           <div class="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Dni</div>
         </div>
         <div class="text-center">
-          <div class="text-5xl md:text-7xl font-headline font-bold text-primary mb-2 drop-shadow-[0_0_15px_rgba(255,107,0,0.2)]">08</div>
+          <div id="hours" class="text-5xl md:text-7xl font-headline font-bold text-primary mb-2 drop-shadow-[0_0_15px_rgba(255,107,0,0.2)]">00</div>
           <div class="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Godzin</div>
         </div>
         <div class="text-center">
-          <div class="text-5xl md:text-7xl font-headline font-bold text-primary mb-2 drop-shadow-[0_0_15px_rgba(255,107,0,0.2)]">42</div>
+          <div id="minutes" class="text-5xl md:text-7xl font-headline font-bold text-primary mb-2 drop-shadow-[0_0_15px_rgba(255,107,0,0.2)]">00</div>
           <div class="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Minut</div>
         </div>
         <div class="text-center">
-          <div class="text-5xl md:text-7xl font-headline font-bold text-primary mb-2 drop-shadow-[0_0_15px_rgba(255,107,0,0.2)]">19</div>
+          <div id="seconds" class="text-5xl md:text-7xl font-headline font-bold text-primary mb-2 drop-shadow-[0_0_15px_rgba(255,107,0,0.2)]">00</div>
           <div class="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Sekund</div>
         </div>
       </div>
     </div>
   </section>
+
+  <script>
+    const targetDate = new Date('August 28, 2026 09:00:00').getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      const daysEl = document.getElementById('days');
+      const hoursEl = document.getElementById('hours');
+      const minutesEl = document.getElementById('minutes');
+      const secondsEl = document.getElementById('seconds');
+
+      if (daysEl) daysEl.innerText = String(days).padStart(2, '0');
+      if (hoursEl) hoursEl.innerText = String(hours).padStart(2, '0');
+      if (minutesEl) minutesEl.innerText = String(minutes).padStart(2, '0');
+      if (secondsEl) secondsEl.innerText = String(seconds).padStart(2, '0');
+
+      if (distance < 0) {
+        clearInterval(x);
+        const countdownEl = document.getElementById('countdown');
+        if (countdownEl) countdownEl.innerHTML = "<div class='col-span-4 text-center text-4xl font-headline font-bold text-primary uppercase tracking-widest'>Wydarzenie Rozpoczęte!</div>";
+      }
+    }
+
+    const x = setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
 
   <!-- About Theme Section -->
   <section class="py-32 bg-surface overflow-hidden">
