@@ -4,24 +4,91 @@ import Base from '../layouts/Base.astro';
 
 <Base title="Start">
   <section class="hero">
-    <div class="hero-content">
-      <div class="hero-animation">
-        <svg viewBox="0 0 200 200" class="microphone-svg">
-          <g class="microphone">
-            <rect x="90" y="60" width="20" height="50" rx="10" fill="#c5a059"/>
-            <ellipse cx="100" cy="60" rx="12" ry="8" fill="#c5a059"/>
-            <line x1="100" y1="110" x2="100" y2="130" stroke="#c5a059" stroke-width="3"/>
-            <line x1="85" y1="130" x2="115" y2="130" stroke="#c5a059" stroke-width="3" stroke-linecap="round"/>
-          </g>
-          <circle class="wave wave-1" cx="100" cy="100" r="30" fill="none" stroke="#775a19" stroke-width="2" opacity="0"/>
-          <circle class="wave wave-2" cx="100" cy="100" r="30" fill="none" stroke="#c5a059" stroke-width="2" opacity="0"/>
-          <circle class="wave wave-3" cx="100" cy="100" r="30" fill="none" stroke="#775a19" stroke-width="1.5" opacity="0"/>
-        </svg>
-      </div>
+    <!-- Animated SVG Scene -->
+    <svg viewBox="0 0 800 600" class="hero-scene" xmlns="http://www.w3.org/2000/svg">
+      <!-- Stage Floor -->
+      <defs>
+        <linearGradient id="floorGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#2a2626;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#1c1b1b;stop-opacity:1" />
+        </linearGradient>
+        <linearGradient id="lustleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#775a19;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#c5a059;stop-opacity:1" />
+        </linearGradient>
+        <linearGradient id="spotlightLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#c5a059;stop-opacity:0.15" />
+          <stop offset="100%" style="stop-color:#c5a059;stop-opacity:0" />
+        </linearGradient>
+        <linearGradient id="spotlightRight" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#c5a059;stop-opacity:0.15" />
+          <stop offset="100%" style="stop-color:#c5a059;stop-opacity:0" />
+        </linearGradient>
+      </defs>
 
+      <rect x="0" y="480" width="800" height="120" fill="url(#floorGradient)" />
+
+      <!-- Left Spotlight -->
+      <polygon points="80,40 300,340 340,340 120,40" fill="url(#spotlightLeft)" class="spotlight spotlight-left" />
+
+      <!-- Right Spotlight -->
+      <polygon points="720,40 500,340 460,340 680,40" fill="url(#spotlightRight)" class="spotlight spotlight-right" />
+
+      <!-- Podium/Lectern -->
+      <g class="podium">
+        <polygon points="330,450 350,380 450,380 470,450" fill="#2a2626" stroke="#c5a059" stroke-width="1.5" />
+        <rect x="340" y="450" width="120" height="30" fill="#1c1b1b" stroke="#c5a059" stroke-width="1.5" />
+      </g>
+
+      <!-- Speaker Silhouette -->
+      <g class="speaker">
+        <circle cx="400" cy="310" r="28" fill="#1c1b1b" stroke="#c5a059" stroke-width="2" />
+        <rect x="365" y="340" width="70" height="90" rx="5" fill="#1c1b1b" stroke="#c5a059" stroke-width="2" />
+      </g>
+
+      <!-- Microphone Stand -->
+      <g class="microphone-stand">
+        <line x1="350" y1="320" x2="350" y2="480" stroke="#c5a059" stroke-width="3" />
+        <circle cx="350" cy="480" r="12" fill="#775a19" />
+        <!-- Microphone Capsule -->
+        <g class="mic-capsule">
+          <rect x="335" y="300" width="30" height="40" rx="15" fill="#c5a059" stroke="#775a19" stroke-width="2" />
+          <ellipse cx="350" cy="300" rx="18" ry="10" fill="#c5a059" />
+        </g>
+      </g>
+
+      <!-- Sound Wave Rings -->
+      <circle class="wave wave-1" cx="350" cy="320" r="25" fill="none" stroke="#c5a059" stroke-width="2" opacity="0" />
+      <circle class="wave wave-2" cx="350" cy="320" r="25" fill="none" stroke="#775a19" stroke-width="2" opacity="0" />
+      <circle class="wave wave-3" cx="350" cy="320" r="25" fill="none" stroke="#c5a059" stroke-width="1.5" opacity="0" />
+      <circle class="wave wave-4" cx="350" cy="320" r="25" fill="none" stroke="#775a19" stroke-width="1.5" opacity="0" />
+
+      <!-- Phoenix Rising -->
+      <g class="phoenix">
+        <path d="M 650,120 Q 665,100 680,90 Q 695,80 710,85 Q 720,90 715,105 Q 710,120 695,130 Q 680,140 665,135 Q 650,130 650,120 Z"
+              fill="url(#lustleGradient)" opacity="0.9" />
+        <path d="M 640,140 Q 650,125 665,125 Q 680,125 690,140 Q 695,155 685,165 Q 675,175 660,170 Q 645,165 640,150 Z"
+              fill="url(#lustleGradient)" opacity="0.85" />
+        <path d="M 655,165 Q 665,155 675,155 Q 685,155 690,165 Q 693,175 685,185 Q 677,195 665,190 Q 653,185 655,175 Z"
+              fill="url(#lustleGradient)" opacity="0.8" />
+        <path d="M 645,105 Q 655,95 665,100 L 670,110 Q 665,115 655,112 Z"
+              fill="#c5a059" opacity="0.9" />
+      </g>
+
+      <!-- Floating Particles -->
+      <circle class="particle particle-1" cx="150" cy="200" r="4" fill="#c5a059" opacity="0.4" />
+      <circle class="particle particle-2" cx="600" cy="280" r="3" fill="#775a19" opacity="0.5" />
+      <circle class="particle particle-3" cx="250" cy="380" r="3.5" fill="#c5a059" opacity="0.35" />
+      <circle class="particle particle-4" cx="700" cy="350" r="4" fill="#775a19" opacity="0.45" />
+      <circle class="particle particle-5" cx="120" cy="450" r="3" fill="#c5a059" opacity="0.4" />
+      <circle class="particle particle-6" cx="550" cy="150" r="3.5" fill="#775a19" opacity="0.38" />
+    </svg>
+
+    <!-- Content Overlay -->
+    <div class="hero-content">
+      <div class="hero-badge">🏆 Mistrzostwa mówców</div>
       <h1 class="hero-title">Efekt Feniksa</h1>
       <p class="hero-subtitle">Konkurs sztuki mówienia</p>
-
       <div class="hero-buttons">
         <a href="#register" class="button button-primary">Zarejestruj się</a>
         <a href="/agenda" class="button button-ghost">Program</a>
@@ -65,81 +132,144 @@ import Base from '../layouts/Base.astro';
 
 <style>
   .hero {
+    position: relative;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--text-ebony);
-    background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+    background: #1c1b1b;
     padding: 2rem 1.5rem;
     margin-top: -70px;
+    overflow: hidden;
+  }
+
+  .hero-scene {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0.95;
   }
 
   .hero-content {
+    position: relative;
+    z-index: 10;
     text-align: center;
     max-width: 800px;
+    animation: contentEntrance 1.2s ease-out 0.5s both;
   }
 
-  .hero-animation {
-    margin-bottom: 3rem;
+  /* CSS Animations */
+  @keyframes waveExpand {
+    0% { transform: scale(0.3); opacity: 0.8; }
+    100% { transform: scale(3.5); opacity: 0; }
   }
 
-  .microphone-svg {
-    width: 200px;
-    height: 200px;
-    margin: 0 auto;
+  @keyframes phoenixRise {
+    0% { transform: translateY(12px) rotate(-3deg); opacity: 0.7; }
+    50% { transform: translateY(-8px) rotate(2deg); opacity: 1; }
+    100% { transform: translateY(12px) rotate(-3deg); opacity: 0.7; }
   }
 
-  .microphone {
-    transform-origin: center;
-    animation: float 3s ease-in-out infinite;
+  @keyframes spotlightPulse {
+    0%, 100% { opacity: 0.12; }
+    50% { opacity: 0.22; }
   }
 
   @keyframes float {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
   }
 
-  .wave {
-    animation: wave-pulse 2.5s ease-out infinite;
+  @keyframes micFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
   }
 
-  .wave-2 {
-    animation-delay: 0.5s;
-  }
-
-  .wave-3 {
-    animation-delay: 1s;
-  }
-
-  @keyframes wave-pulse {
+  @keyframes contentEntrance {
     0% {
-      r: 30;
-      opacity: 0.8;
+      opacity: 0;
+      transform: translateY(30px);
     }
     100% {
-      r: 70;
-      opacity: 0;
+      opacity: 1;
+      transform: translateY(0);
     }
+  }
+
+  /* SVG Element Animations */
+  .wave {
+    animation: waveExpand 2.4s ease-out infinite;
+    transform-origin: center;
+  }
+
+  .wave-1 { animation-delay: 0s; }
+  .wave-2 { animation-delay: 0.6s; }
+  .wave-3 { animation-delay: 1.2s; }
+  .wave-4 { animation-delay: 1.8s; }
+
+  .phoenix {
+    animation: phoenixRise 5s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  .spotlight {
+    animation: spotlightPulse 4s ease-in-out infinite;
+  }
+
+  .spotlight-left {
+    animation-delay: 0s;
+  }
+
+  .spotlight-right {
+    animation-delay: 2s;
+  }
+
+  .mic-capsule {
+    animation: micFloat 3s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  .particle {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .particle-1 { animation-delay: 0s; animation-duration: 3.5s; }
+  .particle-2 { animation-delay: 0.8s; animation-duration: 4.2s; }
+  .particle-3 { animation-delay: 1.5s; animation-duration: 3.8s; }
+  .particle-4 { animation-delay: 0.4s; animation-duration: 4.5s; }
+  .particle-5 { animation-delay: 1.2s; animation-duration: 3.6s; }
+  .particle-6 { animation-delay: 0.6s; animation-duration: 4.1s; }
+
+  /* Hero Content Styling */
+  .hero-badge {
+    display: inline-block;
+    padding: 0.5rem 1.25rem;
+    border: 1.5px solid #c5a059;
+    border-radius: 9999px;
+    color: #c5a059;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    letter-spacing: 0.5px;
   }
 
   .hero-title {
-    font-size: 3.5rem;
+    font-family: 'Noto Serif', serif;
+    font-size: 4rem;
     font-weight: 700;
-    color: var(--bg-ivory);
+    color: #fcf9f8;
     margin-bottom: 1rem;
+    line-height: 1.1;
   }
 
   .hero-subtitle {
     font-family: 'Noto Serif', serif;
     font-style: italic;
-    font-size: 1.5rem;
-    color: var(--bg-ivory);
-    opacity: 0.95;
+    font-size: 1.25rem;
+    color: #c5a059;
     margin-bottom: 3rem;
   }
 
@@ -150,14 +280,26 @@ import Base from '../layouts/Base.astro';
     flex-wrap: wrap;
   }
 
+  .hero .button-primary {
+    background: #775a19;
+    color: #fcf9f8;
+    border-color: #775a19;
+  }
+
+  .hero .button-primary:hover {
+    background: #c5a059;
+    border-color: #c5a059;
+  }
+
   .hero .button-ghost {
-    color: var(--bg-ivory);
-    border-color: var(--bg-ivory);
+    color: #c5a059;
+    border-color: #c5a059;
+    border-width: 1.5px;
   }
 
   .hero .button-ghost:hover {
-    background: var(--bg-ivory);
-    color: var(--gold-primary);
+    background: #c5a059;
+    color: #1c1b1b;
   }
 
   .features {
@@ -205,10 +347,6 @@ import Base from '../layouts/Base.astro';
     .features-grid {
       grid-template-columns: repeat(3, 1fr);
     }
-
-    .hero-title {
-      font-size: 4rem;
-    }
   }
 
   @media (max-width: 480px) {
@@ -217,12 +355,12 @@ import Base from '../layouts/Base.astro';
     }
 
     .hero-subtitle {
-      font-size: 1.25rem;
+      font-size: 1rem;
     }
 
-    .microphone-svg {
-      width: 150px;
-      height: 150px;
+    .hero-badge {
+      font-size: 0.8rem;
+      padding: 0.4rem 1rem;
     }
   }
 </style>
