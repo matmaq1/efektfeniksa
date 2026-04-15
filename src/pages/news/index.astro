@@ -1,0 +1,167 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const allNews = await getCollection('news');
+const sortedNews = allNews.sort((a, b) =>
+  b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+function formatDate(date: Date): string {
+  return new Intl.DateTimeFormat('pl-PL', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  }).format(date);
+}
+---
+
+<Base title="Aktualności">
+  <div class="news-hero">
+    <div class="container">
+      <h1 class="page-title">Aktualności</h1>
+      <p class="page-subtitle">Bądź na bieżąco z wydarzeniami Efektu Feniksa</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="news-grid">
+        {sortedNews.map((post) => (
+          <article class="news-card">
+            <a href={`/news/${post.slug}`} class="news-link">
+              <time class="news-date" datetime={post.data.pubDate.toISOString()}>
+                {formatDate(post.data.pubDate)}
+              </time>
+              <h2 class="news-title">{post.data.title}</h2>
+              <p class="news-description">{post.data.description}</p>
+              <div class="news-meta">
+                <span class="news-author">{post.data.author}</span>
+                <span class="news-arrow">→</span>
+              </div>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .news-hero {
+    padding: 8rem 0 4rem;
+    background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+    text-align: center;
+    color: var(--bg-ivory);
+  }
+
+  .page-title {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .page-subtitle {
+    font-size: 1.25rem;
+    opacity: 0.95;
+  }
+
+  .news-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .news-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+  }
+
+  .news-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0px 24px 48px rgba(28, 27, 27, 0.1);
+  }
+
+  .news-link {
+    display: block;
+    padding: 2rem;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .news-date {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--gold-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.75rem;
+  }
+
+  .news-title {
+    font-size: 1.75rem;
+    color: var(--text-ebony);
+    margin-bottom: 0.75rem;
+    transition: color 0.3s ease;
+  }
+
+  .news-link:hover .news-title {
+    color: var(--gold-primary);
+  }
+
+  .news-description {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-ebony);
+    opacity: 0.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .news-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 2px solid rgba(119, 90, 25, 0.1);
+  }
+
+  .news-author {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-ebony);
+    opacity: 0.7;
+  }
+
+  .news-arrow {
+    font-size: 1.5rem;
+    color: var(--gold-primary);
+    transition: transform 0.3s ease;
+  }
+
+  .news-link:hover .news-arrow {
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 768px) {
+    .page-title {
+      font-size: 2rem;
+    }
+
+    .news-hero {
+      padding: 6rem 0 3rem;
+    }
+
+    .news-link {
+      padding: 1.5rem;
+    }
+
+    .news-title {
+      font-size: 1.5rem;
+    }
+  }
+</style>

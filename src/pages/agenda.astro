@@ -1,0 +1,203 @@
+---
+import Base from '../layouts/Base.astro';
+
+const sessions = [
+  {
+    number: '01',
+    time: '9:00 - 10:00',
+    title: 'Rejestracja i powitanie',
+    description: 'Odbiór pakietów startowych, poranna kawa i networking'
+  },
+  {
+    number: '02',
+    time: '10:00 - 11:30',
+    title: 'Ceremonia otwarcia',
+    description: 'Oficjalne rozpoczęcie konkursu i przedstawienie regulaminu'
+  },
+  {
+    number: '03',
+    time: '11:30 - 13:00',
+    title: 'Pierwsza runda eliminacji',
+    description: 'Wystąpienia konkursowe uczestników - część pierwsza'
+  },
+  {
+    number: '04',
+    time: '13:00 - 14:00',
+    title: 'Przerwa obiadowa',
+    description: 'Lunch i swobodne rozmowy'
+  },
+  {
+    number: '05',
+    time: '14:00 - 16:00',
+    title: 'Druga runda eliminacji',
+    description: 'Wystąpienia konkursowe uczestników - część druga'
+  },
+  {
+    number: '06',
+    time: '16:30 - 18:00',
+    title: 'Finał i wręczenie nagród',
+    description: 'Ogłoszenie wyników, występy finalistów i gala wręczenia nagród'
+  }
+];
+---
+
+<Base title="Agenda">
+  <div class="agenda-hero">
+    <div class="container">
+      <h1 class="page-title">Agenda wydarzenia</h1>
+      <p class="page-subtitle">Harmonogram dnia konkursu Efekt Feniksa</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="timeline">
+        {sessions.map((session) => (
+          <article class="timeline-item">
+            <div class="timeline-marker">
+              <span class="timeline-number">{session.number}</span>
+            </div>
+            <div class="timeline-content">
+              <span class="timeline-time">{session.time}</span>
+              <h3 class="timeline-title">{session.title}</h3>
+              <p class="timeline-description">{session.description}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .agenda-hero {
+    padding: 8rem 0 4rem;
+    background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+    text-align: center;
+    color: var(--bg-ivory);
+  }
+
+  .page-title {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .page-subtitle {
+    font-size: 1.25rem;
+    opacity: 0.95;
+  }
+
+  .timeline {
+    position: relative;
+    padding: 2rem 0;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 40px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--gold-primary);
+  }
+
+  .timeline-item {
+    position: relative;
+    padding-left: 100px;
+    margin-bottom: 3rem;
+  }
+
+  .timeline-marker {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 80px;
+    height: 80px;
+    background: white;
+    border: 3px solid var(--gold-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow);
+  }
+
+  .timeline-number {
+    font-family: 'Noto Serif', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gold-primary);
+  }
+
+  .timeline-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+  }
+
+  .timeline-content:hover {
+    transform: translateX(8px);
+  }
+
+  .timeline-time {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--gold-light);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .timeline-title {
+    font-size: 1.5rem;
+    color: var(--text-ebony);
+    margin-bottom: 0.75rem;
+  }
+
+  .timeline-description {
+    color: var(--text-ebony);
+    opacity: 0.8;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .page-title {
+      font-size: 2rem;
+    }
+
+    .agenda-hero {
+      padding: 6rem 0 3rem;
+    }
+
+    .timeline::before {
+      left: 30px;
+    }
+
+    .timeline-item {
+      padding-left: 80px;
+    }
+
+    .timeline-marker {
+      width: 60px;
+      height: 60px;
+    }
+
+    .timeline-number {
+      font-size: 1.25rem;
+    }
+
+    .timeline-content {
+      padding: 1.5rem;
+    }
+
+    .timeline-title {
+      font-size: 1.25rem;
+    }
+  }
+</style>

@@ -1,20 +1,228 @@
 ---
-import Counter from '../components/Counter.tsx';
+import Base from '../layouts/Base.astro';
 ---
-<!doctype html>
-<html lang="pl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Efekt Feniksa</title>
-    <style>
-      body { font-family: system-ui, sans-serif; max-width: 800px; margin: 0 auto; padding: 2rem; }
-      h1 { color: #e85d04; }
-    </style>
-  </head>
-  <body>
-    <h1>🔥 Efekt Feniksa</h1>
-    <p>Witaj na stronie zbudowanej z Astro + React, hostowanej na Cloudflare Pages.</p>
-    <Counter client:load />
-  </body>
-</html>
+
+<Base title="Start">
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-animation">
+        <svg viewBox="0 0 200 200" class="microphone-svg">
+          <g class="microphone">
+            <rect x="90" y="60" width="20" height="50" rx="10" fill="#c5a059"/>
+            <ellipse cx="100" cy="60" rx="12" ry="8" fill="#c5a059"/>
+            <line x1="100" y1="110" x2="100" y2="130" stroke="#c5a059" stroke-width="3"/>
+            <line x1="85" y1="130" x2="115" y2="130" stroke="#c5a059" stroke-width="3" stroke-linecap="round"/>
+          </g>
+          <circle class="wave wave-1" cx="100" cy="100" r="30" fill="none" stroke="#775a19" stroke-width="2" opacity="0"/>
+          <circle class="wave wave-2" cx="100" cy="100" r="30" fill="none" stroke="#c5a059" stroke-width="2" opacity="0"/>
+          <circle class="wave wave-3" cx="100" cy="100" r="30" fill="none" stroke="#775a19" stroke-width="1.5" opacity="0"/>
+        </svg>
+      </div>
+
+      <h1 class="hero-title">Efekt Feniksa</h1>
+      <p class="hero-subtitle">Konkurs sztuki mówienia</p>
+
+      <div class="hero-buttons">
+        <a href="#register" class="button button-primary">Zarejestruj się</a>
+        <a href="/agenda" class="button button-ghost">Program</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="features section">
+    <div class="container">
+      <div class="features-grid">
+        <article class="feature-card">
+          <div class="feature-icon">🏆</div>
+          <h3 class="feature-title">Rywalizacja</h3>
+          <p class="feature-text">
+            Zmierz się z najlepszymi mówcami w ekscytującym konkursie oratorskim.
+            Pokaż swoje umiejętności i walcz o główną nagrodę.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">🎤</div>
+          <h3 class="feature-title">Prelegenci</h3>
+          <p class="feature-text">
+            Ucz się od ekspertów w dziedzinie public speaking i komunikacji.
+            Warsztaty prowadzone przez uznanych specjalistów.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">🤝</div>
+          <h3 class="feature-title">Networking</h3>
+          <p class="feature-text">
+            Poznaj innych pasjonatów sztuki mówienia. Nawiąż wartościowe kontakty
+            i zbuduj swoją sieć profesjonalnych znajomości.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--text-ebony);
+    background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+    padding: 2rem 1.5rem;
+    margin-top: -70px;
+  }
+
+  .hero-content {
+    text-align: center;
+    max-width: 800px;
+  }
+
+  .hero-animation {
+    margin-bottom: 3rem;
+  }
+
+  .microphone-svg {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+  }
+
+  .microphone {
+    transform-origin: center;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .wave {
+    animation: wave-pulse 2.5s ease-out infinite;
+  }
+
+  .wave-2 {
+    animation-delay: 0.5s;
+  }
+
+  .wave-3 {
+    animation-delay: 1s;
+  }
+
+  @keyframes wave-pulse {
+    0% {
+      r: 30;
+      opacity: 0.8;
+    }
+    100% {
+      r: 70;
+      opacity: 0;
+    }
+  }
+
+  .hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--bg-ivory);
+    margin-bottom: 1rem;
+  }
+
+  .hero-subtitle {
+    font-family: 'Noto Serif', serif;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--bg-ivory);
+    opacity: 0.95;
+    margin-bottom: 3rem;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero .button-ghost {
+    color: var(--bg-ivory);
+    border-color: var(--bg-ivory);
+  }
+
+  .hero .button-ghost:hover {
+    background: var(--bg-ivory);
+    color: var(--gold-primary);
+  }
+
+  .features {
+    background: var(--bg-ivory);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .feature-card {
+    text-align: center;
+    padding: 2.5rem 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-8px);
+  }
+
+  .feature-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .feature-title {
+    font-size: 1.75rem;
+    color: var(--gold-primary);
+    margin-bottom: 1rem;
+  }
+
+  .feature-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-ebony);
+    opacity: 0.85;
+  }
+
+  @media (min-width: 768px) {
+    .features-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .hero-title {
+      font-size: 4rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+    }
+
+    .microphone-svg {
+      width: 150px;
+      height: 150px;
+    }
+  }
+</style>
