@@ -3,15 +3,21 @@ import Base from '../../layouts/Base.astro';
 import Nav from '../../components/Nav.astro';
 import { getCollection } from 'astro:content';
 
+const { slug } = Astro.params;
+const allNews = await getCollection('news');
+const post = allNews.find(p => p.slug === slug);
+
+if (!post) {
+  return new Response('Not found', { status: 404 });
+}
+
 export async function getStaticPaths() {
   const allNews = await getCollection('news');
   return allNews.map((post) => ({
     params: { slug: post.slug },
-    props: { post },
   }));
 }
 
-const { post } = Astro.props;
 const { Content } = await post.render();
 ---
 
@@ -33,7 +39,7 @@ const { Content } = await post.render();
       <div class="flex items-center gap-4 text-on-surface-variant text-sm">
         <span>{post.data.pubDate.toLocaleDateString('pl-PL')}</span>
         <span>•</span>
-        <span>Efekt Feniksa</span>
+        <span>{post.data.author}</span>
       </div>
     </header>
 
