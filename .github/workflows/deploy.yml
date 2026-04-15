@@ -9,7 +9,10 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    name: Deploy
+    permissions:
+      contents: read
+      deployments: write
+
     steps:
       - uses: actions/checkout@v4
 
@@ -26,8 +29,10 @@ jobs:
         run: npm run build
 
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/pages-action@v1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=efektfeniksa --branch=${{ github.ref_name }}
+          accountId: 8e5949d1e1c591714d6c6aeb2ef9bcc0
+          projectName: efektfeniksa
+          directory: dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
