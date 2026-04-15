@@ -26,7 +26,7 @@ const allNews = await getCollection('news');
     <!-- News Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {allNews.map((post) => (
-        <a href={`/news/${post.slug}`} class="group bg-surface-container-low border border-primary/20 hover:border-primary/60 transition-all duration-300 overflow-hidden">
+        <a href={`/news/${post.id}`} class="group block bg-surface-container-low border border-primary/20 hover:border-primary/60 transition-all duration-300 overflow-hidden">
           <div class="aspect-video bg-surface-container-high"></div>
           <div class="p-6">
             <span class="text-primary text-xs font-bold uppercase tracking-wider">News</span>
@@ -34,11 +34,11 @@ const allNews = await getCollection('news');
               {post.data.title}
             </h3>
             <p class="text-on-surface-variant text-sm font-light leading-relaxed mb-4">
-              {post.data.excerpt || post.body.substring(0, 100)}
+              {post.data.description || (post.body ? post.body.substring(0, 100) + '...' : '')}
             </p>
-            <div class="flex items-center gap-3 text-primary text-sm font-bold uppercase tracking-wider">
+            <div class="flex items-center gap-2 text-primary text-xs font-bold uppercase tracking-widest">
               <span>Read More</span>
-              <span class="material-symbols-outlined text-sm transition-transform group-hover:translate-x-1">arrow_forward</span>
+              <span class="material-symbols-outlined text-sm">arrow_forward</span>
             </div>
           </div>
         </a>
