@@ -1,7 +1,7 @@
 ---
 title: "Efekt Feniksa 2024 — Registration Open"
-date: 2024-10-01
-excerpt: "Join us for the largest public speaking championship in Poland. Register now and secure your spot."
+pubDate: 2024-10-01
+description: "Join us for the largest public speaking championship in Poland. Register now and secure your spot."
 ---
 
 ## Welcome to Efekt Feniksa
