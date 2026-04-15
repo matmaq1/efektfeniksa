@@ -1,366 +1,157 @@
 ---
 import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
 ---
 
-<Base title="Start">
-  <section class="hero">
-    <!-- Animated SVG Scene -->
-    <svg viewBox="0 0 800 600" class="hero-scene" xmlns="http://www.w3.org/2000/svg">
-      <!-- Stage Floor -->
-      <defs>
-        <linearGradient id="floorGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" style="stop-color:#2a2626;stop-opacity:1" />
-          <stop offset="100%" style="stop-color:#1c1b1b;stop-opacity:1" />
-        </linearGradient>
-        <linearGradient id="lustleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#775a19;stop-opacity:1" />
-          <stop offset="100%" style="stop-color:#c5a059;stop-opacity:1" />
-        </linearGradient>
-        <linearGradient id="spotlightLeft" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#c5a059;stop-opacity:0.15" />
-          <stop offset="100%" style="stop-color:#c5a059;stop-opacity:0" />
-        </linearGradient>
-        <linearGradient id="spotlightRight" x1="100%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" style="stop-color:#c5a059;stop-opacity:0.15" />
-          <stop offset="100%" style="stop-color:#c5a059;stop-opacity:0" />
-        </linearGradient>
-      </defs>
+<Base title="Efekt Feniksa | Home">
+  <Nav />
+  
+  <!-- Hero Section -->
+  <header class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <div class="absolute inset-0 z-0">
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-surface/60 to-surface z-10"></div>
+      <div class="absolute inset-0 phoenix-ember-overlay z-[5]"></div>
+      <img alt="Phoenix rising" class="w-full h-full object-cover scale-105 brightness-[0.7] contrast-[1.1]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhWKXtzKWGjOjGS0uvsdWYb2_3blZLdj4dP8lFiTo2jDBtkbSj1wsLHThuJonUATFtRGWK_yMqKSFatcsOO65uKPmQ6gwM675m5wLxKgSdFqQF1wXy_U5_5GH7pdmtE-dJA3hzQy5W87_wjKBxuMPvPdJYLkefQgzRRxm2Y0KWS3cFEgnVic8hWpIFYKD4JnYhdtGOHnfJiUb0f64pFH0ZN0IK6h8CaeEpWw3AXHgd7D-WXiTAiT7RpJHsl4Joydqtidpyu4MBxgE"/>
+    </div>
+    
+    <div class="relative z-20 text-center max-w-5xl px-6">
+      <span class="inline-block px-4 py-1 rounded-full border border-primary/40 text-primary text-xs font-bold tracking-[0.2em] uppercase mb-8 bg-primary/10">
+        Toastmasters International
+      </span>
+      <h1 class="font-headline text-6xl md:text-8xl font-bold text-on-surface leading-[1.1] tracking-tight mb-6">
+        Efekt Feniksa: <br/>
+        <span class="gradient-text drop-shadow-[0_0_20px_rgba(255,107,0,0.3)]">Wspólny Ogień Społeczności</span>
+      </h1>
+      <p class="font-body text-xl md:text-2xl text-on-surface-variant max-w-2xl mx-auto mb-12 font-light leading-relaxed">
+        Ogólnopolski Konkurs Mówców Toastmasters. Doświadcz odrodzenia pasji, siły słowa i wspólnoty, która płonie jasnym blaskiem.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+        <button class="px-10 py-5 rounded-full gradient-bg text-neutral-950 font-extrabold text-lg ember-glow btn-glow transition-all">
+          Zarejestruj się
+        </button>
+        <button class="px-10 py-5 rounded-full border border-primary/40 text-primary font-bold text-lg hover:bg-primary/10 transition-all bg-black/20">
+          Dowiedz się więcej
+        </button>
+      </div>
+    </div>
 
-      <rect x="0" y="480" width="800" height="120" fill="url(#floorGradient)" />
+    <!-- Floating Scroll Indicator -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-primary/60">
+      <span class="text-[10px] uppercase tracking-[0.3em]">Odkryj</span>
+      <div class="w-[1px] h-12 bg-gradient-to-b from-primary to-transparent"></div>
+    </div>
+  </header>
 
-      <!-- Left Spotlight -->
-      <polygon points="80,40 300,340 340,340 120,40" fill="url(#spotlightLeft)" class="spotlight spotlight-left" />
-
-      <!-- Right Spotlight -->
-      <polygon points="720,40 500,340 460,340 680,40" fill="url(#spotlightRight)" class="spotlight spotlight-right" />
-
-      <!-- Podium/Lectern -->
-      <g class="podium">
-        <polygon points="330,450 350,380 450,380 470,450" fill="#2a2626" stroke="#c5a059" stroke-width="1.5" />
-        <rect x="340" y="450" width="120" height="30" fill="#1c1b1b" stroke="#c5a059" stroke-width="1.5" />
-      </g>
-
-      <!-- Speaker Silhouette -->
-      <g class="speaker">
-        <circle cx="400" cy="310" r="28" fill="#1c1b1b" stroke="#c5a059" stroke-width="2" />
-        <rect x="365" y="340" width="70" height="90" rx="5" fill="#1c1b1b" stroke="#c5a059" stroke-width="2" />
-      </g>
-
-      <!-- Microphone Stand -->
-      <g class="microphone-stand">
-        <line x1="350" y1="320" x2="350" y2="480" stroke="#c5a059" stroke-width="3" />
-        <circle cx="350" cy="480" r="12" fill="#775a19" />
-        <!-- Microphone Capsule -->
-        <g class="mic-capsule">
-          <rect x="335" y="300" width="30" height="40" rx="15" fill="#c5a059" stroke="#775a19" stroke-width="2" />
-          <ellipse cx="350" cy="300" rx="18" ry="10" fill="#c5a059" />
-        </g>
-      </g>
-
-      <!-- Sound Wave Rings -->
-      <circle class="wave wave-1" cx="350" cy="320" r="25" fill="none" stroke="#c5a059" stroke-width="2" opacity="0" />
-      <circle class="wave wave-2" cx="350" cy="320" r="25" fill="none" stroke="#775a19" stroke-width="2" opacity="0" />
-      <circle class="wave wave-3" cx="350" cy="320" r="25" fill="none" stroke="#c5a059" stroke-width="1.5" opacity="0" />
-      <circle class="wave wave-4" cx="350" cy="320" r="25" fill="none" stroke="#775a19" stroke-width="1.5" opacity="0" />
-
-      <!-- Phoenix Rising -->
-      <g class="phoenix">
-        <path d="M 650,120 Q 665,100 680,90 Q 695,80 710,85 Q 720,90 715,105 Q 710,120 695,130 Q 680,140 665,135 Q 650,130 650,120 Z"
-              fill="url(#lustleGradient)" opacity="0.9" />
-        <path d="M 640,140 Q 650,125 665,125 Q 680,125 690,140 Q 695,155 685,165 Q 675,175 660,170 Q 645,165 640,150 Z"
-              fill="url(#lustleGradient)" opacity="0.85" />
-        <path d="M 655,165 Q 665,155 675,155 Q 685,155 690,165 Q 693,175 685,185 Q 677,195 665,190 Q 653,185 655,175 Z"
-              fill="url(#lustleGradient)" opacity="0.8" />
-        <path d="M 645,105 Q 655,95 665,100 L 670,110 Q 665,115 655,112 Z"
-              fill="#c5a059" opacity="0.9" />
-      </g>
-
-      <!-- Floating Particles -->
-      <circle class="particle particle-1" cx="150" cy="200" r="4" fill="#c5a059" opacity="0.4" />
-      <circle class="particle particle-2" cx="600" cy="280" r="3" fill="#775a19" opacity="0.5" />
-      <circle class="particle particle-3" cx="250" cy="380" r="3.5" fill="#c5a059" opacity="0.35" />
-      <circle class="particle particle-4" cx="700" cy="350" r="4" fill="#775a19" opacity="0.45" />
-      <circle class="particle particle-5" cx="120" cy="450" r="3" fill="#c5a059" opacity="0.4" />
-      <circle class="particle particle-6" cx="550" cy="150" r="3.5" fill="#775a19" opacity="0.38" />
-    </svg>
-
-    <!-- Content Overlay -->
-    <div class="hero-content">
-      <div class="hero-badge">🏆 Mistrzostwa mówców</div>
-      <h1 class="hero-title">Efekt Feniksa</h1>
-      <p class="hero-subtitle">Konkurs sztuki mówienia</p>
-      <div class="hero-buttons">
-        <a href="#register" class="button button-primary">Zarejestruj się</a>
-        <a href="/agenda" class="button button-ghost">Program</a>
+  <!-- Countdown Section -->
+  <section class="py-24 bg-surface-container-low relative">
+    <div class="max-w-7xl mx-auto px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+        <div class="text-center">
+          <div class="text-5xl md:text-7xl font-headline font-bold text-primary mb-2 drop-shadow-[0_0_15px_rgba(255,107,0,0.2)]">14</div>
+          <div class="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Dni</div>
+        </div>
+        <div class="text-center">
+          <div class="text-5xl md:text-7xl font-headline font-bold text-primary mb-2 drop-shadow-[0_0_15px_rgba(255,107,0,0.2)]">08</div>
+          <div class="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Godzin</div>
+        </div>
+        <div class="text-center">
+          <div class="text-5xl md:text-7xl font-headline font-bold text-primary mb-2 drop-shadow-[0_0_15px_rgba(255,107,0,0.2)]">42</div>
+          <div class="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Minut</div>
+        </div>
+        <div class="text-center">
+          <div class="text-5xl md:text-7xl font-headline font-bold text-primary mb-2 drop-shadow-[0_0_15px_rgba(255,107,0,0.2)]">19</div>
+          <div class="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Sekund</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="features section">
-    <div class="container">
-      <div class="features-grid">
-        <article class="feature-card">
-          <div class="feature-icon">🏆</div>
-          <h3 class="feature-title">Rywalizacja</h3>
-          <p class="feature-text">
-            Zmierz się z najlepszymi mówcami w ekscytującym konkursie oratorskim.
-            Pokaż swoje umiejętności i walcz o główną nagrodę.
-          </p>
-        </article>
+  <!-- About Theme Section -->
+  <section class="py-32 bg-surface overflow-hidden">
+    <div class="max-w-7xl mx-auto px-8 grid md:grid-cols-2 gap-20 items-center">
+      <div class="relative order-2 md:order-1">
+        <div class="aspect-[4/5] bg-surface-container-highest overflow-hidden relative border border-primary/20">
+          <img alt="Public speaking" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkh0xJAD1-CXdeUR-FMReibnVhDB__43t_F3W08LsHDUrTbaFTxlG0LEbYAsxHf-WvhC9tf8JvI-TrV9NlXVQZJcxPqeBIkpZ-3x6mUj4G8zj1opDTsZxTiIxja8j6sJFSGHdYkWY4rhP9V9N48BA2BgB8EoD6B0JN_rd7pLUXTLJBQ6nn-onDDq-c3gfs9eVauBh1MZN6iLS4GFwFY-Wo4Hm29aR_vc6C5kjojPeAJhLLlN4Z1yZ1tOOdfUY9qPRvM9u6Byv1-04"/>
+          <div class="absolute inset-0 border-[20px] border-surface -m-2 z-10"></div>
+        </div>
+        <div class="absolute -bottom-10 -right-10 w-64 h-64 bg-primary/20 blur-[100px] -z-10"></div>
+      </div>
+      <div class="order-1 md:order-2">
+        <span class="text-primary font-bold tracking-widest uppercase text-xs mb-6 block">Motyw Przewodni</span>
+        <h2 class="font-headline text-5xl font-bold mb-8 leading-tight">Odrodzenie w Sercu Społeczności</h2>
+        <p class="text-on-surface-variant text-lg leading-relaxed mb-6 font-light">
+          Feniks to symbol nieustannego rozwoju. W świecie Toastmasters, każda mowa to proces spalania starych barier i wyłaniania się nowej, silniejszej wersji lidera i mówcy.
+        </p>
+        <p class="text-on-surface-variant text-lg leading-relaxed mb-10 font-light">
+          "Wspólny Ogień" to nasza tegoroczna mantra. Wierzymy, że indywidualne światło każdego z nas tworzy potężną łunę, która inspiruje całą Polskę do działania.
+        </p>
+        <div class="flex items-center gap-4 text-primary group cursor-pointer">
+          <span class="font-bold uppercase tracking-widest text-sm">Czytaj Manifest</span>
+          <span class="material-symbols-outlined transition-transform group-hover:translate-x-2">arrow_forward</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <article class="feature-card">
-          <div class="feature-icon">🎤</div>
-          <h3 class="feature-title">Prelegenci</h3>
-          <p class="feature-text">
-            Ucz się od ekspertów w dziedzinie public speaking i komunikacji.
-            Warsztaty prowadzone przez uznanych specjalistów.
-          </p>
-        </article>
+  <!-- Bento Grid Features -->
+  <section class="py-32 bg-surface-container-lowest">
+    <div class="max-w-7xl mx-auto px-8">
+      <div class="flex justify-between items-end mb-16">
+        <div class="max-w-xl">
+          <span class="text-primary font-bold tracking-widest uppercase text-xs mb-6 block">Program</span>
+          <h2 class="font-headline text-5xl font-bold leading-tight">Czego Możesz się Spodziewać?</h2>
+        </div>
+      </div>
 
-        <article class="feature-card">
-          <div class="feature-icon">🤝</div>
-          <h3 class="feature-title">Networking</h3>
-          <p class="feature-text">
-            Poznaj innych pasjonatów sztuki mówienia. Nawiąż wartościowe kontakty
-            i zbuduj swoją sieć profesjonalnych znajomości.
-          </p>
-        </article>
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[700px]">
+        <!-- Item 1 -->
+        <div class="md:col-span-8 bg-surface-container-low p-10 flex flex-col justify-end relative overflow-hidden group border-l-4 border-primary/30 hover:border-primary transition-all">
+          <div class="absolute top-0 right-0 p-8">
+            <span class="material-symbols-outlined text-primary text-5xl drop-shadow-[0_0_10px_rgba(255,107,0,0.5)]">record_voice_over</span>
+          </div>
+          <div class="relative z-10">
+            <h3 class="font-headline text-3xl font-bold mb-4">Mistrzowskie Konkursy</h3>
+            <p class="text-on-surface-variant max-w-md font-light">Najlepsi mówcy z całej Polski zmierzą się w finale ogólnopolskim. Poczuj moc słowa, która zmienia rzeczywistość.</p>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="md:col-span-4 bg-surface-container-high p-10 flex flex-col items-center justify-center text-center border-t-4 border-primary group hover:bg-surface-container-highest transition-colors">
+          <span class="material-symbols-outlined text-primary text-6xl mb-6 drop-shadow-[0_0_15px_rgba(255,107,0,0.4)]">groups</span>
+          <h3 class="font-headline text-2xl font-bold mb-4">Networking</h3>
+          <p class="text-on-surface-variant font-light">Nawiąż relacje z liderami i pasjonatami komunikacji z całej Polski podczas wieczornych sesji integracyjnych.</p>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="md:col-span-4 bg-surface p-10 flex flex-col justify-between border border-primary/20 hover:border-primary/60 transition-colors">
+          <h3 class="font-headline text-2xl font-bold">Warsztaty Eksperckie</h3>
+          <div class="flex flex-col gap-4">
+            <div class="flex items-center gap-3">
+              <span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(255,107,0,0.8)]"></span>
+              <span class="text-sm font-light">Retoryka Klasyczna</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(255,107,0,0.8)]"></span>
+              <span class="text-sm font-light">Psychologia Sceny</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(255,107,0,0.8)]"></span>
+              <span class="text-sm font-light">Perswazja Etosowa</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="md:col-span-8 bg-surface-container-high p-0 overflow-hidden relative group">
+          <img alt="Gala Event" class="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNPO7HJiKOE87yGXYnO0vf25U1wnJI_0lAqG86rmn1qAJend7s2OD8pTTCgcoYnFmCDC_tPwSTO9mxgtpzGjcKtLe6emvMMlEvHB-oWv_iD31XSsUFgyHsqN-5isPGthh_ishvvHXBhJ5AbmLeADchtlNNR-LLHHVF0Wp9QRmx-cjyY4fYxm5FGdE36yhxqEf2op9O0ZPYu4C0QoFGNHa4JZir1l4LUmgYWjegEbvDvyneo-ZVIMxkEQj7B51OQM23LZUUt9z3iJE"/>
+          <div class="absolute bottom-0 left-0 p-10 bg-gradient-to-t from-black/95 via-black/50 to-transparent w-full">
+            <h3 class="font-headline text-3xl font-bold text-white mb-2">Gala Finałowa</h3>
+            <p class="text-white/70 font-light">Wieczór pełen elegancji, celebracji sukcesów i odrodzenia ducha Toastmasters.</p>
+          </div>
+          <div class="absolute inset-0 border border-primary/20 pointer-events-none group-hover:border-primary/50 transition-colors"></div>
+        </div>
       </div>
     </div>
   </section>
 </Base>
-
-<style>
-  .hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #1c1b1b;
-    padding: 2rem 1.5rem;
-    margin-top: -70px;
-    overflow: hidden;
-  }
-
-  .hero-scene {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    opacity: 0.95;
-  }
-
-  .hero-content {
-    position: relative;
-    z-index: 10;
-    text-align: center;
-    max-width: 800px;
-    animation: contentEntrance 1.2s ease-out 0.5s both;
-  }
-
-  /* CSS Animations */
-  @keyframes waveExpand {
-    0% { transform: scale(0.3); opacity: 0.8; }
-    100% { transform: scale(3.5); opacity: 0; }
-  }
-
-  @keyframes phoenixRise {
-    0% { transform: translateY(12px) rotate(-3deg); opacity: 0.7; }
-    50% { transform: translateY(-8px) rotate(2deg); opacity: 1; }
-    100% { transform: translateY(12px) rotate(-3deg); opacity: 0.7; }
-  }
-
-  @keyframes spotlightPulse {
-    0%, 100% { opacity: 0.12; }
-    50% { opacity: 0.22; }
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
-  }
-
-  @keyframes micFloat {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-5px); }
-  }
-
-  @keyframes contentEntrance {
-    0% {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* SVG Element Animations */
-  .wave {
-    animation: waveExpand 2.4s ease-out infinite;
-    transform-origin: center;
-  }
-
-  .wave-1 { animation-delay: 0s; }
-  .wave-2 { animation-delay: 0.6s; }
-  .wave-3 { animation-delay: 1.2s; }
-  .wave-4 { animation-delay: 1.8s; }
-
-  .phoenix {
-    animation: phoenixRise 5s ease-in-out infinite;
-    transform-origin: center;
-  }
-
-  .spotlight {
-    animation: spotlightPulse 4s ease-in-out infinite;
-  }
-
-  .spotlight-left {
-    animation-delay: 0s;
-  }
-
-  .spotlight-right {
-    animation-delay: 2s;
-  }
-
-  .mic-capsule {
-    animation: micFloat 3s ease-in-out infinite;
-    transform-origin: center;
-  }
-
-  .particle {
-    animation: float 4s ease-in-out infinite;
-  }
-
-  .particle-1 { animation-delay: 0s; animation-duration: 3.5s; }
-  .particle-2 { animation-delay: 0.8s; animation-duration: 4.2s; }
-  .particle-3 { animation-delay: 1.5s; animation-duration: 3.8s; }
-  .particle-4 { animation-delay: 0.4s; animation-duration: 4.5s; }
-  .particle-5 { animation-delay: 1.2s; animation-duration: 3.6s; }
-  .particle-6 { animation-delay: 0.6s; animation-duration: 4.1s; }
-
-  /* Hero Content Styling */
-  .hero-badge {
-    display: inline-block;
-    padding: 0.5rem 1.25rem;
-    border: 1.5px solid #c5a059;
-    border-radius: 9999px;
-    color: #c5a059;
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin-bottom: 2rem;
-    letter-spacing: 0.5px;
-  }
-
-  .hero-title {
-    font-family: 'Noto Serif', serif;
-    font-size: 4rem;
-    font-weight: 700;
-    color: #fcf9f8;
-    margin-bottom: 1rem;
-    line-height: 1.1;
-  }
-
-  .hero-subtitle {
-    font-family: 'Noto Serif', serif;
-    font-style: italic;
-    font-size: 1.25rem;
-    color: #c5a059;
-    margin-bottom: 3rem;
-  }
-
-  .hero-buttons {
-    display: flex;
-    gap: 1.5rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .hero .button-primary {
-    background: #775a19;
-    color: #fcf9f8;
-    border-color: #775a19;
-  }
-
-  .hero .button-primary:hover {
-    background: #c5a059;
-    border-color: #c5a059;
-  }
-
-  .hero .button-ghost {
-    color: #c5a059;
-    border-color: #c5a059;
-    border-width: 1.5px;
-  }
-
-  .hero .button-ghost:hover {
-    background: #c5a059;
-    color: #1c1b1b;
-  }
-
-  .features {
-    background: var(--bg-ivory);
-  }
-
-  .features-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-
-  .feature-card {
-    text-align: center;
-    padding: 2.5rem 2rem;
-    background: white;
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    transition: transform 0.3s ease;
-  }
-
-  .feature-card:hover {
-    transform: translateY(-8px);
-  }
-
-  .feature-icon {
-    font-size: 3rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .feature-title {
-    font-size: 1.75rem;
-    color: var(--gold-primary);
-    margin-bottom: 1rem;
-  }
-
-  .feature-text {
-    font-size: 1rem;
-    line-height: 1.7;
-    color: var(--text-ebony);
-    opacity: 0.85;
-  }
-
-  @media (min-width: 768px) {
-    .features-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  @media (max-width: 480px) {
-    .hero-title {
-      font-size: 2.5rem;
-    }
-
-    .hero-subtitle {
-      font-size: 1rem;
-    }
-
-    .hero-badge {
-      font-size: 0.8rem;
-      padding: 0.4rem 1rem;
-    }
-  }
-</style>
