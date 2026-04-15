@@ -1,0 +1,228 @@
+---
+---
+
+<div class="phoenix-backdrop">
+  <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" class="phoenix-svg">
+    <!-- Define gradients -->
+    <defs>
+      <linearGradient id="flameGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" style="stop-color:#FF6B00;stop-opacity:1" />
+        <stop offset="50%" style="stop-color:#FF8A00;stop-opacity:0.8" />
+        <stop offset="100%" style="stop-color:#FF3D00;stop-opacity:0" />
+      </linearGradient>
+      
+      <radialGradient id="glowGradient">
+        <stop offset="0%" style="stop-color:#FF6B00;stop-opacity:0.6" />
+        <stop offset="100%" style="stop-color:#FF6B00;stop-opacity:0" />
+      </radialGradient>
+      
+      <filter id="phoenixGlow">
+        <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+        <feMerge>
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+
+    <!-- Background glow -->
+    <circle cx="400" cy="400" r="280" fill="url(#glowGradient)" opacity="0.4" class="glow-circle" />
+
+    <!-- Flames (back) -->
+    <g class="flames-back" opacity="0.6">
+      <path d="M 350 500 Q 330 420 360 360 Q 380 320 400 300" 
+            stroke="url(#flameGradient)" stroke-width="40" fill="none" stroke-linecap="round" />
+      <path d="M 450 500 Q 470 420 440 360 Q 420 320 400 300" 
+            stroke="url(#flameGradient)" stroke-width="40" fill="none" stroke-linecap="round" />
+    </g>
+
+    <!-- Phoenix body -->
+    <g class="phoenix-body" filter="url(#phoenixGlow)">
+      <!-- Body -->
+      <ellipse cx="400" cy="320" rx="60" ry="80" fill="#FF6B00" opacity="0.95" />
+      
+      <!-- Head -->
+      <circle cx="400" cy="220" r="45" fill="#FF8A00" />
+      
+      <!-- Eye -->
+      <circle cx="415" cy="215" r="6" fill="#fff" />
+      <circle cx="417" cy="215" r="3" fill="#000" />
+      
+      <!-- Beak -->
+      <path d="M 440 220 L 480 225 L 440 230 Z" fill="#FF6B00" />
+      
+      <!-- Wings (left) -->
+      <path d="M 350 300 Q 250 280 200 320 Q 220 340 280 330 Q 320 320 350 320" 
+            fill="#FF6B00" opacity="0.85" class="wing-left" />
+      
+      <!-- Wings (right) -->
+      <path d="M 450 300 Q 550 280 600 320 Q 580 340 520 330 Q 480 320 450 320" 
+            fill="#FF8A00" opacity="0.85" class="wing-right" />
+      
+      <!-- Tail feathers -->
+      <path d="M 380 380 Q 320 420 300 480" stroke="#FF6B00" stroke-width="35" fill="none" stroke-linecap="round" opacity="0.9" class="tail-1" />
+      <path d="M 400 390 Q 380 440 370 520" stroke="#FF8A00" stroke-width="30" fill="none" stroke-linecap="round" opacity="0.8" class="tail-2" />
+      <path d="M 420 390 Q 440 440 430 520" stroke="#FF6B00" stroke-width="30" fill="none" stroke-linecap="round" opacity="0.8" class="tail-3" />
+      <path d="M 440 380 Q 480 420 500 480" stroke="#FF8A00" stroke-width="35" fill="none" stroke-linecap="round" opacity="0.9" class="tail-4" />
+    </g>
+
+    <!-- Flames (front) -->
+    <g class="flames-front" opacity="0.8">
+      <path d="M 350 500 Q 330 420 360 360 Q 380 320 400 300" 
+            stroke="url(#flameGradient)" stroke-width="50" fill="none" stroke-linecap="round" />
+      <path d="M 450 500 Q 470 420 440 360 Q 420 320 400 300" 
+            stroke="url(#flameGradient)" stroke-width="50" fill="none" stroke-linecap="round" />
+    </g>
+
+    <!-- Spark particles -->
+    <g class="sparks" opacity="0.7">
+      <circle cx="300" cy="350" r="4" fill="#FF6B00" class="spark spark-1" />
+      <circle cx="500" cy="350" r="4" fill="#FF8A00" class="spark spark-2" />
+      <circle cx="350" cy="280" r="3" fill="#FF6B00" class="spark spark-3" />
+      <circle cx="450" cy="280" r="3" fill="#FF8A00" class="spark spark-4" />
+      <circle cx="280" cy="450" r="5" fill="#FF6B00" class="spark spark-5" />
+      <circle cx="520" cy="450" r="5" fill="#FF8A00" class="spark spark-6" />
+    </g>
+  </svg>
+</div>
+
+<style>
+  .phoenix-backdrop {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .phoenix-svg {
+    width: 100%;
+    height: 100%;
+    max-width: 600px;
+    max-height: 600px;
+  }
+
+  /* Glow pulse animation */
+  @keyframes glowPulse {
+    0%, 100% {
+      opacity: 0.4;
+      filter: drop-shadow(0 0 20px rgba(255, 107, 0, 0.4));
+    }
+    50% {
+      opacity: 0.7;
+      filter: drop-shadow(0 0 40px rgba(255, 107, 0, 0.6));
+    }
+  }
+
+  .glow-circle {
+    animation: glowPulse 4s ease-in-out infinite;
+  }
+
+  /* Wings flapping */
+  @keyframes wingFlap {
+    0%, 100% {
+      transform: translateY(0) rotateZ(0deg);
+    }
+    25% {
+      transform: translateY(-20px) rotateZ(15deg);
+    }
+    50% {
+      transform: translateY(-40px) rotateZ(0deg);
+    }
+    75% {
+      transform: translateY(-20px) rotateZ(-15deg);
+    }
+  }
+
+  .wing-left, .wing-right {
+    transform-origin: 400px 300px;
+    animation: wingFlap 3s ease-in-out infinite;
+  }
+
+  .wing-right {
+    animation-delay: 0.2s;
+  }
+
+  /* Tail movement */
+  @keyframes tailWave {
+    0%, 100% {
+      filter: drop-shadow(0 0 8px rgba(255, 107, 0, 0.4));
+    }
+    50% {
+      filter: drop-shadow(0 0 16px rgba(255, 107, 0, 0.8));
+    }
+  }
+
+  .tail-1, .tail-2, .tail-3, .tail-4 {
+    animation: tailWave 2.5s ease-in-out infinite;
+  }
+
+  .tail-2, .tail-4 {
+    animation-delay: 0.3s;
+  }
+
+  /* Phoenix body rise */
+  @keyframes phoenixRise {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-30px);
+    }
+  }
+
+  .phoenix-body {
+    animation: phoenixRise 4s ease-in-out infinite;
+    transform-origin: 400px 350px;
+  }
+
+  /* Spark particles floating up */
+  @keyframes sparkFloat {
+    0% {
+      opacity: 1;
+      transform: translateY(0) translateX(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-100px) translateX(var(--tx, 0px));
+    }
+  }
+
+  .spark {
+    animation: sparkFloat 2s ease-out infinite;
+  }
+
+  .spark-1 { animation-delay: 0s; --tx: -30px; }
+  .spark-2 { animation-delay: 0.3s; --tx: 30px; }
+  .spark-3 { animation-delay: 0.6s; --tx: -20px; }
+  .spark-4 { animation-delay: 0.9s; --tx: 20px; }
+  .spark-5 { animation-delay: 1.2s; --tx: -40px; }
+  .spark-6 { animation-delay: 1.5s; --tx: 40px; }
+
+  /* Flames flicker */
+  @keyframes flamesFlicker {
+    0%, 100% {
+      opacity: 0.6;
+      filter: drop-shadow(0 0 15px rgba(255, 107, 0, 0.6));
+    }
+    25% {
+      opacity: 0.8;
+    }
+    50% {
+      opacity: 0.5;
+      filter: drop-shadow(0 0 25px rgba(255, 107, 0, 0.8));
+    }
+    75% {
+      opacity: 0.7;
+    }
+  }
+
+  .flames-back {
+    animation: flamesFlicker 1.5s ease-in-out infinite;
+  }
+
+  .flames-front {
+    animation: flamesFlicker 1.5s ease-in-out infinite;
+    animation-delay: 0.2s;
+  }
+</style>
