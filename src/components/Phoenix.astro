@@ -1,0 +1,132 @@
+---
+interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+---
+
+<div class={`phoenix-container ${className}`}>
+  <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="15" result="blur" />
+        <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="glow" />
+        <feComposite in="SourceGraphic" in2="glow" operator="over" />
+      </filter>
+
+      <linearGradient id="wingGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#ffec8b" />
+        <stop offset="40%" stop-color="#ff8c00" />
+        <stop offset="100%" stop-color="#ff4500" />
+      </linearGradient>
+
+      <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#ffd700" />
+        <stop offset="100%" stop-color="#b22222" />
+      </linearGradient>
+      
+      <radialGradient id="particleGrad">
+        <stop offset="0%" stop-color="#fff" />
+        <stop offset="100%" stop-color="transparent" />
+      </radialGradient>
+    </defs>
+
+    <!-- Background Glow -->
+    <circle cx="400" cy="300" r="150" fill="url(#wingGrad)" opacity="0.1" filter="url(#glow)">
+      <animate attributeName="r" values="140;160;140" dur="4s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.05;0.15;0.05" dur="4s" repeatCount="indefinite" />
+    </circle>
+
+    <!-- Tail -->
+    <g class="tail" filter="url(#glow)">
+      <path d="M400,350 Q420,450 380,550" stroke="url(#wingGrad)" stroke-width="8" fill="none" stroke-linecap="round" class="tail-feather" />
+      <path d="M400,350 Q380,450 420,530" stroke="url(#wingGrad)" stroke-width="6" fill="none" stroke-linecap="round" class="tail-feather" />
+      <path d="M400,350 Q450,430 460,500" stroke="url(#wingGrad)" stroke-width="4" fill="none" stroke-linecap="round" class="tail-feather" />
+      <path d="M400,350 Q350,430 340,500" stroke="url(#wingGrad)" stroke-width="4" fill="none" stroke-linecap="round" class="tail-feather" />
+    </g>
+
+    <!-- Left Wing -->
+    <g class="wing-left" filter="url(#glow)">
+      <path d="M390,300 Q200,150 100,300 Q200,350 390,320" fill="url(#wingGrad)">
+        <animateTransform attributeName="transform" type="rotate" from="0 390 300" to="-20 390 300" dur="2s" repeatCount="indefinite" additive="sum" />
+      </path>
+      <path d="M380,310 Q250,220 150,350 Q250,400 380,330" fill="url(#wingGrad)" opacity="0.8">
+        <animateTransform attributeName="transform" type="rotate" from="0 380 310" to="-15 380 310" dur="2.2s" repeatCount="indefinite" additive="sum" />
+      </path>
+    </g>
+
+    <!-- Right Wing -->
+    <g class="wing-right" filter="url(#glow)">
+      <path d="M410,300 Q600,150 700,300 Q600,350 410,320" fill="url(#wingGrad)">
+        <animateTransform attributeName="transform" type="rotate" from="0 410 300" to="20 410 300" dur="2s" repeatCount="indefinite" additive="sum" />
+      </path>
+      <path d="M420,310 Q550,220 650,350 Q550,400 420,330" fill="url(#wingGrad)" opacity="0.8">
+        <animateTransform attributeName="transform" type="rotate" from="0 420 310" to="15 420 310" dur="2.2s" repeatCount="indefinite" additive="sum" />
+      </path>
+    </g>
+
+    <!-- Body -->
+    <path d="M400,250 Q430,300 400,360 Q370,300 400,250" fill="url(#bodyGrad)" filter="url(#glow)">
+       <animateTransform attributeName="transform" type="translate" values="0,0; 0,-10; 0,0" dur="3s" repeatCount="indefinite" />
+    </path>
+    
+    <!-- Head -->
+    <g class="head" filter="url(#glow)">
+      <circle cx="400" cy="240" r="15" fill="url(#bodyGrad)" />
+      <path d="M400,225 Q410,210 425,230 L400,235" fill="#ffd700" /> <!-- Beak -->
+      <!-- Eye -->
+      <circle cx="405" cy="235" r="2" fill="white" />
+    </g>
+
+    <!-- Particles -->
+    <g class="particles">
+      <circle class="particle" r="2" fill="url(#particleGrad)">
+        <animate attributeName="cx" values="350;300;250" dur="3s" repeatCount="indefinite" />
+        <animate attributeName="cy" values="350;250;150" dur="3s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite" />
+      </circle>
+      <circle class="particle" r="3" fill="#ffec8b">
+        <animate attributeName="cx" values="450;500;550" dur="4s" repeatCount="indefinite" />
+        <animate attributeName="cy" values="400;300;200" dur="4s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0;0.8;0" dur="4s" repeatCount="indefinite" />
+      </circle>
+      <circle class="particle" r="1.5" fill="#ffffff">
+        <animate attributeName="cx" values="400;420;380" dur="2.5s" repeatCount="indefinite" />
+        <animate attributeName="cy" values="500;400;300" dur="2.5s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0;1;0" dur="2.5s" repeatCount="indefinite" />
+      </circle>
+    </g>
+  </svg>
+</div>
+
+<style>
+  .phoenix-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+  }
+
+  svg {
+    max-width: 100%;
+    height: auto;
+    filter: drop-shadow(0 0 20px rgba(255, 69, 0, 0.3));
+  }
+
+  .tail-feather {
+    animation: tailWaver 3s ease-in-out infinite alternate;
+    transform-origin: 400px 350px;
+  }
+
+  @keyframes tailWaver {
+    from { transform: rotate(-5deg); }
+    to { transform: rotate(5deg); }
+  }
+
+  .particle {
+    filter: blur(1px);
+  }
+</style>
