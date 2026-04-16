@@ -1,12 +1,13 @@
 ---
-const particles = Array.from({ length: 70 }).map(() => ({
+const particles = Array.from({ length: 40 }).map(() => ({
   delay: Math.random() * 6,
-  duration: 3 + Math.random() * 5,
-  left: 5 + Math.random() * 90,
-  size: 2 + Math.random() * 6
+  duration: 4 + Math.random() * 4,
+  left: 10 + Math.random() * 80,
+  size: 2 + Math.random() * 4
 }));
 ---
 <div class="phoenix-container absolute inset-0 flex items-center justify-center opacity-70 mix-blend-screen pointer-events-none overflow-hidden">
+  <!-- Optimized Particles -->
   <div class="particles-container absolute inset-0 z-0">
     {particles.map((p) => (
       <div 
@@ -18,25 +19,9 @@ const particles = Array.from({ length: 70 }).map(() => ({
 
   <svg viewBox="0 0 1000 1000" class="phoenix-svg w-full h-full max-w-5xl relative z-10">
     <defs>
-      <!-- Reduced blur intensity and bounds for better performance -->
-      <filter id="glow-strong" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="15" result="coloredBlur"/>
-        <feMerge>
-          <feMergeNode in="coloredBlur"/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-      
-      <filter id="glow-light" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
-        <feMerge>
-          <feMergeNode in="coloredBlur"/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-
+      <!-- Gradients are cheap -->
       <linearGradient id="fire-core" x1="0%" y1="100%" x2="0%" y2="0%">
-        <stop offset="0%" style="stop-color:#FF1100; stop-opacity:0.9" />
+        <stop offset="0%" style="stop-color:#FF1100; stop-opacity:1" />
         <stop offset="40%" style="stop-color:#FF6B00; stop-opacity:1" />
         <stop offset="80%" style="stop-color:#FFCC00; stop-opacity:1" />
         <stop offset="100%" style="stop-color:#FFFFFF; stop-opacity:1" />
@@ -50,19 +35,18 @@ const particles = Array.from({ length: 70 }).map(() => ({
     </defs>
     
     <g transform="translate(500, 500) scale(1.1) translate(-500, -500)">
-      <!-- Aura / Base Glow -->
-      <path class="aura" d="M500,800 C300,800 150,550 200,350 C250,150 500,200 500,200 C500,200 750,150 800,350 C850,550 700,800 500,800 Z" fill="url(#fire-aura)" filter="url(#glow-strong)" opacity="0.6">
-      </path>
+      <!-- Static Aura (Animated via CSS transform) -->
+      <path class="aura" d="M500,800 C300,800 150,550 200,350 C250,150 500,200 500,200 C500,200 750,150 800,350 C850,550 700,800 500,800 Z" fill="url(#fire-aura)" opacity="0.4" />
 
       <!-- Tail Feathers -->
-      <g filter="url(#glow-light)">
-        <path class="tail tail-1" d="M500,550 Q350,750 300,950 Q450,850 500,700" fill="url(#fire-core)" opacity="0.8"/>
+      <g class="glow-layer-light">
+        <path class="tail tail-1" d="M500,550 Q350,750 300,950 Q450,850 500,700" fill="url(#fire-core)" opacity="0.6"/>
         <path class="tail tail-2" d="M500,550 Q500,800 500,1000 Q550,800 500,700" fill="url(#fire-core)"/>
-        <path class="tail tail-3" d="M500,550 Q650,750 700,950 Q550,850 500,700" fill="url(#fire-core)" opacity="0.8"/>
+        <path class="tail tail-3" d="M500,550 Q650,750 700,950 Q550,850 500,700" fill="url(#fire-core)" opacity="0.6"/>
       </g>
 
       <!-- Wings Core -->
-      <g filter="url(#glow-strong)">
+      <g class="glow-layer-strong">
         <!-- Left Wing Layers -->
         <path class="wing wing-left-outer" d="M500,450 Q250,300 50,150 Q150,450 450,550 Z" fill="url(#fire-core)" opacity="0.7"/>
         <path class="wing wing-left-inner" d="M500,450 Q300,350 150,200 Q200,450 450,500 Z" fill="url(#fire-core)"/>
@@ -73,13 +57,13 @@ const particles = Array.from({ length: 70 }).map(() => ({
       </g>
       
       <!-- Body & Head -->
-      <g filter="url(#glow-light)">
+      <g class="glow-layer-light">
         <path class="body" d="M470,500 Q440,350 500,250 Q560,350 530,500 Q500,600 470,500 Z" fill="url(#fire-core)"/>
-        <!-- Crown / Crest - deeply rooted in the head -->
+        <!-- Stitched Crest -->
         <path class="crest" d="M485,230 Q500,100 500,80 Q515,100 515,230 Z" fill="url(#fire-core)"/>
         <path class="crest" d="M470,230 Q420,160 380,110 Q450,170 485,230 Z" fill="url(#fire-core)"/>
         <path class="crest" d="M530,230 Q580,160 620,110 Q550,170 515,230 Z" fill="url(#fire-core)"/>
-        <!-- Head is drawn after the crest so it hides the roots and creates a seamless stitch -->
+        <!-- Head -->
         <circle cx="500" cy="230" r="28" fill="url(#fire-core)"/>
       </g>
     </g>
@@ -87,38 +71,32 @@ const particles = Array.from({ length: 70 }).map(() => ({
 </div>
 
 <style>
+  /* Base Container */
   .phoenix-container {
-    background: radial-gradient(circle at center, rgba(255, 69, 0, 0.15) 0%, transparent 60%);
+    background: radial-gradient(circle at center, rgba(255, 69, 0, 0.1) 0%, transparent 70%);
   }
   
+  /* Use hardware accelerated drop-shadow instead of SVG filters */
+  .glow-layer-strong {
+    filter: drop-shadow(0 0 20px rgba(255, 69, 0, 0.8));
+  }
+  
+  .glow-layer-light {
+    filter: drop-shadow(0 0 10px rgba(255, 107, 0, 0.5));
+  }
+
   .phoenix-svg {
     transform-origin: center;
-    /* Removed filter brightness animation to improve fps */
-    animation: slow-float 6s ease-in-out infinite, subtle-pulse 4s ease-in-out infinite;
-    will-change: transform, opacity;
+    animation: slow-float 8s ease-in-out infinite;
+    will-change: transform;
   }
 
   @keyframes slow-float {
     0%, 100% { transform: translateY(0) scale(1.05); }
-    50% { transform: translateY(-20px) scale(1.1); }
+    50% { transform: translateY(-30px) scale(1.08); }
   }
 
-  @keyframes subtle-pulse {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 1; }
-  }
-  
-  .aura {
-    animation: aura-pulse 6s ease-in-out infinite;
-    transform-origin: 500px 500px;
-    will-change: transform;
-  }
-  
-  @keyframes aura-pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-  }
-
+  /* Wings Animation - strictly transform */
   .wing { 
     transform-origin: 500px 450px; 
     will-change: transform;
@@ -131,80 +109,76 @@ const particles = Array.from({ length: 70 }).map(() => ({
 
   @keyframes flap-l-outer {
     0%, 100% { transform: rotate(0deg); }
-    50% { transform: rotate(-10deg); }
+    50% { transform: rotate(-8deg); }
   }
   @keyframes flap-l-inner {
     0%, 100% { transform: rotate(0deg); }
-    50% { transform: rotate(-5deg); }
+    50% { transform: rotate(-4deg); }
   }
   @keyframes flap-r-outer {
     0%, 100% { transform: rotate(0deg); }
-    50% { transform: rotate(10deg); }
+    50% { transform: rotate(8deg); }
   }
   @keyframes flap-r-inner {
     0%, 100% { transform: rotate(0deg); }
-    50% { transform: rotate(5deg); }
+    50% { transform: rotate(4deg); }
   }
 
+  /* Tail Animation - strictly transform */
   .tail { 
     transform-origin: 500px 550px; 
     will-change: transform;
   }
-  .tail-1 { animation: tail-sway-1 5s ease-in-out infinite; }
-  .tail-2 { animation: tail-sway-2 4s ease-in-out infinite 1s; }
-  .tail-3 { animation: tail-sway-3 5s ease-in-out infinite 0.5s; }
+  .tail-1 { animation: tail-sway-1 6s ease-in-out infinite; }
+  .tail-2 { animation: tail-sway-2 5s ease-in-out infinite 1s; }
+  .tail-3 { animation: tail-sway-3 6s ease-in-out infinite 0.5s; }
 
-  @keyframes tail-sway-1 { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(12deg); } }
-  @keyframes tail-sway-2 { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-8deg); } }
-  @keyframes tail-sway-3 { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-12deg); } }
+  @keyframes tail-sway-1 { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(10deg); } }
+  @keyframes tail-sway-2 { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-6deg); } }
+  @keyframes tail-sway-3 { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-10deg); } }
 
-  .body, .crest {
-    animation: body-breathe 3s ease-in-out infinite;
+  /* Body & Aura */
+  .body, .crest, .aura {
+    animation: body-pulse 4s ease-in-out infinite;
     transform-origin: 500px 500px;
     will-change: transform;
   }
-  @keyframes body-breathe {
-    0%, 100% { transform: scaleY(1); }
-    50% { transform: scaleY(1.05); }
+  
+  @keyframes body-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.02); opacity: 1; }
   }
 
-  /* Fire Particles */
-  .particles-container {
-    perspective: 1000px;
-  }
-
+  /* Fire Particles - Ultra Optimized */
   .fire-particle {
     position: absolute;
-    bottom: -10%;
+    bottom: -5%;
     left: var(--left);
     width: var(--size);
     height: var(--size);
     background: #ffaa00;
     border-radius: 50%;
-    box-shadow: 0 0 10px 2px #ff4500, 0 0 20px 5px #ff0000;
+    /* Single cheap shadow */
+    box-shadow: 0 0 8px #ff4500;
     opacity: 0;
-    animation: rise var(--duration) ease-in infinite var(--delay);
-    mix-blend-mode: screen;
+    animation: rise var(--duration) linear infinite var(--delay);
     will-change: transform, opacity;
   }
 
   @keyframes rise {
     0% {
-      transform: translateY(0) scale(1) translateX(0);
+      transform: translateY(0) scale(1);
       opacity: 0;
     }
-    10% {
-      opacity: 1;
-    }
-    50% {
-      transform: translateY(-40vh) scale(0.6) translateX(20px);
+    20% {
       opacity: 0.8;
-      background: #ff4500;
+    }
+    80% {
+      opacity: 0.4;
     }
     100% {
-      transform: translateY(-90vh) scale(0) translateX(-30px);
+      transform: translateY(-100vh) scale(0);
       opacity: 0;
-      background: #ff0000;
     }
   }
 </style>
