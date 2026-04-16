@@ -18,17 +18,17 @@ const particles = Array.from({ length: 70 }).map(() => ({
 
   <svg viewBox="0 0 1000 1000" class="phoenix-svg w-full h-full max-w-5xl relative z-10">
     <defs>
-      <filter id="glow-strong" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="25" result="coloredBlur"/>
+      <!-- Reduced blur intensity and bounds for better performance -->
+      <filter id="glow-strong" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="15" result="coloredBlur"/>
         <feMerge>
-          <feMergeNode in="coloredBlur"/>
           <feMergeNode in="coloredBlur"/>
           <feMergeNode in="SourceGraphic"/>
         </feMerge>
       </filter>
       
-      <filter id="glow-light" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="10" result="coloredBlur"/>
+      <filter id="glow-light" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
         <feMerge>
           <feMergeNode in="coloredBlur"/>
           <feMergeNode in="SourceGraphic"/>
@@ -52,9 +52,6 @@ const particles = Array.from({ length: 70 }).map(() => ({
     <g transform="translate(500, 500) scale(1.1) translate(-500, -500)">
       <!-- Aura / Base Glow -->
       <path class="aura" d="M500,800 C300,800 150,550 200,350 C250,150 500,200 500,200 C500,200 750,150 800,350 C850,550 700,800 500,800 Z" fill="url(#fire-aura)" filter="url(#glow-strong)" opacity="0.6">
-        <animate attributeName="d"
-          values="M500,800 C300,800 150,550 200,350 C250,150 500,200 500,200 C500,200 750,150 800,350 C850,550 700,800 500,800 Z; M500,750 C250,750 100,500 180,300 C260,100 500,150 500,150 C500,150 740,100 820,300 C900,500 750,750 500,750 Z; M500,800 C300,800 150,550 200,350 C250,150 500,200 500,200 C500,200 750,150 800,350 C850,550 700,800 500,800 Z"
-          dur="6s" repeatCount="indefinite" />
       </path>
 
       <!-- Tail Feathers -->
@@ -78,11 +75,12 @@ const particles = Array.from({ length: 70 }).map(() => ({
       <!-- Body & Head -->
       <g filter="url(#glow-light)">
         <path class="body" d="M470,500 Q440,350 500,250 Q560,350 530,500 Q500,600 470,500 Z" fill="url(#fire-core)"/>
+        <!-- Crown / Crest - deeply rooted in the head -->
+        <path class="crest" d="M485,230 Q500,100 500,80 Q515,100 515,230 Z" fill="url(#fire-core)"/>
+        <path class="crest" d="M470,230 Q420,160 380,110 Q450,170 485,230 Z" fill="url(#fire-core)"/>
+        <path class="crest" d="M530,230 Q580,160 620,110 Q550,170 515,230 Z" fill="url(#fire-core)"/>
+        <!-- Head is drawn after the crest so it hides the roots and creates a seamless stitch -->
         <circle cx="500" cy="230" r="28" fill="url(#fire-core)"/>
-        <!-- Crown / Crest -->
-        <path class="crest" d="M480,210 Q500,120 500,80 Q520,120 520,210 Z" fill="url(#fire-core)"/>
-        <path class="crest" d="M450,220 Q420,160 380,110 Q460,180 470,220 Z" fill="url(#fire-core)"/>
-        <path class="crest" d="M550,220 Q580,160 620,110 Q540,180 530,220 Z" fill="url(#fire-core)"/>
       </g>
     </g>
   </svg>
@@ -95,7 +93,9 @@ const particles = Array.from({ length: 70 }).map(() => ({
   
   .phoenix-svg {
     transform-origin: center;
+    /* Removed filter brightness animation to improve fps */
     animation: slow-float 6s ease-in-out infinite, subtle-pulse 4s ease-in-out infinite;
+    will-change: transform, opacity;
   }
 
   @keyframes slow-float {
@@ -104,11 +104,25 @@ const particles = Array.from({ length: 70 }).map(() => ({
   }
 
   @keyframes subtle-pulse {
-    0%, 100% { opacity: 0.8; filter: brightness(1); }
-    50% { opacity: 1; filter: brightness(1.2); }
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+  }
+  
+  .aura {
+    animation: aura-pulse 6s ease-in-out infinite;
+    transform-origin: 500px 500px;
+    will-change: transform;
+  }
+  
+  @keyframes aura-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
   }
 
-  .wing { transform-origin: 500px 450px; }
+  .wing { 
+    transform-origin: 500px 450px; 
+    will-change: transform;
+  }
   
   .wing-left-outer { animation: flap-l-outer 4s ease-in-out infinite; }
   .wing-left-inner { animation: flap-l-inner 4s ease-in-out infinite 0.2s; }
@@ -132,7 +146,10 @@ const particles = Array.from({ length: 70 }).map(() => ({
     50% { transform: rotate(5deg); }
   }
 
-  .tail { transform-origin: 500px 550px; }
+  .tail { 
+    transform-origin: 500px 550px; 
+    will-change: transform;
+  }
   .tail-1 { animation: tail-sway-1 5s ease-in-out infinite; }
   .tail-2 { animation: tail-sway-2 4s ease-in-out infinite 1s; }
   .tail-3 { animation: tail-sway-3 5s ease-in-out infinite 0.5s; }
@@ -144,6 +161,7 @@ const particles = Array.from({ length: 70 }).map(() => ({
   .body, .crest {
     animation: body-breathe 3s ease-in-out infinite;
     transform-origin: 500px 500px;
+    will-change: transform;
   }
   @keyframes body-breathe {
     0%, 100% { transform: scaleY(1); }
@@ -167,6 +185,7 @@ const particles = Array.from({ length: 70 }).map(() => ({
     opacity: 0;
     animation: rise var(--duration) ease-in infinite var(--delay);
     mix-blend-mode: screen;
+    will-change: transform, opacity;
   }
 
   @keyframes rise {
