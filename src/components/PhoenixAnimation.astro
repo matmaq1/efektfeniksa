@@ -1,54 +1,96 @@
 ---
+const particles = Array.from({ length: 70 }).map(() => ({
+  delay: Math.random() * 6,
+  duration: 3 + Math.random() * 5,
+  left: 5 + Math.random() * 90,
+  size: 2 + Math.random() * 6
+}));
 ---
-<div class="phoenix-container absolute inset-0 flex items-center justify-center opacity-40 mix-blend-screen pointer-events-none overflow-hidden">
-  <svg viewBox="0 0 800 800" class="phoenix-svg w-full h-full max-w-4xl">
+<div class="phoenix-container absolute inset-0 flex items-center justify-center opacity-70 mix-blend-screen pointer-events-none overflow-hidden">
+  <div class="particles-container absolute inset-0 z-0">
+    {particles.map((p) => (
+      <div 
+        class="fire-particle" 
+        style={`--delay: ${p.delay}s; --duration: ${p.duration}s; --left: ${p.left}%; --size: ${p.size}px;`}
+      ></div>
+    ))}
+  </div>
+
+  <svg viewBox="0 0 1000 1000" class="phoenix-svg w-full h-full max-w-5xl relative z-10">
     <defs>
-      <filter id="glow">
-        <feGaussianBlur stdDeviation="15" result="coloredBlur"/>
+      <filter id="glow-strong" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="25" result="coloredBlur"/>
+        <feMerge>
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+      
+      <filter id="glow-light" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="10" result="coloredBlur"/>
         <feMerge>
           <feMergeNode in="coloredBlur"/>
           <feMergeNode in="SourceGraphic"/>
         </feMerge>
       </filter>
-      <linearGradient id="fire-grad" x1="0%" y1="100%" x2="0%" y2="0%">
-        <stop offset="0%" style="stop-color:#FF0000; stop-opacity:1" />
-        <stop offset="50%" style="stop-color:#FF6B00; stop-opacity:1" />
-        <stop offset="100%" style="stop-color:#FFD700; stop-opacity:0.8" />
+
+      <linearGradient id="fire-core" x1="0%" y1="100%" x2="0%" y2="0%">
+        <stop offset="0%" style="stop-color:#FF1100; stop-opacity:0.9" />
+        <stop offset="40%" style="stop-color:#FF6B00; stop-opacity:1" />
+        <stop offset="80%" style="stop-color:#FFCC00; stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#FFFFFF; stop-opacity:1" />
+      </linearGradient>
+
+      <linearGradient id="fire-aura" x1="50%" y1="100%" x2="50%" y2="0%">
+        <stop offset="0%" style="stop-color:#990000; stop-opacity:0.6" />
+        <stop offset="50%" style="stop-color:#FF3300; stop-opacity:0.8" />
+        <stop offset="100%" style="stop-color:#FF9900; stop-opacity:0" />
       </linearGradient>
     </defs>
     
-    <!-- Wings -->
-    <path class="wing wing-left" d="M400,400 Q200,300 100,500 T400,600" fill="url(#fire-grad)" filter="url(#glow)">
-      <animate attributeName="d" 
-        values="M400,400 Q200,300 100,500 T400,600; M400,400 Q150,200 50,400 T400,600; M400,400 Q200,300 100,500 T400,600" 
-        dur="4s" repeatCount="indefinite" />
-    </path>
-    <path class="wing wing-right" d="M400,400 Q600,300 700,500 T400,600" fill="url(#fire-grad)" filter="url(#glow)">
-      <animate attributeName="d" 
-        values="M400,400 Q600,300 700,500 T400,600; M400,400 Q650,200 750,400 T400,600; M400,400 Q600,300 700,500 T400,600" 
-        dur="4s" repeatCount="indefinite" />
-    </path>
-    
-    <!-- Body -->
-    <path class="body" d="M400,350 Q380,450 400,650 Q420,450 400,350" fill="url(#fire-grad)" filter="url(#glow)">
-       <animate attributeName="transform"
-          type="translate"
-          values="0,0; 0,-20; 0,0"
-          dur="3s" repeatCount="indefinite" />
-    </path>
-    
-    <!-- Head -->
-    <circle cx="400" cy="330" r="20" fill="url(#fire-grad)" filter="url(#glow)">
-       <animate attributeName="cy"
-          values="330; 310; 330"
-          dur="3s" repeatCount="indefinite" />
-    </circle>
+    <g transform="translate(500, 500) scale(1.1) translate(-500, -500)">
+      <!-- Aura / Base Glow -->
+      <path class="aura" d="M500,800 C300,800 150,550 200,350 C250,150 500,200 500,200 C500,200 750,150 800,350 C850,550 700,800 500,800 Z" fill="url(#fire-aura)" filter="url(#glow-strong)" opacity="0.6">
+        <animate attributeName="d"
+          values="M500,800 C300,800 150,550 200,350 C250,150 500,200 500,200 C500,200 750,150 800,350 C850,550 700,800 500,800 Z; M500,750 C250,750 100,500 180,300 C260,100 500,150 500,150 C500,150 740,100 820,300 C900,500 750,750 500,750 Z; M500,800 C300,800 150,550 200,350 C250,150 500,200 500,200 C500,200 750,150 800,350 C850,550 700,800 500,800 Z"
+          dur="6s" repeatCount="indefinite" />
+      </path>
+
+      <!-- Tail Feathers -->
+      <g filter="url(#glow-light)">
+        <path class="tail tail-1" d="M500,550 Q350,750 300,950 Q450,850 500,700" fill="url(#fire-core)" opacity="0.8"/>
+        <path class="tail tail-2" d="M500,550 Q500,800 500,1000 Q550,800 500,700" fill="url(#fire-core)"/>
+        <path class="tail tail-3" d="M500,550 Q650,750 700,950 Q550,850 500,700" fill="url(#fire-core)" opacity="0.8"/>
+      </g>
+
+      <!-- Wings Core -->
+      <g filter="url(#glow-strong)">
+        <!-- Left Wing Layers -->
+        <path class="wing wing-left-outer" d="M500,450 Q250,300 50,150 Q150,450 450,550 Z" fill="url(#fire-core)" opacity="0.7"/>
+        <path class="wing wing-left-inner" d="M500,450 Q300,350 150,200 Q200,450 450,500 Z" fill="url(#fire-core)"/>
+        
+        <!-- Right Wing Layers -->
+        <path class="wing wing-right-outer" d="M500,450 Q750,300 950,150 Q850,450 550,550 Z" fill="url(#fire-core)" opacity="0.7"/>
+        <path class="wing wing-right-inner" d="M500,450 Q700,350 850,200 Q800,450 550,500 Z" fill="url(#fire-core)"/>
+      </g>
+      
+      <!-- Body & Head -->
+      <g filter="url(#glow-light)">
+        <path class="body" d="M470,500 Q440,350 500,250 Q560,350 530,500 Q500,600 470,500 Z" fill="url(#fire-core)"/>
+        <circle cx="500" cy="230" r="28" fill="url(#fire-core)"/>
+        <!-- Crown / Crest -->
+        <path class="crest" d="M480,210 Q500,120 500,80 Q520,120 520,210 Z" fill="url(#fire-core)"/>
+        <path class="crest" d="M450,220 Q420,160 380,110 Q460,180 470,220 Z" fill="url(#fire-core)"/>
+        <path class="crest" d="M550,220 Q580,160 620,110 Q540,180 530,220 Z" fill="url(#fire-core)"/>
+      </g>
+    </g>
   </svg>
 </div>
 
 <style>
   .phoenix-container {
-    background: radial-gradient(circle at center, rgba(255, 107, 0, 0.15) 0%, transparent 70%);
+    background: radial-gradient(circle at center, rgba(255, 69, 0, 0.15) 0%, transparent 60%);
   }
   
   .phoenix-svg {
@@ -57,34 +99,93 @@
   }
 
   @keyframes slow-float {
-    0%, 100% { transform: translateY(0) scale(1.1); }
-    50% { transform: translateY(-30px) scale(1.15); }
+    0%, 100% { transform: translateY(0) scale(1.05); }
+    50% { transform: translateY(-20px) scale(1.1); }
   }
 
   @keyframes subtle-pulse {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
+    0%, 100% { opacity: 0.8; filter: brightness(1); }
+    50% { opacity: 1; filter: brightness(1.2); }
   }
 
-  .wing {
-    transform-origin: 400px 400px;
-  }
+  .wing { transform-origin: 500px 450px; }
   
-  .wing-left {
-    animation: flap-left 4s ease-in-out infinite;
-  }
-  
-  .wing-right {
-    animation: flap-right 4s ease-in-out infinite;
-  }
+  .wing-left-outer { animation: flap-l-outer 4s ease-in-out infinite; }
+  .wing-left-inner { animation: flap-l-inner 4s ease-in-out infinite 0.2s; }
+  .wing-right-outer { animation: flap-r-outer 4s ease-in-out infinite; }
+  .wing-right-inner { animation: flap-r-inner 4s ease-in-out infinite 0.2s; }
 
-  @keyframes flap-left {
+  @keyframes flap-l-outer {
     0%, 100% { transform: rotate(0deg); }
     50% { transform: rotate(-10deg); }
   }
-
-  @keyframes flap-right {
+  @keyframes flap-l-inner {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(-5deg); }
+  }
+  @keyframes flap-r-outer {
     0%, 100% { transform: rotate(0deg); }
     50% { transform: rotate(10deg); }
+  }
+  @keyframes flap-r-inner {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(5deg); }
+  }
+
+  .tail { transform-origin: 500px 550px; }
+  .tail-1 { animation: tail-sway-1 5s ease-in-out infinite; }
+  .tail-2 { animation: tail-sway-2 4s ease-in-out infinite 1s; }
+  .tail-3 { animation: tail-sway-3 5s ease-in-out infinite 0.5s; }
+
+  @keyframes tail-sway-1 { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(12deg); } }
+  @keyframes tail-sway-2 { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-8deg); } }
+  @keyframes tail-sway-3 { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-12deg); } }
+
+  .body, .crest {
+    animation: body-breathe 3s ease-in-out infinite;
+    transform-origin: 500px 500px;
+  }
+  @keyframes body-breathe {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(1.05); }
+  }
+
+  /* Fire Particles */
+  .particles-container {
+    perspective: 1000px;
+  }
+
+  .fire-particle {
+    position: absolute;
+    bottom: -10%;
+    left: var(--left);
+    width: var(--size);
+    height: var(--size);
+    background: #ffaa00;
+    border-radius: 50%;
+    box-shadow: 0 0 10px 2px #ff4500, 0 0 20px 5px #ff0000;
+    opacity: 0;
+    animation: rise var(--duration) ease-in infinite var(--delay);
+    mix-blend-mode: screen;
+  }
+
+  @keyframes rise {
+    0% {
+      transform: translateY(0) scale(1) translateX(0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(-40vh) scale(0.6) translateX(20px);
+      opacity: 0.8;
+      background: #ff4500;
+    }
+    100% {
+      transform: translateY(-90vh) scale(0) translateX(-30px);
+      opacity: 0;
+      background: #ff0000;
+    }
   }
 </style>
