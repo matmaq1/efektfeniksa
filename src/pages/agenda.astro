@@ -12,7 +12,7 @@ import Nav from '../components/Nav.astro';
       <div class="flex flex-col md:flex-row items-baseline gap-4 mb-4">
         <span class="text-primary font-label text-sm tracking-[0.2em] uppercase">Mapa Podróży</span>
         <h1 class="text-5xl md:text-7xl font-headline font-extrabold tracking-tighter text-on-surface">
-          Agenda <span class="text-primary">2026</span>
+          Harmonogram <span class="text-primary">2026</span>
         </h1>
       </div>
       <p class="max-w-2xl text-on-surface-variant text-lg font-light leading-relaxed">
@@ -22,13 +22,13 @@ import Nav from '../components/Nav.astro';
 
     <!-- Day Tabs -->
     <div class="flex gap-4 mb-16 overflow-x-auto pb-4 scrollbar-hide">
-      <button class="flex-shrink-0 px-8 py-4 bg-surface-container-high border-t-2 border-primary text-primary font-headline font-bold text-xl transition-all duration-300">
+      <button class="flex-shrink-0 px-8 py-4 bg-surface-container-high border-l-4 border-primary text-primary font-headline font-bold text-xl transition-all duration-300 shadow-lg">
         Dzień 01 <span class="block text-xs font-label uppercase tracking-widest text-on-surface-variant font-normal mt-1">28 Sierpnia</span>
       </button>
-      <button class="flex-shrink-0 px-8 py-4 bg-surface-container-low text-on-surface-variant font-headline font-bold text-xl hover:bg-surface-container-high transition-all duration-300 group">
+      <button class="flex-shrink-0 px-8 py-4 bg-surface-container-low border-l-4 border-transparent text-on-surface-variant font-headline font-bold text-xl hover:bg-surface-container-high hover:border-primary transition-all duration-300 group shadow-sm">
         Dzień 02 <span class="block text-xs font-label uppercase tracking-widest text-neutral-600 group-hover:text-on-surface-variant font-normal mt-1">29 Sierpnia</span>
       </button>
-      <button class="flex-shrink-0 px-8 py-4 bg-surface-container-low text-on-surface-variant font-headline font-bold text-xl hover:bg-surface-container-high transition-all duration-300 group">
+      <button class="flex-shrink-0 px-8 py-4 bg-surface-container-low border-l-4 border-transparent text-on-surface-variant font-headline font-bold text-xl hover:bg-surface-container-high hover:border-primary transition-all duration-300 group shadow-sm">
         Warsztaty <span class="block text-xs font-label uppercase tracking-widest text-neutral-600 group-hover:text-on-surface-variant font-normal mt-1">30 Sierpnia</span>
       </button>
     </div>
