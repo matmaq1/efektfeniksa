@@ -1,0 +1,35 @@
+---
+---
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Konfi Julki</title>
+</head>
+<body style="background: #1a1a1a; color: #00ff00; font-family: monospace; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden;">
+    <div style="text-align: center; border: 2px solid #00ff00; padding: 20px; border-radius: 10px;" id="egg">
+        <h1>System operacyjny: KONFI-JULKA-OS v1.0</h1>
+        <p>Status: Test zakończony sukcesem.</p>
+        <p>Najedź tutaj (lub kliknij), żeby zobaczyć coś więcej...</p>
+        <div id="hidden-content" style="display: none; margin-top: 20px; color: #ff00ff;">
+            <p>🐣 "Nie owijam w bawełnę — pytasz, odpowiadam."</p>
+            <p>Konferencja uratowana!</p>
+        </div>
+    </div>
+
+    <script>
+        const egg = document.getElementById('egg');
+        const hidden = document.getElementById('hidden-content');
+        
+        egg.addEventListener('mouseenter', () => {
+            hidden.style.display = 'block';
+        });
+        egg.addEventListener('mouseleave', () => {
+            hidden.style.display = 'none';
+        });
+        // Dla mobile
+        egg.addEventListener('click', () => {
+            hidden.style.display = hidden.style.display === 'none' ? 'block' : 'none';
+        });
+    </script>
+</body>
+</html>
