@@ -174,3 +174,73 @@ html, body {
 
 details > summary { list-style: none; }
 details > summary::-webkit-details-marker { display: none; }
+
+/* Phoenix Animation Styles */
+.glow-layer-strong {
+  filter: drop-shadow(0 0 20px rgba(255, 69, 0, 0.8));
+}
+
+.glow-layer-light {
+  filter: drop-shadow(0 0 10px rgba(255, 107, 0, 0.5));
+}
+
+.phoenix-svg {
+  transform-origin: center;
+  animation: slow-float 8s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes slow-float {
+  0%, 100% { transform: translateY(0) scale(1.05); }
+  50% { transform: translateY(-30px) scale(1.08); }
+}
+
+.wing { 
+  transform-origin: 500px 450px; 
+  will-change: transform;
+}
+
+.wing-left-outer { animation: flap-l-outer 4s ease-in-out infinite; }
+.wing-left-inner { animation: flap-l-inner 4s ease-in-out infinite 0.2s; }
+.wing-right-outer { animation: flap-r-outer 4s ease-in-out infinite; }
+.wing-right-inner { animation: flap-r-inner 4s ease-in-out infinite 0.2s; }
+
+@keyframes flap-l-outer {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-8deg); }
+}
+@keyframes flap-l-inner {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-4deg); }
+}
+@keyframes flap-r-outer {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(8deg); }
+}
+@keyframes flap-r-inner {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(4deg); }
+}
+
+.tail { 
+  transform-origin: 500px 550px; 
+  will-change: transform;
+}
+.tail-1 { animation: tail-sway-1 6s ease-in-out infinite; }
+.tail-2 { animation: tail-sway-2 5s ease-in-out infinite 1s; }
+.tail-3 { animation: tail-sway-3 6s ease-in-out infinite 0.5s; }
+
+@keyframes tail-sway-1 { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(10deg); } }
+@keyframes tail-sway-2 { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-6deg); } }
+@keyframes tail-sway-3 { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-10deg); } }
+
+.body, .crest, .aura {
+  animation: body-pulse 4s ease-in-out infinite;
+  transform-origin: 500px 500px;
+  will-change: transform;
+}
+
+@keyframes body-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.02); opacity: 1; }
+}
