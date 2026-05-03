@@ -75,7 +75,57 @@ tailwind.config = {
   85%  { opacity: 0.7; }
   100% { transform: translate3d(var(--drift,0px), -110vh, 0) scale(0.4); opacity: 0; }
 }
+@keyframes ashBubbleRise {
+  0%   { transform: translate3d(0, 0, 0) scale(0.8); opacity: 0; }
+  10%  { opacity: var(--bubble-op, 0.5); }
+  50%  { transform: translate3d(calc(var(--drift, 0px) * 0.5), -45vh, 0) scale(1.1); }
+  90%  { opacity: calc(var(--bubble-op, 0.5) * 0.5); }
+  100% { transform: translate3d(var(--drift, 0px), -100vh, 0) scale(0.4); opacity: 0; }
+}
+@keyframes ashSwirl {
+  0%   { transform: translateX(0) rotate(0deg); }
+  50%  { transform: translateX(8px) rotate(180deg); }
+  100% { transform: translateX(0) rotate(360deg); }
+}
+
+/* ── Phoenix intro overlay ── */
+@keyframes introFade { 0% { opacity: 1; } 95% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
+@keyframes pixelGrow { 
+  0%   { transform: scale(0.05) translateY(80%); opacity: 0; filter: hue-rotate(-20deg) brightness(0.5); }
+  10%  { opacity: 0.4; }
+  35%  { transform: scale(0.45) translateY(40%); opacity: 0.85; filter: hue-rotate(0deg) brightness(0.85); }
+  60%  { transform: scale(0.85) translateY(10%); opacity: 1; filter: hue-rotate(5deg) brightness(1.05); }
+  85%  { transform: scale(1) translateY(0); opacity: 1; filter: hue-rotate(0deg) brightness(1.1); }
+  100% { transform: scale(1.05) translateY(-2%); opacity: 0; filter: brightness(1.4); }
+}
+@keyframes ashPilePulse {
+  0%, 100% { transform: scaleY(1); opacity: 0.95; }
+  50%      { transform: scaleY(0.92); opacity: 1; }
+}
+@keyframes ashScatter {
+  0%   { transform: translate3d(0,0,0) scale(1); opacity: 0; }
+  10%  { opacity: 1; }
+  100% { transform: translate3d(var(--sx, 0px), var(--sy, -200px), 0) scale(0.2); opacity: 0; }
+}
+@keyframes flashWhite {
+  0%, 100% { opacity: 0; }
+  55%      { opacity: 0; }
+  62%      { opacity: 1; }
+  75%      { opacity: 0; }
+}
+@keyframes wingFlap {
+  0%, 100% { transform: scaleX(1) scaleY(1); }
+  50%      { transform: scaleX(1.15) scaleY(0.92); }
+}
+
 body { font-family: Manrope, system-ui, sans-serif; }
+
+/* Pixelated phoenix sprite: built from a CSS grid of "pixels" */
+.pixel-phoenix {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 0 24px rgba(255, 90, 31, 0.7)) drop-shadow(0 0 48px rgba(255, 182, 39, 0.4));
+}
 </style>
 
 </head>
@@ -428,7 +478,7 @@ window.PL = {
 
 <!-- Polish overrides for shared components (post-mount tweaks) -->
 <script type="text/babel" data-presets="env,react">
-const { useState, useEffect } = React;
+const { useState, useEffect, useRef, useMemo } = React;
 
 // ── Polish Nav ─────
 function PLNav({ active = "home", onNav }) {
@@ -490,6 +540,7 @@ function PLHero() {
       style={{ background: "radial-gradient(60% 60% at 50% 110%, #5a1500 0%, #1a0d07 45%, #0e0604 75%)" }}>
       <HeatDistortion/>
       <EmberField count={36}/>
+      <AshBubbles count={18}/>
 
       <div className="absolute inset-x-0 bottom-0 h-[60%] pointer-events-none animate-flame-flicker"
            style={{
@@ -540,7 +591,11 @@ function PLHero() {
           </div>
         </div>
 
-        <div className="col-span-12 lg:col-span-4 hidden lg:block">
+        <div className="col-span-12 lg:col-span-4 hidden lg:block relative">
+          {/* localized rising-ash column underneath the phoenix */}
+          <div className="absolute inset-x-0 -bottom-4 h-[120%] pointer-events-none">
+            <AshBubbles count={10}/>
+          </div>
           <PhoenixMark/>
         </div>
       </div>
@@ -768,8 +823,228 @@ function PLFooter() {
   );
 }
 
+// ── Ash bubbles: large, soft, slow-rising motes (different feel than embers) ─────
+function AshBubbles({ count = 14 }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+    const nodes = [];
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement("span");
+      const size = 4 + Math.random() * 10;          // 4-14px
+      const dur = 12 + Math.random() * 14;           // 12-26s
+      const delay = -Math.random() * dur;
+      const left = Math.random() * 100;
+      const drift = (Math.random() - 0.5) * 140;
+      const op = 0.25 + Math.random() * 0.45;
+      const hue = Math.random() < 0.45 ? "#ffb627" : (Math.random() < 0.6 ? "#fff4d6" : "#c9302c");
+      el.style.cssText = `
+        position:absolute; bottom:-20px; left:${left}%;
+        width:${size}px; height:${size}px; border-radius:50%;
+        background:radial-gradient(circle at 35% 35%, ${hue}, transparent 70%);
+        opacity:0;
+        --drift:${drift}px; --bubble-op:${op};
+        animation: ashBubbleRise ${dur}s linear ${delay}s infinite;
+        filter: blur(${size > 9 ? 1.5 : 0.5}px);
+        mix-blend-mode: screen;
+      `;
+      // inner "swirl" wrapper for organic motion
+      const inner = document.createElement("span");
+      inner.style.cssText = `
+        position:absolute; inset:0; border-radius:50%;
+        animation: ashSwirl ${4 + Math.random() * 4}s ease-in-out infinite;
+      `;
+      el.appendChild(inner);
+      root.appendChild(el);
+      nodes.push(el);
+    }
+    return () => nodes.forEach(n => n.remove());
+  }, [count]);
+  return <div ref={ref} className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true"/>;
+}
+
+// ── Pixelated phoenix sprite (drawn with CSS grid of pixel cells) ─────
+// 16-col × 18-row monochrome phoenix; each char keys a color from PALETTE.
+const PIXEL_PHOENIX = [
+  "................",
+  ".......YW.......",
+  "......WHHW......",
+  ".....WHHHHW.....",
+  "....OHHWWHHO....",
+  "...OHHHHHHHHO...",
+  "..ROOHHHHHHOOR..",
+  ".ROOOOHHHHOOOOR.",
+  "ROOOOOOHHOOOOOOR",
+  "ROOOOOOOOOOOOOOR",
+  ".ROOOOOOOOOOOOR.",
+  "..RROOOOOOOORR..",
+  "...RRROOOORRRR..",
+  "....RRRRRRR.....",
+  ".....OO..OO.....",
+  "....OYO..OYO....",
+  "....YY....YY....",
+  "................",
+];
+const PIXEL_PALETTE = {
+  ".": "transparent",
+  "W": "#fff4d6",      // white-hot core
+  "Y": "#ffe09a",      // gold flare
+  "H": "#ffb627",      // gold
+  "O": "#ff5a1f",      // molten orange
+  "R": "#c9302c",      // crimson tip
+};
+
+function PixelPhoenix({ size = 8, flap = false }) {
+  const cols = PIXEL_PHOENIX[0].length;
+  const rows = PIXEL_PHOENIX.length;
+  return (
+    <div className="pixel-phoenix relative" style={{
+      width: cols * size, height: rows * size,
+      display: "grid",
+      gridTemplateColumns: `repeat(${cols}, ${size}px)`,
+      gridTemplateRows: `repeat(${rows}, ${size}px)`,
+      animation: flap ? "wingFlap 1.2s ease-in-out infinite" : "none",
+      transformOrigin: "center bottom",
+    }}>
+      {PIXEL_PHOENIX.flatMap((row, r) =>
+        row.split("").map((ch, c) => (
+          <span key={`${r}-${c}`} style={{
+            background: PIXEL_PALETTE[ch] || "transparent",
+            boxShadow: ch !== "." && (ch === "W" || ch === "Y") ? "0 0 4px rgba(255,244,214,0.7)" : "none",
+          }}/>
+        ))
+      )}
+    </div>
+  );
+}
+
+// ── Phoenix intro overlay: pixelated rises-from-ashes, plays once per session ─────
+function PhoenixIntro({ onDone }) {
+  const [stage, setStage] = useState("playing"); // playing | done
+
+  useEffect(() => {
+    const t = setTimeout(() => { setStage("done"); onDone?.(); }, 4200);
+    return () => clearTimeout(t);
+  }, [onDone]);
+
+  // scatter particles around the ash pile
+  const scatter = useMemo(() => Array.from({ length: 32 }, (_, i) => ({
+    sx: (Math.random() - 0.5) * 600,
+    sy: -120 - Math.random() * 320,
+    delay: 1.6 + Math.random() * 0.9,
+    dur: 1.4 + Math.random() * 1.2,
+    size: 3 + Math.random() * 5,
+    hue: Math.random() < 0.5 ? "#ff5a1f" : (Math.random() < 0.5 ? "#ffb627" : "#c9302c"),
+  })), []);
+
+  if (stage === "done") return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-[200] flex items-end justify-center overflow-hidden cursor-pointer"
+      style={{
+        background: "radial-gradient(60% 60% at 50% 80%, #2a0d05 0%, #0e0604 70%, #000 100%)",
+        animation: "introFade 4.2s ease-in forwards",
+      }}
+      onClick={() => { setStage("done"); onDone?.(); }}
+      role="button"
+      aria-label="Pomiń intro"
+    >
+      {/* white-hot flash at the moment of "ignition" */}
+      <div className="absolute inset-0 pointer-events-none"
+           style={{
+             background: "radial-gradient(40% 30% at 50% 70%, #fff4d6 0%, rgba(255,182,39,0.6) 30%, transparent 70%)",
+             animation: "flashWhite 4.2s ease-out forwards",
+             mixBlendMode: "screen",
+           }}/>
+
+      {/* embers always rising */}
+      <EmberField count={48}/>
+      <AshBubbles count={20}/>
+
+      {/* The ash pile at the bottom, pulsing as if breathing */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none"
+           style={{
+             width: "80vw", maxWidth: 720, height: 180,
+             transformOrigin: "center bottom",
+             animation: "ashPilePulse 1.8s ease-in-out infinite",
+           }}>
+        {/* mound */}
+        <div className="absolute inset-x-0 bottom-0 h-32"
+             style={{
+               background: "radial-gradient(ellipse 60% 100% at 50% 100%, #3a1c10 0%, #1f0e07 50%, transparent 80%)",
+               filter: "blur(4px)",
+             }}/>
+        {/* glowing core inside the ash */}
+        <div className="absolute inset-x-0 bottom-0 h-24"
+             style={{
+               background: "radial-gradient(ellipse 30% 80% at 50% 100%, #ff5a1f 0%, #c9302c 40%, transparent 70%)",
+               filter: "blur(8px)",
+               mixBlendMode: "screen",
+             }}/>
+        {/* scattered dark debris pixels */}
+        {[...Array(40)].map((_, i) => {
+          const x = (i / 40) * 100 + (Math.random() - 0.5) * 8;
+          const w = 2 + Math.random() * 4;
+          const h = 2 + Math.random() * 3;
+          const y = Math.random() * 16;
+          return (
+            <span key={i} className="absolute"
+                  style={{
+                    bottom: y, left: `${x}%`,
+                    width: w, height: h,
+                    background: Math.random() < 0.4 ? "#5a1500" : "#1a0d07",
+                    transform: `rotate(${Math.random() * 60 - 30}deg)`,
+                  }}/>
+          );
+        })}
+      </div>
+
+      {/* Scatter particles bursting outward */}
+      {scatter.map((p, i) => (
+        <span key={i} className="absolute"
+              style={{
+                bottom: 80, left: "50%",
+                width: p.size, height: p.size, borderRadius: "50%",
+                background: p.hue,
+                boxShadow: `0 0 8px ${p.hue}`,
+                "--sx": `${p.sx}px`, "--sy": `${p.sy}px`,
+                animation: `ashScatter ${p.dur}s ease-out ${p.delay}s forwards`,
+                opacity: 0,
+              }}/>
+      ))}
+
+      {/* The pixel phoenix itself, growing/rising from the ashes */}
+      <div className="absolute left-1/2 bottom-[80px] -translate-x-1/2 pointer-events-none"
+           style={{
+             transformOrigin: "center bottom",
+             animation: "pixelGrow 4.2s cubic-bezier(.2,.6,.2,1) forwards",
+           }}>
+        <PixelPhoenix size={14} flap/>
+      </div>
+
+      {/* Tagline + skip cue */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[140%] text-center pointer-events-none">
+        <div className="text-[10px] tracking-[0.45em] uppercase text-primary-fixed-dim font-bold mb-3">Edycja III · Październik 2026</div>
+        <div className="font-headline italic text-on-surface text-3xl md:text-5xl"
+             style={{ textShadow: "0 0 20px rgba(255,90,31,0.6)" }}>
+          Z popiołu...
+        </div>
+      </div>
+      <div className="absolute bottom-6 right-6 text-[10px] tracking-[0.3em] uppercase text-on-surface-variant/60">
+        kliknij aby pominąć
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [active, setActive] = useState("home");
+  const [intro, setIntro] = useState(() => {
+    try { return !sessionStorage.getItem("phoenixIntroSeen"); }
+    catch { return true; }
+  });
 
   useEffect(() => {
     const ids = ["home", "agenda", "prelegenci", "miejsce"];
@@ -794,6 +1069,12 @@ function App() {
 
   return (
     <>
+      {intro && (
+        <PhoenixIntro onDone={() => {
+          setIntro(false);
+          try { sessionStorage.setItem("phoenixIntroSeen", "1"); } catch {}
+        }}/>
+      )}
       <PLNav active={active} onNav={onNav}/>
       <main>
         <PLHero/>
