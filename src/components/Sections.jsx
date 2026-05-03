@@ -204,20 +204,96 @@ export function PhoenixMark() {
       {/* Inner core */}
       <div className="absolute inset-[18%] rounded-full overflow-hidden animate-flame-flicker"
            style={{ background: "radial-gradient(circle at 50% 70%, #fff4d6 0%, #ffb627 18%, #ff5a1f 45%, #c9302c 75%, #1a0d07 100%)" }}>
-        {/* Flame licks */}
-        <svg viewBox="0 0 200 200" className="absolute inset-0 w-full h-full">
+        {/* V1 Phoenix */}
+        <svg viewBox="0 0 800 600" className="absolute inset-0 w-full h-full scale-[0.6] -translate-y-4" preserveAspectRatio="xMidYMid meet">
           <defs>
-            <radialGradient id="flame-g" cx="50%" cy="80%" r="70%">
-              <stop offset="0%" stopColor="#fff4d6" stopOpacity="0.9"/>
-              <stop offset="35%" stopColor="#ffb627" stopOpacity="0.7"/>
-              <stop offset="100%" stopColor="#ff5a1f" stopOpacity="0"/>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="15" result="blur" />
+              <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="glow" />
+              <feComposite in="SourceGraphic" in2="glow" operator="over" />
+            </filter>
+
+            <linearGradient id="wingGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#ffec8b" />
+              <stop offset="40%" stopColor="#ff8c00" />
+              <stop offset="100%" stopColor="#ff4500" />
+            </linearGradient>
+
+            <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#ffd700" />
+              <stop offset="100%" stopColor="#b22222" />
+            </linearGradient>
+            
+            <radialGradient id="particleGrad">
+              <stop offset="0%" stopColor="#fff" />
+              <stop offset="100%" stopColor="transparent" />
             </radialGradient>
           </defs>
-          <g style={{ transformOrigin: "100px 180px" }}>
-            <path d="M100,180 C70,160 60,120 80,90 C70,110 90,130 90,150 C95,120 110,100 100,70 C115,100 130,120 120,150 C125,130 140,115 130,95 C145,125 145,160 100,180 Z"
-                  fill="url(#flame-g)">
-              <animateTransform attributeName="transform" type="scale" values="1 1; 1.05 0.95; 1 1.02; 1 1" dur="2.2s" repeatCount="indefinite" additive="sum"/>
+
+          {/* Background Glow */}
+          <circle cx="400" cy="300" r="150" fill="url(#wingGrad)" opacity="0.1" filter="url(#glow)">
+            <animate attributeName="r" values="140;160;140" dur="4s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.05;0.15;0.05" dur="4s" repeatCount="indefinite" />
+          </circle>
+
+          {/* Tail */}
+          <g className="tail" filter="url(#glow)">
+            <animateTransform attributeName="transform" type="rotate" values="-5 400 350; 5 400 350; -5 400 350" dur="6s" repeatCount="indefinite" />
+            <path d="M400,350 Q420,450 380,550" stroke="url(#wingGrad)" strokeWidth="8" fill="none" strokeLinecap="round" />
+            <path d="M400,350 Q380,450 420,530" stroke="url(#wingGrad)" strokeWidth="6" fill="none" strokeLinecap="round" />
+            <path d="M400,350 Q450,430 460,500" stroke="url(#wingGrad)" strokeWidth="4" fill="none" strokeLinecap="round" />
+            <path d="M400,350 Q350,430 340,500" stroke="url(#wingGrad)" strokeWidth="4" fill="none" strokeLinecap="round" />
+          </g>
+
+          {/* Left Wing */}
+          <g className="wing-left" filter="url(#glow)">
+            <path d="M390,300 Q200,150 100,300 Q200,350 390,320" fill="url(#wingGrad)">
+              <animateTransform attributeName="transform" type="rotate" from="0 390 300" to="-20 390 300" dur="2s" repeatCount="indefinite" additive="sum" />
             </path>
+            <path d="M380,310 Q250,220 150,350 Q250,400 380,330" fill="url(#wingGrad)" opacity="0.8">
+              <animateTransform attributeName="transform" type="rotate" from="0 380 310" to="-15 380 310" dur="2.2s" repeatCount="indefinite" additive="sum" />
+            </path>
+          </g>
+
+          {/* Right Wing */}
+          <g className="wing-right" filter="url(#glow)">
+            <path d="M410,300 Q600,150 700,300 Q600,350 410,320" fill="url(#wingGrad)">
+              <animateTransform attributeName="transform" type="rotate" from="0 410 300" to="20 410 300" dur="2s" repeatCount="indefinite" additive="sum" />
+            </path>
+            <path d="M420,310 Q550,220 650,350 Q550,400 420,330" fill="url(#wingGrad)" opacity="0.8">
+              <animateTransform attributeName="transform" type="rotate" from="0 420 310" to="15 420 310" dur="2.2s" repeatCount="indefinite" additive="sum" />
+            </path>
+          </g>
+
+          {/* Body */}
+          <path d="M400,250 Q430,300 400,360 Q370,300 400,250" fill="url(#bodyGrad)" filter="url(#glow)">
+             <animateTransform attributeName="transform" type="translate" values="0,0; 0,-10; 0,0" dur="3s" repeatCount="indefinite" />
+          </path>
+          
+          {/* Head */}
+          <g className="head" filter="url(#glow)">
+            <circle cx="400" cy="240" r="15" fill="url(#bodyGrad)" />
+            <path d="M400,225 Q410,210 425,230 L400,235" fill="#ffd700" />
+            <circle cx="405" cy="235" r="2" fill="white" />
+          </g>
+
+          {/* Particles */}
+          <g className="particles" style={{ filter: "blur(1px)" }}>
+            <circle r="2" fill="url(#particleGrad)">
+              <animate attributeName="cx" values="350;300;250" dur="3s" repeatCount="indefinite" />
+              <animate attributeName="cy" values="350;250;150" dur="3s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite" />
+            </circle>
+            <circle r="3" fill="#ffec8b">
+              <animate attributeName="cx" values="450;500;550" dur="4s" repeatCount="indefinite" />
+              <animate attributeName="cy" values="400;300;200" dur="4s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="0;0.8;0" dur="4s" repeatCount="indefinite" />
+            </circle>
+            <circle r="1.5" fill="#ffffff">
+              <animate attributeName="cx" values="400;420;380" dur="2.5s" repeatCount="indefinite" />
+              <animate attributeName="cy" values="500;400;300" dur="2.5s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="0;1;0" dur="2.5s" repeatCount="indefinite" />
+            </circle>
           </g>
         </svg>
       </div>
