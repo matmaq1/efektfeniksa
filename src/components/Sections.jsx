@@ -1,10 +1,11 @@
 // src/components/Sections.jsx
 // Hero, Speakers strip, Stats, CTA, Nav, Footer — Phoenix Rising aesthetic.
 
-const { useEffect, useRef, useState } = React;
+import React, { useEffect, useRef, useState } from "react";
+import { SpeakerAvatar } from './Agenda.jsx';
 
 // ─── Ember particle field ────────────────────────────────────────
-function EmberField({ count = 28 }) {
+export function EmberField({ count = 28 }) {
   const ref = useRef(null);
   useEffect(() => {
     const host = ref.current;
@@ -32,7 +33,7 @@ function EmberField({ count = 28 }) {
 }
 
 // ─── Heat distortion overlay (SVG turbulence + animation) ───────
-function HeatDistortion() {
+export function HeatDistortion() {
   return (
     <svg className="absolute inset-0 w-full h-full opacity-40 mix-blend-screen pointer-events-none" aria-hidden="true">
       <defs>
@@ -49,7 +50,7 @@ function HeatDistortion() {
 }
 
 // ─── Top Nav ─────────────────────────────────────────────────────
-function Nav({ active = "home", onNav }) {
+export function Nav({ active = "home", onNav }) {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -105,7 +106,7 @@ function Nav({ active = "home", onNav }) {
 }
 
 // ─── HERO ────────────────────────────────────────────────────────
-function Hero() {
+export function Hero() {
   return (
     <section id="home" className="relative min-h-screen flex items-center overflow-hidden pt-28 pb-20"
       style={{ background: "radial-gradient(60% 60% at 50% 110%, #5a1500 0%, #1a0d07 45%, #0e0604 75%)" }}>
@@ -136,32 +137,31 @@ function Hero() {
           <div className="reveal in inline-flex items-center gap-3">
             <div className="w-10 rule-gold"></div>
             <span className="font-label text-primary-fixed-dim uppercase tracking-[0.35em] text-[11px] font-bold">
-              The Phoenix Sessions · Edition III
+              Toastmasters International
             </span>
           </div>
 
           <h1 className="font-headline font-bold leading-[0.95] tracking-tight">
-            <span className="block text-on-surface text-6xl md:text-8xl lg:text-[9rem]">From the</span>
-            <span className="block flame-text italic text-7xl md:text-9xl lg:text-[10rem] animate-heat-shimmer">ashes,</span>
-            <span className="block text-on-surface text-5xl md:text-7xl lg:text-[8rem] mt-2">we build.</span>
+            <span className="block text-on-surface text-6xl md:text-8xl lg:text-[9rem]">Efekt</span>
+            <span className="block flame-text italic text-7xl md:text-9xl lg:text-[10rem] animate-heat-shimmer">Feniksa,</span>
+            <span className="block text-on-surface text-5xl md:text-7xl lg:text-[8rem] mt-2">Wspólny Ogień.</span>
           </h1>
 
           <p className="text-on-surface-variant text-lg md:text-xl max-w-xl font-light leading-relaxed">
-            Three days, three stages, twenty-four speakers. A working conference for the people
-            who actually ship — held in the Imperial Opera House, Vienna, this October.
+            Ogólnopolski Konkurs Mówców Toastmasters. Doświadcz odrodzenia pasji, siły słowa i wspólnoty, która płonie jasnym blaskiem.
           </p>
 
           <div className="flex flex-wrap gap-4 pt-2">
-            <button className="btn-fire px-9 py-4 rounded-md text-xs">Reserve a seat</button>
-            <button className="btn-ghost-flame px-9 py-4 rounded-md text-xs">View the programme</button>
+            <button className="btn-fire px-9 py-4 rounded-md text-xs">Zarezerwuj miejsce</button>
+            <button className="btn-ghost-flame px-9 py-4 rounded-md text-xs">Zobacz program</button>
           </div>
 
           {/* Hero meta strip */}
           <div className="grid grid-cols-3 gap-6 pt-12 max-w-2xl">
             {[
-              { k: "14–16 OCT", v: "Three days" },
-              { k: "VIENNA, AT", v: "Imperial Hall" },
-              { k: "82% FULL",  v: "Closing soon" },
+              { k: "28–30 AUG", v: "Trzy dni" },
+              { k: "KALISZ, PL", v: "Centrum Kultury" },
+              { k: "82% FULL",  v: "Zapisy trwają" },
             ].map(m => (
               <div key={m.k} className="border-l border-outline-variant/40 pl-4">
                 <div className="text-[10px] tracking-[0.3em] uppercase text-primary-fixed-dim font-bold">{m.k}</div>
@@ -187,7 +187,7 @@ function Hero() {
 }
 
 // ─── Phoenix mark — pure CSS/SVG flame ─────────────────────────
-function PhoenixMark() {
+export function PhoenixMark() {
   return (
     <div className="relative aspect-square w-full max-w-[420px] mx-auto">
       {/* Outer halo ring */}
@@ -246,7 +246,7 @@ function PhoenixMark() {
 }
 
 // ─── Speakers Marquee ────────────────────────────────────────────
-function SpeakersStrip({ speakers }) {
+export function SpeakersStrip({ speakers }) {
   const doubled = [...speakers, ...speakers];
   return (
     <section id="speakers" className="relative py-24 overflow-hidden border-y border-outline-variant/20">
@@ -280,26 +280,25 @@ function SpeakersStrip({ speakers }) {
 }
 
 // ─── Venue / Stats ──────────────────────────────────────────────
-function Venue() {
+export function Venue() {
   return (
     <section id="venue" className="relative py-32 overflow-hidden">
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12 grid grid-cols-12 gap-12 items-start">
         <div className="col-span-12 lg:col-span-5 space-y-8">
           <div className="text-[11px] tracking-[0.35em] uppercase text-primary-fixed-dim">— The Venue</div>
           <h2 className="font-headline text-5xl md:text-6xl leading-[1.05] tracking-tight">
-            <span className="text-on-surface">Imperial Hall,</span><br/>
-            <span className="flame-text italic">Vienna.</span>
+            <span className="text-on-surface">Centrum Kultury,</span><br/>
+            <span className="flame-text italic">Kalisz.</span>
           </h2>
           <p className="text-on-surface-variant text-lg leading-relaxed max-w-md font-light">
-            We took over an Opera House. Three stages, a long lunch terrace,
-            and a salon for the conversations that don't fit on a programme.
+            Przygotowaliśmy przestrzeń, która sprzyja zarówno wielkim przemówieniom, jak i kuluarowym rozmowom o sztuce wystąpień.
           </p>
           <div className="grid grid-cols-2 gap-4 max-w-md pt-4">
             {[
-              { k: "320", v: "Seats / Mainstage" },
-              { k: "1898", v: "Year built" },
-              { k: "3", v: "Working stages" },
-              { k: "24h", v: "Salon access" },
+              { k: "400", v: "Miejsc na Gali" },
+              { k: "1", v: "Scena Główna" },
+              { k: "2", v: "Sale Warsztatowe" },
+              { k: "24h", v: "Dostęp do Salonu" },
             ].map(s => (
               <div key={s.v} className="p-5 rounded-md ember-glass">
                 <div className="font-headline italic text-3xl flame-text">{s.k}</div>
@@ -312,9 +311,9 @@ function Venue() {
         <div className="col-span-12 lg:col-span-7 grid grid-cols-6 gap-4">
           {/* Placeholder venue tiles — striped, monospace explainers */}
           {[
-            { c: "col-span-6 row-span-2 h-[360px]", label: "wide shot · auditorium interior" },
-            { c: "col-span-3 h-[200px]", label: "balcony · gold leaf detail" },
-            { c: "col-span-3 h-[200px]", label: "salon rouge · evening" },
+            { c: "col-span-6 row-span-2 h-[360px]", label: "scena główna · widok z audytorium" },
+            { c: "col-span-3 h-[200px]", label: "sala warsztatowa" },
+            { c: "col-span-3 h-[200px]", label: "strefa networkingowa" },
           ].map((t, i) => (
             <div key={i} className={`${t.c} rounded-xl overflow-hidden relative group`}
                  style={{
@@ -335,7 +334,7 @@ function Venue() {
 }
 
 // ─── CTA ─────────────────────────────────────────────────────────
-function FinalCTA() {
+export function FinalCTA() {
   return (
     <section className="relative py-32 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none"
@@ -345,15 +344,15 @@ function FinalCTA() {
       <div className="relative max-w-3xl mx-auto px-6 md:px-12 text-center">
         <span className="material-symbols-outlined ms-fill flame-text" style={{ fontSize: 64 }}>local_fire_department</span>
         <h2 className="font-headline text-5xl md:text-7xl font-bold leading-tight mt-6">
-          <span className="text-on-surface">Light the </span>
-          <span className="flame-text italic">match.</span>
+          <span className="text-on-surface">Rozpal </span>
+          <span className="flame-text italic">ogień.</span>
         </h2>
         <p className="text-on-surface-variant text-xl md:text-2xl my-8 font-headline italic max-w-xl mx-auto">
-          The third edition is 82% full. Once it's gone, it's gone.
+          Miejsca znikają szybko. Bądź częścią tego wyjątkowego wydarzenia.
         </p>
         <div className="flex flex-col md:flex-row justify-center gap-4">
-          <button className="btn-fire px-12 py-5 rounded-md text-xs">Register · €890</button>
-          <button className="btn-ghost-flame px-12 py-5 rounded-md text-xs">Become a sponsor</button>
+          <button className="btn-fire px-12 py-5 rounded-md text-xs">Rejestracja</button>
+          <button className="btn-ghost-flame px-12 py-5 rounded-md text-xs">Zostań partnerem</button>
         </div>
       </div>
     </section>
@@ -361,7 +360,7 @@ function FinalCTA() {
 }
 
 // ─── Footer ──────────────────────────────────────────────────────
-function Footer() {
+export function Footer() {
   return (
     <footer className="border-t border-outline-variant/20 bg-surface-container-lowest">
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12 py-16 grid grid-cols-12 gap-8">
@@ -420,4 +419,4 @@ function Footer() {
   );
 }
 
-Object.assign(window, { Nav, Hero, SpeakersStrip, Venue, FinalCTA, Footer, EmberField, HeatDistortion });
+

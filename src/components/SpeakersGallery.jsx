@@ -2,9 +2,9 @@
 // Dedicated section: speaker portrait left + bio left, workshop description right.
 // Each entry alternates orientation for editorial rhythm.
 
-const { useState } = React;
+import React, { useState } from "react";
 
-function SpeakerCard({ entry, index }) {
+export function SpeakerCard({ entry, index }) {
   const flip = index % 2 === 1;
 
   return (
@@ -155,7 +155,7 @@ function SpeakerCard({ entry, index }) {
   );
 }
 
-function SpeakersGallery({ entries }) {
+export function SpeakersGallery({ entries }) {
   return (
     <section id="prelegenci" className="relative py-28 md:py-36 overflow-hidden"
              style={{ background: "linear-gradient(180deg, #0e0604 0%, #140905 50%, #0e0604 100%)" }}>
@@ -190,4 +190,4 @@ function SpeakersGallery({ entries }) {
   );
 }
 
-window.SpeakersGallery = SpeakersGallery;
+

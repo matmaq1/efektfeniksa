@@ -1,7 +1,7 @@
 // src/components/Agenda.jsx
 // Expandable agenda: Day → Track (section) → Session → Speaker.
 
-const { useState, useMemo, useEffect, useRef } = React;
+import React, { useState, useMemo, useEffect, useRef } from "react";
 
 // ---------- helpers ----------
 const KIND_META = {
@@ -20,7 +20,7 @@ const ACCENT_TOKENS = {
   muted:   { ring: "rgba(255,212,170,0.18)",bg: "rgba(255,212,170,0.04)",text: "#a98968", glow: "none" },
 };
 
-function SpeakerAvatar({ s, size = 44 }) {
+export function SpeakerAvatar({ s, size = 44 }) {
   const initials = s.name.split(" ").map(p => p[0]).slice(0,2).join("");
   const grad = `conic-gradient(from 210deg, oklch(0.68 0.18 ${s.avatarHue}) 0deg, oklch(0.55 0.21 ${(s.avatarHue+30)%360}) 140deg, oklch(0.40 0.15 ${(s.avatarHue+60)%360}) 280deg, oklch(0.68 0.18 ${s.avatarHue}) 360deg)`;
   return (
@@ -38,7 +38,7 @@ function SpeakerAvatar({ s, size = 44 }) {
   );
 }
 
-function SpeakerStack({ speakers, max = 3 }) {
+export function SpeakerStack({ speakers, max = 3 }) {
   if (!speakers?.length) return null;
   const shown = speakers.slice(0, max);
   const overflow = speakers.length - shown.length;
@@ -59,7 +59,7 @@ function SpeakerStack({ speakers, max = 3 }) {
 }
 
 // ---------- session row (collapsed → speaker bios) ----------
-function SessionRow({ session, accent, defaultOpen }) {
+export function SessionRow({ session, accent, defaultOpen }) {
   const [open, setOpen] = useState(!!defaultOpen);
   const [activeSpeaker, setActiveSpeaker] = useState(null);
   const tokens = ACCENT_TOKENS[accent] || ACCENT_TOKENS.core;
@@ -206,7 +206,7 @@ function SessionRow({ session, accent, defaultOpen }) {
 }
 
 // ---------- track section (expandable) ----------
-function TrackSection({ track, defaultOpen }) {
+export function TrackSection({ track, defaultOpen }) {
   const [open, setOpen] = useState(defaultOpen);
   const tokens = ACCENT_TOKENS[track.accent] || ACCENT_TOKENS.core;
 
@@ -272,7 +272,7 @@ function TrackSection({ track, defaultOpen }) {
 }
 
 // ---------- day tabs + filter ----------
-function Agenda({ days }) {
+export function Agenda({ days }) {
   const [activeDay, setActiveDay] = useState(days[0].id);
   const [filter, setFilter] = useState("all"); // all | mainstage | workshop | lounge
   const day = days.find(d => d.id === activeDay) || days[0];
@@ -378,5 +378,5 @@ function Agenda({ days }) {
   );
 }
 
-window.Agenda = Agenda;
-window.SpeakerAvatar = SpeakerAvatar;
+
+
