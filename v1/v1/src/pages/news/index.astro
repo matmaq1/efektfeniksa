@@ -1,0 +1,48 @@
+---
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+import { getCollection } from 'astro:content';
+
+const allNews = await getCollection('news');
+---
+
+<Base title="News | Efekt Feniksa">
+  <Nav />
+  
+  <main class="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
+    <!-- Header -->
+    <header class="mb-20">
+      <div class="flex flex-col md:flex-row items-baseline gap-4 mb-4">
+        <span class="text-primary font-label text-sm tracking-[0.2em] uppercase">Latest Updates</span>
+        <h1 class="text-5xl md:text-7xl font-headline font-extrabold tracking-tighter text-on-surface">
+          News <span class="text-primary">2024</span>
+        </h1>
+      </div>
+      <p class="max-w-2xl text-on-surface-variant text-lg font-light leading-relaxed">
+        Stay informed about the latest announcements, updates, and stories from Efekt Feniksa.
+      </p>
+    </header>
+
+    <!-- News Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {allNews.map((post) => (
+        <a href={`/news/${post.id}`} class="group block bg-surface-container-low border border-primary/20 hover:border-primary/60 transition-all duration-300 overflow-hidden">
+          <div class="aspect-video bg-surface-container-high"></div>
+          <div class="p-6">
+            <span class="text-primary text-xs font-bold uppercase tracking-wider">News</span>
+            <h3 class="text-on-surface font-headline text-xl font-bold mt-3 mb-3 group-hover:text-primary transition-colors">
+              {post.data.title}
+            </h3>
+            <p class="text-on-surface-variant text-sm font-light leading-relaxed mb-4">
+              {post.data.description || (post.body ? post.body.substring(0, 100) + '...' : '')}
+            </p>
+            <div class="flex items-center gap-2 text-primary text-xs font-bold uppercase tracking-widest">
+              <span>Read More</span>
+              <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </main>
+</Base>

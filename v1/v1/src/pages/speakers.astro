@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+
+const speakers = [
+  {
+    id: 1,
+    name: 'Marek Jarosławski',
+    title: 'Główny Prelegent (Keynote)',
+    bio: 'Ekspert w dziedzinie psychologii przemawiania publicznego i treningu odporności.',
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDlnRzIK2NrXth1rjuU7Ss2MPfO0R9eKo2yOK3mxpjFTf1rAPPMjeghOiXrxsIdIF_8ddpV_U44zQotN-1dvrcWZ-jt-IfjDMoL1DmLKK_Mx0MnC_fZfmc1Bk8keXrxN69pOfbPXnXAyHBe4EuvA6RNwBLe5yobZ_h7ka6scYUhmCZMO9Rrcbhkx4PtWHUlf4NA5S4IktRSfpLjRoQHAH0IibeM7joKTrsQR1Ks3xCP9fwb9kmDb-Jr8Z-Oy4JDsfJHc98-kd-b6qQ'
+  },
+  {
+    id: 2,
+    name: 'Anna Kowalska',
+    title: 'Facylitator Warsztatów',
+    bio: 'Trener emisji głosu specjalizujący się w tonie, projekcji i komunikacji perswazyjnej.',
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAK4uUy5pbUS9f5u5bUoqoN9d_aS7liH4CnUC4sY8DnRdJ4KKAPCzRhTAwehnfr_Qb_nnljHzK0xk74XqLHDisctP0BlXDaysNJPP4TAFUJJdgs-zNKfM9H0MaVXwm9s50AgYDIj9-k0d1vuaZ4JKEY_MzoKysF3zIMAhNYE6dsxCSwxFTAtR-94oXF2r3CZx4EF1eqLDwbrQYYDj9JL9_KMK4SLVBGLCIEq6MFlfCaou9gJXkU_9xpMLP-2svsknF--C46KatCspQ'
+  },
+  {
+    id: 3,
+    name: 'Piotr Lewandowski',
+    title: 'Sędzia Konkursowy',
+    bio: 'Mistrz Toastmasters International z ponad 15-letnim doświadczeniem scenicznym.',
+    image: ''
+  }
+];
+---
+
+<Base title="Prelegenci | Efekt Feniksa">
+  <Nav />
+  
+  <main class="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
+    <!-- Header -->
+    <header class="mb-20">
+      <div class="flex flex-col md:flex-row items-baseline gap-4 mb-4">
+        <span class="text-primary font-label text-sm tracking-[0.2em] uppercase">Poznaj Naszych Prelegentów</span>
+        <h1 class="text-5xl md:text-7xl font-headline font-extrabold tracking-tighter text-on-surface">
+          Prelegenci <span class="text-primary">2026</span>
+        </h1>
+      </div>
+      <p class="max-w-2xl text-on-surface-variant text-lg font-light leading-relaxed">
+        Ucz się od najlepszych komunikatorów i liderów polskiej społeczności przemawiania publicznego.
+      </p>
+    </header>
+
+    <!-- Speakers Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {speakers.map((speaker) => (
+        <div class="bg-surface-container-low border border-primary/20 hover:border-primary/60 transition-all duration-300 overflow-hidden group">
+          <div class="aspect-square bg-surface-container-high overflow-hidden relative">
+            {speaker.image ? (
+              <img 
+                alt={speaker.name}
+                src={speaker.image}
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+              />
+            ) : (
+              <div class="w-full h-full flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary text-8xl opacity-20">person</span>
+              </div>
+            )}
+          </div>
+          <div class="p-8 text-center">
+            <h3 class="text-on-surface font-headline text-2xl font-bold mb-2">
+              {speaker.name}
+            </h3>
+            <p class="text-primary uppercase text-xs font-bold tracking-wider mb-4">
+              {speaker.title}
+            </p>
+            <p class="text-on-surface-variant font-light leading-relaxed">
+              {speaker.bio}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- CTA Section -->
+    <section class="mt-24 p-12 bg-gradient-to-br from-surface-container-low to-surface-container-highest relative overflow-hidden">
+      <div class="relative z-10 text-center max-w-2xl mx-auto">
+        <h2 class="text-3xl font-headline font-bold mb-6 text-on-surface">Gotowy do nauki od najlepszych?</h2>
+        <p class="text-on-surface-variant mb-8">Zarezerwuj swoje miejsce na Efekt Feniksa i doświadcz światowej klasy edukacji przemawiania publicznego.</p>
+        <a href="/tickets" class="inline-block bg-[#FF6B00] text-black px-10 py-4 rounded-full font-bold uppercase tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-primary/30">
+          Zarejestruj się Teraz
+        </a>
+      </div>
+      <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-primary/10 rounded-full blur-[100px]"></div>
+    </section>
+  </main>
+</Base>

@@ -1,0 +1,184 @@
+---
+const particles = Array.from({ length: 40 }).map(() => ({
+  delay: Math.random() * 6,
+  duration: 4 + Math.random() * 4,
+  left: 10 + Math.random() * 80,
+  size: 2 + Math.random() * 4
+}));
+---
+<div class="phoenix-container absolute inset-0 flex items-center justify-center opacity-70 mix-blend-screen pointer-events-none overflow-hidden">
+  <!-- Optimized Particles -->
+  <div class="particles-container absolute inset-0 z-0">
+    {particles.map((p) => (
+      <div 
+        class="fire-particle" 
+        style={`--delay: ${p.delay}s; --duration: ${p.duration}s; --left: ${p.left}%; --size: ${p.size}px;`}
+      ></div>
+    ))}
+  </div>
+
+  <svg viewBox="0 0 1000 1000" class="phoenix-svg w-full h-full max-w-5xl relative z-10">
+    <defs>
+      <!-- Gradients are cheap -->
+      <linearGradient id="fire-core" x1="0%" y1="100%" x2="0%" y2="0%">
+        <stop offset="0%" style="stop-color:#FF1100; stop-opacity:1" />
+        <stop offset="40%" style="stop-color:#FF6B00; stop-opacity:1" />
+        <stop offset="80%" style="stop-color:#FFCC00; stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#FFFFFF; stop-opacity:1" />
+      </linearGradient>
+
+      <linearGradient id="fire-aura" x1="50%" y1="100%" x2="50%" y2="0%">
+        <stop offset="0%" style="stop-color:#990000; stop-opacity:0.6" />
+        <stop offset="50%" style="stop-color:#FF3300; stop-opacity:0.8" />
+        <stop offset="100%" style="stop-color:#FF9900; stop-opacity:0" />
+      </linearGradient>
+    </defs>
+    
+    <g transform="translate(500, 500) scale(1.1) translate(-500, -500)">
+      <!-- Static Aura (Animated via CSS transform) -->
+      <path class="aura" d="M500,800 C300,800 150,550 200,350 C250,150 500,200 500,200 C500,200 750,150 800,350 C850,550 700,800 500,800 Z" fill="url(#fire-aura)" opacity="0.4" />
+
+      <!-- Tail Feathers -->
+      <g class="glow-layer-light">
+        <path class="tail tail-1" d="M500,550 Q350,750 300,950 Q450,850 500,700" fill="url(#fire-core)" opacity="0.6"/>
+        <path class="tail tail-2" d="M500,550 Q500,800 500,1000 Q550,800 500,700" fill="url(#fire-core)"/>
+        <path class="tail tail-3" d="M500,550 Q650,750 700,950 Q550,850 500,700" fill="url(#fire-core)" opacity="0.6"/>
+      </g>
+
+      <!-- Wings Core -->
+      <g class="glow-layer-strong">
+        <!-- Left Wing Layers -->
+        <path class="wing wing-left-outer" d="M500,450 Q250,300 50,150 Q150,450 450,550 Z" fill="url(#fire-core)" opacity="0.7"/>
+        <path class="wing wing-left-inner" d="M500,450 Q300,350 150,200 Q200,450 450,500 Z" fill="url(#fire-core)"/>
+        
+        <!-- Right Wing Layers -->
+        <path class="wing wing-right-outer" d="M500,450 Q750,300 950,150 Q850,450 550,550 Z" fill="url(#fire-core)" opacity="0.7"/>
+        <path class="wing wing-right-inner" d="M500,450 Q700,350 850,200 Q800,450 550,500 Z" fill="url(#fire-core)"/>
+      </g>
+      
+      <!-- Body & Head -->
+      <g class="glow-layer-light">
+        <path class="body" d="M470,500 Q440,350 500,250 Q560,350 530,500 Q500,600 470,500 Z" fill="url(#fire-core)"/>
+        <!-- Stitched Crest -->
+        <path class="crest" d="M485,230 Q500,100 500,80 Q515,100 515,230 Z" fill="url(#fire-core)"/>
+        <path class="crest" d="M470,230 Q420,160 380,110 Q450,170 485,230 Z" fill="url(#fire-core)"/>
+        <path class="crest" d="M530,230 Q580,160 620,110 Q550,170 515,230 Z" fill="url(#fire-core)"/>
+        <!-- Head -->
+        <circle cx="500" cy="230" r="28" fill="url(#fire-core)"/>
+      </g>
+    </g>
+  </svg>
+</div>
+
+<style>
+  /* Base Container */
+  .phoenix-container {
+    background: radial-gradient(circle at center, rgba(255, 69, 0, 0.1) 0%, transparent 70%);
+  }
+  
+  /* Use hardware accelerated drop-shadow instead of SVG filters */
+  .glow-layer-strong {
+    filter: drop-shadow(0 0 20px rgba(255, 69, 0, 0.8));
+  }
+  
+  .glow-layer-light {
+    filter: drop-shadow(0 0 10px rgba(255, 107, 0, 0.5));
+  }
+
+  .phoenix-svg {
+    transform-origin: center;
+    animation: slow-float 8s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  @keyframes slow-float {
+    0%, 100% { transform: translateY(0) scale(1.05); }
+    50% { transform: translateY(-30px) scale(1.08); }
+  }
+
+  /* Wings Animation - strictly transform */
+  .wing { 
+    transform-origin: 500px 450px; 
+    will-change: transform;
+  }
+  
+  .wing-left-outer { animation: flap-l-outer 4s ease-in-out infinite; }
+  .wing-left-inner { animation: flap-l-inner 4s ease-in-out infinite 0.2s; }
+  .wing-right-outer { animation: flap-r-outer 4s ease-in-out infinite; }
+  .wing-right-inner { animation: flap-r-inner 4s ease-in-out infinite 0.2s; }
+
+  @keyframes flap-l-outer {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(-8deg); }
+  }
+  @keyframes flap-l-inner {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(-4deg); }
+  }
+  @keyframes flap-r-outer {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(8deg); }
+  }
+  @keyframes flap-r-inner {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(4deg); }
+  }
+
+  /* Tail Animation - strictly transform */
+  .tail { 
+    transform-origin: 500px 550px; 
+    will-change: transform;
+  }
+  .tail-1 { animation: tail-sway-1 6s ease-in-out infinite; }
+  .tail-2 { animation: tail-sway-2 5s ease-in-out infinite 1s; }
+  .tail-3 { animation: tail-sway-3 6s ease-in-out infinite 0.5s; }
+
+  @keyframes tail-sway-1 { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(10deg); } }
+  @keyframes tail-sway-2 { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-6deg); } }
+  @keyframes tail-sway-3 { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-10deg); } }
+
+  /* Body & Aura */
+  .body, .crest, .aura {
+    animation: body-pulse 4s ease-in-out infinite;
+    transform-origin: 500px 500px;
+    will-change: transform;
+  }
+  
+  @keyframes body-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.02); opacity: 1; }
+  }
+
+  /* Fire Particles - Ultra Optimized */
+  .fire-particle {
+    position: absolute;
+    bottom: -5%;
+    left: var(--left);
+    width: var(--size);
+    height: var(--size);
+    background: #ffaa00;
+    border-radius: 50%;
+    /* Single cheap shadow */
+    box-shadow: 0 0 8px #ff4500;
+    opacity: 0;
+    animation: rise var(--duration) linear infinite var(--delay);
+    will-change: transform, opacity;
+  }
+
+  @keyframes rise {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 0;
+    }
+    20% {
+      opacity: 0.8;
+    }
+    80% {
+      opacity: 0.4;
+    }
+    100% {
+      transform: translateY(-100vh) scale(0);
+      opacity: 0;
+    }
+  }
+</style>

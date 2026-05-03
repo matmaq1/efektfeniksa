@@ -1,0 +1,196 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import PhoenixAnimation from '../components/PhoenixAnimation.astro';
+---
+
+<Base title="Efekt Feniksa | Home">
+  <Nav />
+  
+  <!-- Hero Section -->
+  <header class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <div class="absolute inset-0 z-0">
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-surface/60 to-surface z-10"></div>
+      <div class="absolute inset-0 phoenix-ember-overlay z-[5]"></div>
+      <PhoenixAnimation />
+    </div>
+    
+    <div class="relative z-20 text-center max-w-5xl px-6">
+      <span class="inline-block px-4 py-1 rounded-full border border-primary/40 text-primary text-xs font-bold tracking-[0.2em] uppercase mb-8 bg-primary/10 cursor-help" title="Konfi był tu! 🚀">
+        Toastmasters International
+      </span>
+      <h1 class="font-headline text-6xl md:text-8xl font-bold text-on-surface leading-[1.1] tracking-tight mb-6">
+        Efekt Feniksa: <br/>
+        <span class="gradient-text drop-shadow-[0_0_20px_rgba(255,107,0,0.3)]">Wspólny Ogień Społeczności</span>
+      </h1>
+      <p class="font-body text-xl md:text-2xl text-on-surface-variant max-w-2xl mx-auto mb-12 font-light leading-relaxed">
+        Ogólnopolski Konkurs Mówców Toastmasters. Doświadcz odrodzenia pasji, siły słowa i wspólnoty, która płonie jasnym blaskiem.
+      </p>
+      <div class="text-on-surface-variant mb-12">
+        <p class="text-2xl font-bold text-primary mb-2">28-30 Sierpnia 2026</p>
+        <p class="text-xl">Kalisz, Polska</p>
+        <p class="text-sm opacity-70 mt-2">ul. Główna 1, 62-800 Kalisz (Centrum Kultury i Sztuki)</p>
+      </div>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+        <a href="/tickets" class="px-10 py-5 rounded-full gradient-bg text-neutral-950 font-extrabold text-lg ember-glow btn-glow transition-all">
+          Kup Bilety
+        </a>
+        <button class="px-10 py-5 rounded-full border border-primary/40 text-primary font-bold text-lg hover:bg-primary/10 transition-all bg-black/20">
+          Dowiedz się więcej
+        </button>
+      </div>
+    </div>
+
+    <!-- Floating Scroll Indicator -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-primary/60">
+      <span class="text-[10px] uppercase tracking-[0.3em]">Odkryj</span>
+      <div class="w-[1px] h-12 bg-gradient-to-b from-primary to-transparent"></div>
+    </div>
+  </header>
+
+  <!-- Countdown Section -->
+  <section class="py-24 bg-surface-container-low relative">
+    <div class="max-w-7xl mx-auto px-8">
+      <div id="countdown" class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+        <div class="text-center">
+          <div id="days" class="text-5xl md:text-7xl font-headline font-bold text-primary mb-2 drop-shadow-[0_0_15px_rgba(255,107,0,0.2)]">00</div>
+          <div class="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Dni</div>
+        </div>
+        <div class="text-center">
+          <div id="hours" class="text-5xl md:text-7xl font-headline font-bold text-primary mb-2 drop-shadow-[0_0_15px_rgba(255,107,0,0.2)]">00</div>
+          <div class="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Godzin</div>
+        </div>
+        <div class="text-center">
+          <div id="minutes" class="text-5xl md:text-7xl font-headline font-bold text-primary mb-2 drop-shadow-[0_0_15px_rgba(255,107,0,0.2)]">00</div>
+          <div class="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Minut</div>
+        </div>
+        <div class="text-center">
+          <div id="seconds" class="text-5xl md:text-7xl font-headline font-bold text-primary mb-2 drop-shadow-[0_0_15px_rgba(255,107,0,0.2)]">00</div>
+          <div class="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Sekund</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const targetDate = new Date('August 28, 2026 09:00:00').getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      const daysEl = document.getElementById('days');
+      const hoursEl = document.getElementById('hours');
+      const minutesEl = document.getElementById('minutes');
+      const secondsEl = document.getElementById('seconds');
+
+      if (daysEl) daysEl.innerText = String(days).padStart(2, '0');
+      if (hoursEl) hoursEl.innerText = String(hours).padStart(2, '0');
+      if (minutesEl) minutesEl.innerText = String(minutes).padStart(2, '0');
+      if (secondsEl) secondsEl.innerText = String(seconds).padStart(2, '0');
+
+      if (distance < 0) {
+        clearInterval(x);
+        const countdownEl = document.getElementById('countdown');
+        if (countdownEl) countdownEl.innerHTML = "<div class='col-span-4 text-center text-4xl font-headline font-bold text-primary uppercase tracking-widest'>Wydarzenie Rozpoczęte!</div>";
+      }
+    }
+
+    const x = setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+
+  <!-- About Theme Section -->
+  <section class="py-32 bg-surface overflow-hidden">
+    <div class="max-w-7xl mx-auto px-8 grid md:grid-cols-2 gap-20 items-center">
+      <div class="relative order-2 md:order-1">
+        <div class="aspect-[4/5] bg-surface-container-highest overflow-hidden relative border border-primary/20">
+          <img alt="Public speaking" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkh0xJAD1-CXdeUR-FMReibnVhDB__43t_F3W08LsHDUrTbaFTxlG0LEbYAsxHf-WvhC9tf8JvI-TrV9NlXVQZJcxPqeBIkpZ-3x6mUj4G8zj1opDTsZxTiIxja8j6sJFSGHdYkWY4rhP9V9N48BA2BgB8EoD6B0JN_rd7pLUXTLJBQ6nn-onDDq-c3gfs9eVauBh1MZN6iLS4GFwFY-Wo4Hm29aR_vc6C5kjojPeAJhLLlN4Z1yZ1tOOdfUY9qPRvM9u6Byv1-04"/>
+          <div class="absolute inset-0 border-[20px] border-surface -m-2 z-10"></div>
+        </div>
+        <div class="absolute -bottom-10 -right-10 w-64 h-64 bg-primary/20 blur-[100px] -z-10"></div>
+      </div>
+      <div class="order-1 md:order-2">
+        <span class="text-primary font-bold tracking-widest uppercase text-xs mb-6 block">Motyw Przewodni</span>
+        <h2 class="font-headline text-5xl font-bold mb-8 leading-tight">Odrodzenie w Sercu Społeczności</h2>
+        <p class="text-on-surface-variant text-lg leading-relaxed mb-6 font-light">
+          Feniks to symbol nieustannego rozwoju. W świecie Toastmasters, każda mowa to proces spalania starych barier i wyłaniania się nowej, silniejszej wersji lidera i mówcy.
+        </p>
+        <p class="text-on-surface-variant text-lg leading-relaxed mb-10 font-light">
+          "Wspólny Ogień" to nasza tegoroczna mantra. Wierzymy, że indywidualne światło każdego z nas tworzy potężną łunę, która inspiruje całą Polskę do działania.
+        </p>
+        <div class="flex items-center gap-4 text-primary group cursor-pointer">
+          <span class="font-bold uppercase tracking-widest text-sm">Czytaj Manifest</span>
+          <span class="material-symbols-outlined transition-transform group-hover:translate-x-2">arrow_forward</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bento Grid Features -->
+  <section class="py-32 bg-surface-container-lowest">
+    <div class="max-w-7xl mx-auto px-8">
+      <div class="flex justify-between items-end mb-16">
+        <div class="max-w-xl">
+          <span class="text-primary font-bold tracking-widest uppercase text-xs mb-6 block">Program</span>
+          <h2 class="font-headline text-5xl font-bold leading-tight">Czego Możesz się Spodziewać?</h2>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[700px]">
+        <!-- Item 1 -->
+        <div class="md:col-span-8 bg-surface-container-low p-10 flex flex-col justify-end relative overflow-hidden group border-l-4 border-primary/30 hover:border-primary transition-all">
+          <div class="absolute top-0 right-0 p-8">
+            <span class="material-symbols-outlined text-primary text-5xl drop-shadow-[0_0_10px_rgba(255,107,0,0.5)]">record_voice_over</span>
+          </div>
+          <div class="relative z-10">
+            <h3 class="font-headline text-3xl font-bold mb-4">Mistrzowskie Konkursy</h3>
+            <p class="text-on-surface-variant max-w-md font-light">Najlepsi mówcy z całej Polski zmierzą się w finale ogólnopolskim. Poczuj moc słowa, która zmienia rzeczywistość.</p>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="md:col-span-4 bg-surface-container-high p-10 flex flex-col items-center justify-center text-center border-t-4 border-primary group hover:bg-surface-container-highest transition-colors">
+          <span class="material-symbols-outlined text-primary text-6xl mb-6 drop-shadow-[0_0_15px_rgba(255,107,0,0.4)]">groups</span>
+          <h3 class="font-headline text-2xl font-bold mb-4">Networking</h3>
+          <p class="text-on-surface-variant font-light">Nawiąż relacje z liderami i pasjonatami komunikacji z całej Polski podczas wieczornych sesji integracyjnych.</p>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="md:col-span-4 bg-surface p-10 flex flex-col justify-between border border-primary/20 hover:border-primary/60 transition-colors">
+          <h3 class="font-headline text-2xl font-bold">Warsztaty Eksperckie</h3>
+          <div class="flex flex-col gap-4">
+            <div class="flex items-center gap-3">
+              <span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(255,107,0,0.8)]"></span>
+              <span class="text-sm font-light">Retoryka Klasyczna</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(255,107,0,0.8)]"></span>
+              <span class="text-sm font-light">Psychologia Sceny</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(255,107,0,0.8)]"></span>
+              <span class="text-sm font-light">Perswazja Etosowa</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="md:col-span-8 bg-surface-container-high p-0 overflow-hidden relative group">
+          <img alt="Gala Event" class="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNPO7HJiKOE87yGXYnO0vf25U1wnJI_0lAqG86rmn1qAJend7s2OD8pTTCgcoYnFmCDC_tPwSTO9mxgtpzGjcKtLe6emvMMlEvHB-oWv_iD31XSsUFgyHsqN-5isPGthh_ishvvHXBhJ5AbmLeADchtlNNR-LLHHVF0Wp9QRmx-cjyY4fYxm5FGdE36yhxqEf2op9O0ZPYu4C0QoFGNHa4JZir1l4LUmgYWjegEbvDvyneo-ZVIMxkEQj7B51OQM23LZUUt9z3iJE"/>
+          <div class="absolute bottom-0 left-0 p-10 bg-gradient-to-t from-black/95 via-black/50 to-transparent w-full">
+            <h3 class="font-headline text-3xl font-bold text-white mb-2">Gala Finałowa</h3>
+            <p class="text-white/70 font-light">Wieczór pełen elegancji, celebracji sukcesów i odrodzenia ducha Toastmasters.</p>
+          </div>
+          <div class="absolute inset-0 border border-primary/20 pointer-events-none group-hover:border-primary/50 transition-colors"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
