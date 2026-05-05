@@ -244,3 +244,36 @@ details > summary::-webkit-details-marker { display: none; }
   0%, 100% { transform: scale(1); opacity: 0.8; }
   50% { transform: scale(1.02); opacity: 1; }
 }
+
+/* Fire Particles - Ultra Optimized */
+.fire-particle {
+  position: absolute;
+  bottom: -5%;
+  left: var(--left);
+  width: var(--size);
+  height: var(--size);
+  background: #ffaa00;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #ff4500;
+  opacity: 0;
+  animation: rise var(--duration) linear infinite var(--delay);
+  will-change: transform, opacity;
+}
+
+@keyframes rise {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(-100vh) scale(0);
+    opacity: 0;
+  }
+}
+
