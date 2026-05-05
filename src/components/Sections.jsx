@@ -83,7 +83,7 @@ export function Nav({ active = "home", onNav }) {
           </span>
           <div>
             <div className="font-headline italic text-xl tracking-tight text-on-surface leading-none">Feniks</div>
-            <div className="text-[9px] tracking-[0.4em] uppercase text-primary-fixed-dim mt-0.5">Vienna · 2026</div>
+            <div className="text-[9px] tracking-[0.4em] uppercase text-primary-fixed-dim mt-0.5">Kalisz · 2026</div>
           </div>
         </a>
 
@@ -107,6 +107,29 @@ export function Nav({ active = "home", onNav }) {
 
 // ─── HERO ────────────────────────────────────────────────────────
 export function Hero() {
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const targetDate = new Date('August 28, 2026 09:00:00').getTime();
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance < 0) {
+        clearInterval(interval);
+        return;
+      }
+
+      setTimeLeft({
+        days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((distance % (1000 * 60)) / 1000)
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section id="home" className="relative min-h-screen flex items-center overflow-hidden pt-28 pb-20"
       style={{ background: "radial-gradient(60% 60% at 50% 110%, #5a1500 0%, #1a0d07 45%, #0e0604 75%)" }}>
@@ -144,16 +167,32 @@ export function Hero() {
           <h1 className="font-headline font-bold leading-[0.95] tracking-tight">
             <span className="block text-on-surface text-6xl md:text-8xl lg:text-[9rem]">Efekt</span>
             <span className="block flame-text italic text-7xl md:text-9xl lg:text-[10rem] animate-heat-shimmer">Feniksa,</span>
-            <span className="block text-on-surface text-5xl md:text-7xl lg:text-[8rem] mt-2">Wspólny Ogień.</span>
+            <span className="block text-on-surface text-5xl md:text-7xl lg:text-[8rem] mt-2">Nasz Wspólny Ogień.</span>
           </h1>
 
           <p className="text-on-surface-variant text-lg md:text-xl max-w-xl font-light leading-relaxed">
             Ogólnopolski Konkurs Mówców Toastmasters. Doświadcz odrodzenia pasji, siły słowa i wspólnoty, która płonie jasnym blaskiem.
           </p>
 
-          <div className="flex flex-wrap gap-4 pt-2">
-            <button className="btn-fire px-9 py-4 rounded-md text-xs">Zarezerwuj miejsce</button>
-            <button className="btn-ghost-flame px-9 py-4 rounded-md text-xs">Zobacz program</button>
+          <div className="flex flex-col sm:flex-row items-center gap-6 py-4">
+            <div className="flex gap-4">
+              <button className="btn-fire px-9 py-4 rounded-md text-xs">Zarezerwuj miejsce</button>
+              <button className="btn-ghost-flame px-9 py-4 rounded-md text-xs">Zobacz program</button>
+            </div>
+            
+            <div className="flex gap-6 border-l border-outline-variant/40 pl-6 py-1">
+              {[
+                { label: "dni", value: timeLeft.days },
+                { label: "godz", value: timeLeft.hours },
+                { label: "min", value: timeLeft.minutes },
+                { label: "sek", value: timeLeft.seconds },
+              ].map(t => (
+                <div key={t.label} className="text-center">
+                  <div className="font-headline text-2xl font-bold text-on-surface leading-none">{String(t.value).padStart(2, '0')}</div>
+                  <div className="text-[9px] tracking-widest uppercase text-primary-fixed-dim mt-1 font-bold">{t.label}</div>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Hero meta strip */}
@@ -424,8 +463,8 @@ export function Footer() {
             <div className="font-headline italic text-2xl text-on-surface">Feniks</div>
           </div>
           <p className="text-on-surface-variant text-sm leading-relaxed max-w-sm">
-            A working conference for the people who ship, held annually in October at the
-            Imperial Opera House, Vienna.
+            Ogólnopolski Konkurs Mówców Toastmasters, odbywający się co roku w sierpniu. 
+            Dołącz do nas w Centrum Kultury i Sztuki w Kaliszu.
           </p>
         </div>
         <div className="col-span-6 md:col-span-2">
