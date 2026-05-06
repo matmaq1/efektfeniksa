@@ -130,7 +130,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center overflow-hidden pt-28 pb-20"
+    <section id="home" className="relative h-screen flex items-center overflow-hidden pt-16 pb-8 md:pt-20 md:pb-12"
       style={{ background: "radial-gradient(60% 60% at 50% 110%, #5a1500 0%, #1a0d07 45%, #0e0604 75%)" }}>
       <HeatDistortion/>
       <EmberField count={36}/>
@@ -154,32 +154,32 @@ export function Hero() {
              mixBlendMode: "screen",
            }}/>
 
-      <div className="relative z-10 max-w-screen-2xl mx-auto px-6 md:px-12 grid grid-cols-12 gap-8 items-center w-full">
-        <div className="col-span-12 lg:col-span-8 space-y-8 font-body tracking-montserrat">
+      <div className="relative z-10 max-w-screen-2xl mx-auto px-6 md:px-12 grid grid-cols-12 gap-4 md:gap-8 items-center w-full h-full max-h-full">
+        <div className="col-span-12 lg:col-span-8 flex flex-col justify-center space-y-4 md:space-y-6 lg:space-y-8 h-full">
           <div className="reveal in inline-flex items-center gap-3">
             <div className="w-10 rule-gold"></div>
-            <span className="font-label text-primary-fixed-dim uppercase tracking-[0.35em] text-[11px] font-bold">
+            <span className="font-label text-primary-fixed-dim uppercase tracking-[0.35em] text-[10px] md:text-[11px] font-bold">
               Toastmasters International
             </span>
           </div>
 
           <h1 className="font-headline font-extrabold uppercase leading-[0.95] tracking-tighter">
-            <span className="block text-on-surface text-5xl md:text-7xl lg:text-[7rem]">Efekt</span>
-            <span className="block flame-text italic text-6xl md:text-8xl lg:text-[8rem] animate-heat-shimmer">Feniksa,</span>
-            <span className="block text-on-surface text-4xl md:text-6xl lg:text-[6rem] mt-2">Nasz Wspólny Ogień.</span>
+            <span className="block text-on-surface text-4xl sm:text-5xl md:text-7xl lg:text-[7rem]">Efekt</span>
+            <span className="block flame-text italic text-5xl sm:text-6xl md:text-8xl lg:text-[8rem] animate-heat-shimmer">Feniksa,</span>
+            <span className="block text-on-surface text-3xl sm:text-4xl md:text-6xl lg:text-[6rem] mt-1 md:mt-2">Nasz Wspólny Ogień.</span>
           </h1>
 
-          <p className="text-on-surface-variant text-lg md:text-xl max-w-xl font-light leading-relaxed">
+          <p className="text-on-surface-variant text-base md:text-lg lg:text-xl max-w-xl font-light leading-relaxed">
             Ogólnopolski Konkurs Mówców Toastmasters. Doświadcz odrodzenia pasji, siły słowa i wspólnoty, która płonie jasnym blaskiem.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center gap-6 py-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 md:gap-6 py-2">
             <div className="flex gap-4">
-              <button className="btn-fire px-9 py-4 rounded-md text-xs">Zarezerwuj miejsce</button>
-              <button className="btn-ghost-flame px-9 py-4 rounded-md text-xs">Zobacz program</button>
+              <button className="btn-fire px-6 md:px-9 py-3 md:py-4 rounded-md text-[10px] md:text-xs">Zarezerwuj miejsce</button>
+              <button className="btn-ghost-flame px-6 md:px-9 py-3 md:py-4 rounded-md text-[10px] md:text-xs">Zobacz program</button>
             </div>
             
-            <div className="flex gap-6 border-l border-outline-variant/40 pl-6 py-1">
+            <div className="flex gap-4 md:gap-6 border-l border-outline-variant/40 pl-4 md:pl-6 py-1">
               {[
                 { label: "dni", value: timeLeft.days },
                 { label: "godz", value: timeLeft.hours },
@@ -187,38 +187,38 @@ export function Hero() {
                 { label: "sek", value: timeLeft.seconds },
               ].map(t => (
                 <div key={t.label} className="text-center">
-                  <div className="font-headline text-2xl font-bold text-on-surface leading-none">{String(t.value).padStart(2, '0')}</div>
-                  <div className="text-[9px] tracking-widest uppercase text-primary-fixed-dim mt-1 font-bold">{t.label}</div>
+                  <div className="font-headline text-xl md:text-2xl font-bold text-on-surface leading-none">{String(t.value).padStart(2, '0')}</div>
+                  <div className="text-[8px] md:text-[9px] tracking-widest uppercase text-primary-fixed-dim mt-0.5 md:mt-1 font-bold">{t.label}</div>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Hero meta strip */}
-          <div className="grid grid-cols-3 gap-6 pt-12 max-w-2xl">
+          <div className="grid grid-cols-3 gap-4 md:gap-6 pt-4 md:pt-8 lg:pt-12 max-w-2xl">
             {[
               { k: "28–30 AUG", v: "Trzy dni" },
               { k: "KALISZ, PL", v: "Centrum Kultury" },
               { k: "82% FULL",  v: "Zapisy trwają" },
             ].map(m => (
-              <div key={m.k} className="border-l border-outline-variant/40 pl-4">
-                <div className="text-[10px] tracking-[0.3em] uppercase text-primary-fixed-dim font-bold">{m.k}</div>
-                <div className="font-headline text-xl text-on-surface mt-1">{m.v}</div>
+              <div key={m.k} className="border-l border-outline-variant/40 pl-3 md:pl-4">
+                <div className="text-[9px] md:text-[10px] tracking-[0.3em] uppercase text-primary-fixed-dim font-bold">{m.k}</div>
+                <div className="font-headline text-lg md:text-xl text-on-surface mt-0.5 md:mt-1">{m.v}</div>
               </div>
             ))}
           </div>
         </div>
 
         {/* Right column: animated phoenix mark */}
-        <div className="col-span-12 lg:col-span-4 hidden lg:block">
+        <div className="col-span-12 lg:col-span-4 hidden lg:flex h-full items-center justify-center">
           <PhoenixMark/>
         </div>
       </div>
 
       {/* Scroll cue */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-on-surface-variant animate-float">
-        <span className="text-[10px] tracking-[0.4em] uppercase">Scroll</span>
-        <span className="material-symbols-outlined" style={{ fontSize: 18 }}>south</span>
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-on-surface-variant animate-float">
+        <span className="text-[9px] tracking-[0.4em] uppercase">Scroll</span>
+        <span className="material-symbols-outlined" style={{ fontSize: 16 }}>south</span>
       </div>
     </section>
   );
