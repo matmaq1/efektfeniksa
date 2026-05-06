@@ -1,0 +1,47 @@
+---
+import Layout from '../layouts/Base.astro';
+import { Nav, Footer, Venue } from '../components/Sections.jsx';
+import '../styles/global.css';
+---
+
+<Layout title="Lokalizacja | Efekt Feniksa">
+  <div class="bg-background text-on-surface antialiased">
+    <Nav active="venue" client:load />
+    
+    <main class="pt-32 pb-20">
+      <div class="max-w-screen-2xl mx-auto px-6 md:px-12 mb-16 text-center lg:text-left">
+        <span class="text-primary font-bold tracking-[0.3em] uppercase text-xs mb-4 block">Miejsce Spotkania</span>
+        <h1 class="font-headline font-extrabold text-5xl md:text-7xl uppercase tracking-tighter mb-6">
+          Kalisz: <span class="flame-text italic">Serce</span> Wydarzenia
+        </h1>
+        <p class="text-on-surface-variant text-lg max-w-2xl font-light leading-relaxed mx-auto lg:mx-0">
+          Spotykamy się w historycznym Centrum Kultury i Sztuki w Kaliszu. Przestrzeń idealna do odrodzenia Twojej pasji do przemawiania.
+        </p>
+      </div>
+
+      <Venue client:load />
+
+      <section class="max-w-screen-2xl mx-auto px-6 md:px-12 mt-20 grid md:grid-cols-2 gap-12">
+        <div class="ember-glass p-10 rounded-xl">
+          <h3 class="font-headline font-extrabold text-2xl uppercase mb-4 text-on-surface">Dojazd</h3>
+          <p class="text-on-surface-variant font-light mb-6 leading-relaxed">
+            Kalisz jest doskonale skomunikowany z największymi miastami w Polsce. Centrum Kultury znajduje się w samym sercu miasta.
+          </p>
+          <ul class="space-y-3 text-sm">
+            <li class="flex items-center gap-3 text-primary"><span class="material-symbols-outlined">train</span> Główny Dworzec PKP: 10 min taxi</li>
+            <li class="flex items-center gap-3 text-primary"><span class="material-symbols-outlined">directions_car</span> Parking dostępny na miejscu</li>
+          </ul>
+        </div>
+        <div class="ember-glass p-10 rounded-xl">
+          <h3 class="font-headline font-extrabold text-2xl uppercase mb-4 text-on-surface">Nocleg</h3>
+          <p class="text-on-surface-variant font-light mb-6 leading-relaxed">
+            Dla uczestników konferencji przygotowaliśmy specjalne zniżki w partnerskich hotelach w promieniu 1km od venue.
+          </p>
+          <button class="btn-fire px-6 py-3 rounded-md text-[10px] w-full">Lista rekomendowanych hoteli</button>
+        </div>
+      </section>
+    </main>
+
+    <Footer client:visible />
+  </div>
+</Layout>

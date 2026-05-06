@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Base.astro';
+import { Nav, Footer, SpeakersStrip } from '../components/Sections.jsx';
+import { SpeakersGallery } from '../components/SpeakersGallery.jsx';
+import { ALL_SPEAKERS, GALLERY } from '../data/agenda.ts';
+import '../styles/global.css';
+---
+
+<Layout title="Prelegenci | Efekt Feniksa">
+  <div class="bg-background text-on-surface antialiased">
+    <Nav active="speakers" client:load />
+    
+    <main class="pt-32 pb-20">
+      <div class="max-w-screen-2xl mx-auto px-6 md:px-12 mb-16">
+        <span class="text-primary font-bold tracking-[0.3em] uppercase text-xs mb-4 block">Eksperci i Liderzy</span>
+        <h1 class="font-headline font-extrabold text-5xl md:text-7xl uppercase tracking-tighter mb-6">
+          Poznaj <span class="flame-text italic">Głosy</span> Feniksa
+        </h1>
+        <p class="text-on-surface-variant text-lg max-w-2xl font-light leading-relaxed">
+          Ucz się od najlepszych prelegentów Toastmasters i zaproszonych gości ze świata technologii i rzemiosła.
+        </p>
+      </div>
+
+      <SpeakersGallery entries={GALLERY} client:load />
+      
+      <div class="mt-20">
+        <SpeakersStrip speakers={ALL_SPEAKERS} client:load />
+      </div>
+    </main>
+
+    <Footer client:visible />
+  </div>
+</Layout>

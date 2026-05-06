@@ -62,10 +62,10 @@ export function Nav({ active = "home", onNav }) {
   }, []);
 
   const items = [
-    { id: "home",     label: "Home",     href: "/#home" },
-    { id: "agenda",   label: "Agenda",   href: "/#agenda" },
-    { id: "speakers", label: "Speakers", href: "/#speakers" },
-    { id: "venue",    label: "Venue",    href: "/#venue" },
+    { id: "home",     label: "Home",     href: "/" },
+    { id: "agenda",   label: "Agenda",   href: "/agenda" },
+    { id: "speakers", label: "Speakers", href: "/speakers" },
+    { id: "venue",    label: "Venue",    href: "/venue" },
   ];
 
   return (
