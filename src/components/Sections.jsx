@@ -52,6 +52,8 @@ export function HeatDistortion() {
 // ─── Top Nav ─────────────────────────────────────────────────────
 export function Nav({ active = "home", onNav }) {
   const [scrolled, setScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -60,23 +62,23 @@ export function Nav({ active = "home", onNav }) {
   }, []);
 
   const items = [
-    { id: "home",     label: "Home" },
-    { id: "agenda",   label: "Agenda" },
-    { id: "speakers", label: "Speakers" },
-    { id: "venue",    label: "Venue" },
+    { id: "home",     label: "Home",     href: "/#home" },
+    { id: "agenda",   label: "Agenda",   href: "/#agenda" },
+    { id: "speakers", label: "Speakers", href: "/#speakers" },
+    { id: "venue",    label: "Venue",    href: "/#venue" },
   ];
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 transition-all font-body tracking-montserrat"
       style={{
-        background: scrolled ? "rgba(14,6,4,0.85)" : "rgba(14,6,4,0.0)",
-        backdropFilter: scrolled ? "blur(16px) saturate(140%)" : "none",
-        WebkitBackdropFilter: scrolled ? "blur(16px) saturate(140%)" : "none",
+        background: scrolled || isOpen ? "rgba(14,6,4,0.95)" : "rgba(14,6,4,0.0)",
+        backdropFilter: scrolled || isOpen ? "blur(16px) saturate(140%)" : "none",
+        WebkitBackdropFilter: scrolled || isOpen ? "blur(16px) saturate(140%)" : "none",
         boxShadow: scrolled ? "0 1px 0 rgba(255,182,39,0.12)" : "none",
       }}
     >
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12 py-5 flex items-center justify-between">
-        <a href="#home" className="flex items-center gap-3 group" onClick={(e)=>{e.preventDefault();onNav?.("home");}}>
+        <a href="/" className="flex items-center gap-3 group">
           <div className="h-10 w-auto overflow-hidden">
             <img src="/logo.png" alt="Efekt Feniksa Logo" className="h-full w-auto object-contain" />
           </div>
@@ -86,20 +88,47 @@ export function Nav({ active = "home", onNav }) {
           </div>
         </a>
 
+        {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-9">
           {items.map(it => (
-            <a key={it.id} href={"#" + it.id}
-               onClick={(e)=>{e.preventDefault();onNav?.(it.id);}}
+            <a key={it.id} href={it.href}
                className={`ignite-link font-headline tracking-tight uppercase text-[11px] font-semibold ${active===it.id ? "text-primary-fixed active" : "text-on-surface/80 hover:text-on-surface"}`}>
               {it.label}
             </a>
           ))}
         </div>
 
-        <button className="btn-fire px-6 py-3 rounded-md text-[11px]">
-          Register
-        </button>
+        <div className="flex items-center gap-4">
+          <button className="hidden sm:block btn-fire px-6 py-3 rounded-md text-[11px]">
+            Register
+          </button>
+          
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="md:hidden text-on-surface p-2"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <span className="material-symbols-outlined">{isOpen ? 'close' : 'menu'}</span>
+          </button>
+        </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="md:hidden bg-surface-container-high border-t border-outline-variant/20 px-6 py-8 flex flex-col gap-6 animate-fade-in">
+          {items.map(it => (
+            <a key={it.id} href={it.href}
+               onClick={() => setIsOpen(false)}
+               className={`font-headline tracking-widest uppercase text-sm font-bold ${active===it.id ? "text-primary-fixed" : "text-on-surface/80"}`}
+            >
+              {it.label}
+            </a>
+          ))}
+          <button className="btn-fire w-full py-4 rounded-md text-xs mt-4">
+            Register
+          </button>
+        </div>
+      )}
     </nav>
   );
 }
