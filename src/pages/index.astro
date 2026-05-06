@@ -1,22 +1,23 @@
 ---
-<div class="logo-container"><img src="/images/logo.png"></div>// Importy z Twojego zipa
+import Layout from '../layouts/Base.astro';
+import { Nav, Hero, SpeakersStrip, Venue, FinalCTA, Footer, EmberField, HeatDistortion } from '../components/Sections.jsx';
+import { Agenda } from '../components/Agenda.jsx';
+import { SpeakersGallery } from '../components/SpeakersGallery.jsx';
+import { ALL_SPEAKERS, AGENDA_DAYS, GALLERY } from '../data/agenda.ts';
 import '../styles/global.css';
 ---
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <style>@import url("/styles/global.css");</style>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Feniks · Kalisz 2026</title>
-    <!-- Gwarantowany Tailwind przez CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
-<body class="bg-black text-white">
-    <div id="content-container">
-        <!-- Tutaj wstawiam treść, którą Astro wyrenderuje ze statycznego pliku public/index.html jeśli go tam znajdzie, 
-             ale najpewniej po prostu zamienię to na pełną treść z Twojego zipa. -->
+
+<Layout title="Feniks · Kalisz 2026">
+  <div id="app" class="bg-background text-on-surface antialiased overflow-x-hidden">
+    <Nav active="home" client:load />
+    <Hero client:load />
+    <SpeakersStrip speakers={ALL_SPEAKERS} client:visible />
+    <div class="bg-surface relative z-20">
+      <SpeakersGallery entries={GALLERY} client:visible />
+      <Venue client:visible />
+      <Agenda days={AGENDA_DAYS} client:visible />
+      <FinalCTA client:visible />
     </div>
-</body>
-</html>
+    <Footer client:visible />
+  </div>
+</Layout>
