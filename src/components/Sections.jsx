@@ -67,7 +67,7 @@ export function Nav({ active = "home", onNav }) {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 transition-all"
+    <nav className="fixed top-0 left-0 right-0 z-50 transition-all font-body tracking-montserrat"
       style={{
         background: scrolled ? "rgba(14,6,4,0.85)" : "rgba(14,6,4,0.0)",
         backdropFilter: scrolled ? "blur(16px) saturate(140%)" : "none",
@@ -77,12 +77,11 @@ export function Nav({ active = "home", onNav }) {
     >
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12 py-5 flex items-center justify-between">
         <a href="#home" className="flex items-center gap-3 group" onClick={(e)=>{e.preventDefault();onNav?.("home");}}>
-          <span className="relative grid place-items-center w-10 h-10 rounded-md overflow-hidden"
-                style={{ background: "linear-gradient(135deg,#ff3d00 0%,#ff5a1f 50%,#ffb627 100%)" }}>
-            <span className="material-symbols-outlined ms-fill text-on-primary" style={{ fontSize: 22 }}>local_fire_department</span>
-          </span>
+          <div className="h-10 w-auto overflow-hidden">
+            <img src="/logo.png" alt="Efekt Feniksa Logo" className="h-full w-auto object-contain" />
+          </div>
           <div>
-            <div className="font-headline italic text-xl tracking-tight text-on-surface leading-none">Feniks</div>
+            <div className="font-headline font-extrabold italic text-xl tracking-tight text-on-surface leading-none uppercase">Feniks</div>
             <div className="text-[9px] tracking-[0.4em] uppercase text-primary-fixed-dim mt-0.5">Kalisz · 2026</div>
           </div>
         </a>
@@ -156,7 +155,7 @@ export function Hero() {
            }}/>
 
       <div className="relative z-10 max-w-screen-2xl mx-auto px-6 md:px-12 grid grid-cols-12 gap-8 items-center w-full">
-        <div className="col-span-12 lg:col-span-8 space-y-8">
+        <div className="col-span-12 lg:col-span-8 space-y-8 font-body tracking-montserrat">
           <div className="reveal in inline-flex items-center gap-3">
             <div className="w-10 rule-gold"></div>
             <span className="font-label text-primary-fixed-dim uppercase tracking-[0.35em] text-[11px] font-bold">
@@ -164,7 +163,7 @@ export function Hero() {
             </span>
           </div>
 
-          <h1 className="font-headline font-bold leading-[0.95] tracking-tight">
+          <h1 className="font-headline font-extrabold uppercase leading-[0.95] tracking-tighter">
             <span className="block text-on-surface text-6xl md:text-8xl lg:text-[9rem]">Efekt</span>
             <span className="block flame-text italic text-7xl md:text-9xl lg:text-[10rem] animate-heat-shimmer">Feniksa,</span>
             <span className="block text-on-surface text-5xl md:text-7xl lg:text-[8rem] mt-2">Nasz Wspólny Ogień.</span>
@@ -452,7 +451,7 @@ export function FinalCTA() {
 // ─── Footer ──────────────────────────────────────────────────────
 export function Footer() {
   return (
-    <footer className="border-t border-outline-variant/20 bg-surface-container-lowest">
+    <footer className="border-t border-outline-variant/20 bg-surface-container-lowest font-body tracking-montserrat">
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12 py-16 grid grid-cols-12 gap-8">
         <div className="col-span-12 md:col-span-5">
           <div className="flex items-center gap-3 mb-4">

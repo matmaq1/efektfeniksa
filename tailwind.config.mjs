@@ -79,10 +79,13 @@ export default {
         'full': '9999px',
       },
       fontFamily: {
-        'headline': ['"Noto Serif"', 'Georgia', 'serif'],
-        'body': ['Manrope', 'system-ui', 'sans-serif'],
-        'label': ['Manrope', 'system-ui', 'sans-serif'],
+        'headline': ['Montserrat', 'system-ui', 'sans-serif'],
+        'body': ['Montserrat', 'system-ui', 'sans-serif'],
+        'label': ['Montserrat', 'system-ui', 'sans-serif'],
         'mono': ['"JetBrains Mono"', 'monospace'],
+      },
+      letterSpacing: {
+        'montserrat': '-0.05em',
       },
       animation: {
         'fade-up': 'fadeUp 1.2s cubic-bezier(0.22,1,0.36,1) forwards',
