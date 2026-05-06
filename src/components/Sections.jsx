@@ -164,9 +164,9 @@ export function Hero() {
           </div>
 
           <h1 className="font-headline font-extrabold uppercase leading-[0.95] tracking-tighter">
-            <span className="block text-on-surface text-6xl md:text-8xl lg:text-[9rem]">Efekt</span>
-            <span className="block flame-text italic text-7xl md:text-9xl lg:text-[10rem] animate-heat-shimmer">Feniksa,</span>
-            <span className="block text-on-surface text-5xl md:text-7xl lg:text-[8rem] mt-2">Nasz Wspólny Ogień.</span>
+            <span className="block text-on-surface text-5xl md:text-7xl lg:text-[7rem]">Efekt</span>
+            <span className="block flame-text italic text-6xl md:text-8xl lg:text-[8rem] animate-heat-shimmer">Feniksa,</span>
+            <span className="block text-on-surface text-4xl md:text-6xl lg:text-[6rem] mt-2">Nasz Wspólny Ogień.</span>
           </h1>
 
           <p className="text-on-surface-variant text-lg md:text-xl max-w-xl font-light leading-relaxed">
@@ -245,7 +245,7 @@ export function PhoenixMark() {
         {/* V1 Phoenix from PhoenixAnimation.astro */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none scale-[0.65] -translate-y-4 mix-blend-screen overflow-hidden">
           <div className="absolute inset-0 z-0">
-            {[...Array(40)].map((_, i) => (
+            {[...Array(15)].map((_, i) => (
               <div
                 key={i}
                 className="fire-particle"
@@ -254,11 +254,12 @@ export function PhoenixMark() {
                   '--duration': `${4 + Math.random() * 4}s`,
                   '--left': `${10 + Math.random() * 80}%`,
                   '--size': `${2 + Math.random() * 4}px`,
+                  'willChange': 'transform, opacity'
                 }}
               />
             ))}
           </div>
-          <svg viewBox="0 0 1000 1000" className="w-full h-full max-w-5xl phoenix-svg relative z-10" preserveAspectRatio="xMidYMid meet">
+          <svg viewBox="0 0 1000 1000" className="w-full h-full max-w-5xl phoenix-svg relative z-10" preserveAspectRatio="xMidYMid meet" style={{ willChange: 'transform' }}>
             <defs>
               <linearGradient id="fire-core" x1="0%" y1="100%" x2="0%" y2="0%">
                 <stop offset="0%" stopColor="#FF1100" stopOpacity="1" />
