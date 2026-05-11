@@ -9,9 +9,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#000110;--bl:#050571;--o:#FF5B00;--g:#FCA311;--w:#fff;--w6:rgba(255,255,255,.6);--w1:rgba(255,255,255,.08);--w05:rgba(255,255,255,.05)}
+:root{--bg:#000110;--bl:#050571;--o:#FF5B00;--g:#FCA311;--w:#fff;--w6:rgba(255,255,255,.6);--w1:rgba(255,255,255,.08);--w05:rgba(255,255,255,.05);--dark-o:#C44400}
 html{scroll-behavior:smooth}
-body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--w);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--w);overflow-x:hidden;-webkit-font-smoothing:antialiased;background-image:radial-gradient(ellipse 80% 50% at 30% 20%,rgba(5,5,113,.4) 0%,transparent 60%),radial-gradient(ellipse 70% 50% at 80% 70%,rgba(5,5,113,.35) 0%,transparent 65%);background-attachment:fixed}
 img{display:block;max-width:100%}
 #cv{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
 
@@ -32,7 +32,7 @@ nav.sc{background:rgba(0,1,16,.92);backdrop-filter:blur(14px);border-bottom:1px 
 .hbg.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
 
 /* COUNTDOWN */
-#cb{position:relative;z-index:2;background:linear-gradient(90deg,rgba(255,91,0,.09),rgba(252,163,17,.06),rgba(255,91,0,.09));border-bottom:1px solid rgba(252,163,17,.11);padding:9px 5%;display:flex;align-items:center;justify-content:center;gap:0;margin-top:68px;flex-wrap:wrap;gap:8px}
+#cb{position:relative;z-index:2;background:linear-gradient(90deg,rgba(255,91,0,.09),rgba(252,163,17,.06),rgba(255,91,0,.09));border-bottom:1px solid rgba(252,163,17,.11);padding:9px 5%;display:flex;align-items:center;justify-content:center;gap:14px;margin-top:68px;flex-wrap:wrap}
 .clbl{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--o)}
 .cu{display:flex;gap:2px}
 .cun{display:flex;flex-direction:column;align-items:center;background:rgba(0,0,0,.3);border:1px solid rgba(252,163,17,.11);padding:5px 11px;min-width:54px}
@@ -41,20 +41,18 @@ nav.sc{background:rgba(0,1,16,.92);backdrop-filter:blur(14px);border-bottom:1px 
 .cs{font-size:16px;font-weight:800;color:var(--o);align-self:center;padding:0 3px}
 
 /* HERO */
-#hero{position:relative;min-height:92vh;display:flex;align-items:center;padding:60px 5% 80px;overflow:hidden}
+#hero{position:relative;min-height:86vh;display:flex;align-items:center;padding:36px 5% 70px;overflow:hidden}
 .hbi{position:absolute;inset:0;z-index:0;background-image:url('https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1600&q=70');background-size:cover;background-position:center 30%;filter:brightness(.16) saturate(.5)}
-.hbo{position:absolute;inset:0;z-index:1;background:linear-gradient(105deg,rgba(0,1,16,.97) 45%,rgba(5,5,113,.4) 100%)}
-.hc{position:relative;z-index:2;max-width:680px}
-.hlbl{font-size:10px;font-weight:700;letter-spacing:.22em;color:var(--g);text-transform:uppercase;margin-bottom:24px;display:flex;align-items:center;gap:10px}
+.hbo{position:absolute;inset:0;z-index:1;background:linear-gradient(105deg,rgba(0,1,16,.85) 30%,rgba(5,5,113,.65) 100%),radial-gradient(ellipse 50% 70% at 80% 50%,rgba(5,5,113,.5),transparent 70%)}
+.hc{position:relative;z-index:2;max-width:760px}
+.hlbl{font-size:10px;font-weight:700;letter-spacing:.22em;color:var(--g);text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:10px}
 .hlbl::before{content:'';display:block;width:24px;height:1px;background:var(--g)}
-h1{font-size:clamp(36px,5.5vw,68px);font-weight:800;letter-spacing:-.05em;line-height:1;margin-bottom:22px}
+h1{font-size:clamp(34px,5.4vw,66px);font-weight:800;letter-spacing:-.05em;line-height:1.05;margin-bottom:20px}
+h1 .l1,h1 .l2{display:block}
 .fire{background:linear-gradient(135deg,var(--g),var(--o));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hsub{font-size:15px;font-weight:400;letter-spacing:-.02em;color:var(--w6);line-height:1.65;margin-bottom:16px;max-width:500px}
-.htag{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--o);margin-bottom:36px;font-style:italic}
-.hmeta{display:flex;align-items:center;gap:28px;margin-bottom:36px;flex-wrap:wrap}
-.hmi .lb{font-size:9px;font-weight:700;letter-spacing:.18em;color:var(--o);text-transform:uppercase;margin-bottom:3px}
-.hmi .vl{font-size:14px;font-weight:800;letter-spacing:-.03em}
-.hdv{width:1px;height:32px;background:rgba(255,255,255,.1)}
+.hsub{font-size:17px;font-weight:700;letter-spacing:-.02em;color:var(--g);line-height:1.4;margin-bottom:32px;max-width:520px}
+.hmeta{display:flex;flex-direction:column;align-items:flex-start;gap:6px;margin-bottom:34px}
+.hmi{font-size:17px;font-weight:800;letter-spacing:-.03em}
 .hbtns{display:flex;gap:11px;flex-wrap:wrap}
 .sarr{width:1px;height:32px;background:linear-gradient(to bottom,var(--w),transparent);animation:sp 2s ease-in-out infinite}
 @keyframes sp{0%,100%{opacity:.3}50%{opacity:.9}}
@@ -70,85 +68,70 @@ h1{font-size:clamp(36px,5.5vw,68px);font-weight:800;letter-spacing:-.05em;line-h
 /* FLINE */
 .fl{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--o),var(--g),transparent);opacity:.2}
 
+/* PARTNERZY BIALY PASEK */
+#partnerzy{background:var(--w);padding:48px 5%;position:relative;z-index:2;overflow:hidden}
+.partnerzy-wrap{max-width:1100px;margin:0 auto;position:relative;display:flex;flex-direction:column;align-items:center;gap:24px}
+.partnerzy-tit{font-size:11px;font-weight:800;letter-spacing:.24em;color:var(--dark-o);text-transform:uppercase}
+.partnerzy-logos{display:flex;align-items:center;justify-content:center;gap:64px;flex-wrap:wrap;position:relative;z-index:2}
+.pl-box{height:60px;min-width:160px;display:flex;align-items:center;justify-content:center;padding:10px 22px;border:1px dashed #d4d4d4;border-radius:2px;color:#999;font-size:11px;font-weight:700;letter-spacing:.06em;text-align:center;text-transform:uppercase;line-height:1.4}
+.partnerzy-decor{position:absolute;right:-80px;top:50%;transform:translateY(-50%);width:280px;height:280px;pointer-events:none;z-index:1;display:flex;align-items:center;justify-content:center}
+.mist{position:absolute;inset:0;background:none;filter:blur(28px)}
+.phoenix-decor{position:relative;z-index:2;width:120px;height:120px;opacity:.92}
+
 /* SECTIONS COMMON */
-section{position:relative;z-index:2;padding:84px 5%}
+section{position:relative;z-index:2;padding:80px 5%}
 .slb{font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--o);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .slb::before{content:'';display:block;width:18px;height:1px;background:var(--o)}
 .st{font-size:clamp(26px,3.5vw,42px);font-weight:800;letter-spacing:-.05em;line-height:1.05;margin-bottom:12px}
 .sd{font-size:14px;font-weight:400;letter-spacing:-.02em;color:var(--w6);line-height:1.7;max-width:560px}
-.sh{margin-bottom:48px}
+.sh{margin-bottom:46px}
 .deco{font-size:clamp(56px,11vw,140px);font-weight:800;letter-spacing:.222em;color:rgba(255,255,255,.018);text-transform:uppercase;position:absolute;pointer-events:none;user-select:none;white-space:nowrap}
 
 /* O WYDARZENIU */
-#onas{background:linear-gradient(180deg,var(--bg) 0%,rgba(5,5,113,.1) 100%)}
+#onas{background:linear-gradient(180deg,transparent 0%,rgba(5,5,113,.12) 100%)}
 .ag{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
 .asg{display:grid;grid-template-columns:1fr 1fr;gap:2px}
-.sb{background:var(--w05);border:1px solid rgba(255,255,255,.06);padding:24px 18px;position:relative;overflow:hidden}
+.sb{background:rgba(5,5,113,.18);border:1px solid rgba(255,255,255,.06);padding:24px 18px;position:relative;overflow:hidden}
 .sb::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--o),transparent);opacity:0;transition:opacity .3s}
 .sb:hover::after{opacity:1}
 .sn{font-size:42px;font-weight:800;letter-spacing:-.05em;line-height:1;background:linear-gradient(135deg,var(--g),var(--o));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:5px}
 .sl{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--w6)}
-.at{display:flex;flex-direction:column;gap:16px}
+.at{display:flex;flex-direction:column;gap:18px}
 .at p{font-size:14px;font-weight:400;letter-spacing:-.02em;line-height:1.75;color:var(--w6)}
 .at p strong{color:var(--w);font-weight:700}
-.qb{border-left:3px solid var(--o);padding-left:18px}
-.qb p{font-size:17px!important;font-weight:800!important;letter-spacing:-.04em!important;color:var(--w)!important;line-height:1.3!important}
-.wyroznik{display:flex;align-items:flex-start;gap:12px;background:rgba(252,163,17,.07);border:1px solid rgba(252,163,17,.2);padding:14px 18px;margin-top:4px}
-.wyroznik .icon{font-size:20px;flex-shrink:0;margin-top:1px}
-.wyroznik p{font-size:12px!important;font-weight:700!important;color:var(--g)!important;letter-spacing:-.01em!important;line-height:1.5!important}
+.at p.highlight{font-size:15px;color:var(--g);font-weight:700;border-left:3px solid var(--o);padding-left:18px}
 
 /* PROGRAM */
-#program{background:linear-gradient(180deg,rgba(5,5,113,.1) 0%,rgba(5,5,113,.2) 100%)}
+#program{background:linear-gradient(180deg,rgba(5,5,113,.12) 0%,rgba(5,5,113,.2) 100%)}
 .agenda-note{display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-left:3px solid var(--g);padding:12px 16px;margin-bottom:36px;max-width:700px}
 .agenda-note p{font-size:12px;font-weight:700;color:var(--g);letter-spacing:.01em;line-height:1.5}
 .dtabs{display:flex;border-bottom:1px solid rgba(255,255,255,.07);overflow-x:auto;margin-bottom:36px}
 .dtab{padding:12px 22px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--w6);cursor:pointer;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s;background:none;font-family:'Montserrat',sans-serif;white-space:nowrap}
 .dtab.active{color:var(--g);border-bottom-color:var(--g)}
 .dtab:hover:not(.active){color:var(--w)}
-.dp{display:none}
+.dp{display:none;min-height:160px;padding:48px 0;text-align:center}
 .dp.active{display:block}
-.si{display:grid;grid-template-columns:86px 1fr;gap:16px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.05);align-items:start}
-.si:last-child{border-bottom:none}
-.stm{font-size:12px;font-weight:700;letter-spacing:-.01em;color:var(--o);padding-top:2px}
-.sc h4{font-size:14px;font-weight:800;letter-spacing:-.04em;margin-bottom:4px}
-.sc p{font-size:12px;font-weight:400;color:var(--w6);line-height:1.5}
-.tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:2px;margin-top:5px}
-.tk{background:rgba(255,91,0,.1);color:var(--o);border:1px solid rgba(255,91,0,.2)}
-.tw{background:rgba(252,163,17,.08);color:var(--g);border:1px solid rgba(252,163,17,.18)}
-.ts{background:rgba(255,255,255,.04);color:var(--w6);border:1px solid rgba(255,255,255,.07)}
-.tz{background:rgba(252,163,17,.12);color:var(--g);border:1px solid rgba(252,163,17,.3)}
+.dp-empty{font-size:13px;font-weight:700;letter-spacing:.05em;color:var(--w6);font-style:italic;opacity:.7}
+.dp-empty::before{content:'⏳';display:block;font-size:32px;margin-bottom:14px;opacity:.5;font-style:normal}
 
 /* PRELEGENCI */
-#prelegenci{background:linear-gradient(180deg,rgba(5,5,113,.2) 0%,var(--bg) 100%)}
+#prelegenci{background:linear-gradient(180deg,rgba(5,5,113,.2) 0%,transparent 100%)}
 .spc{border:1px dashed rgba(252,163,17,.2);padding:64px 32px;text-align:center;position:relative;overflow:hidden}
 .spc::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(5,5,113,.25),transparent)}
-.spc .ico{font-size:40px;margin-bottom:16px;position:relative;z-index:1;opacity:.4}
 .spc h3{font-size:24px;font-weight:800;letter-spacing:-.05em;margin-bottom:9px;position:relative;z-index:1}
-.spc p{font-size:13px;font-weight:400;color:var(--w6);max-width:380px;margin:0 auto 20px;line-height:1.6;position:relative;z-index:1}
+.spc p{font-size:13px;font-weight:400;color:var(--w6);max-width:400px;margin:0 auto 20px;line-height:1.6;position:relative;z-index:1}
 .sgh{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px;position:relative;z-index:1}
 .sgc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);padding:22px 16px;filter:blur(1.5px);opacity:.28}
 .sga{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.05);margin-bottom:11px}
 .sgl{height:8px;background:rgba(255,255,255,.05);border-radius:2px;margin-bottom:6px}
 
-/* TESTIMONIAL */
-#opinie{background:var(--bg)}
-.tw2{max-width:660px;margin:0 auto;text-align:center}
-.tq{font-size:clamp(17px,2.6vw,24px);font-weight:800;letter-spacing:-.04em;line-height:1.35;margin-bottom:26px;position:relative}
-.tq::before{content:'"';display:block;font-size:64px;font-weight:800;line-height:.6;color:var(--o);opacity:.35;margin-bottom:8px}
-.tath{display:flex;align-items:center;justify-content:center;gap:11px}
-.tav{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,rgba(255,91,0,.26),rgba(252,163,17,.26));border:2px solid rgba(252,163,17,.18);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--g)}
-.tnm{font-size:13px;font-weight:800;letter-spacing:-.03em}
-.trl{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--o);margin-top:2px}
-.tst{display:flex;gap:3px;justify-content:center;margin-bottom:18px}
-.tst span{color:var(--g);font-size:15px}
-
 /* BILETY */
-#bilety{background:linear-gradient(180deg,var(--bg) 0%,rgba(5,5,113,.08) 100%)}
+#bilety{background:linear-gradient(180deg,transparent 0%,rgba(5,5,113,.15) 100%)}
 .csbg{display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;background:rgba(252,163,17,.07);border:1px solid rgba(252,163,17,.2);color:var(--g);padding:4px 11px;border-radius:2px;margin-bottom:32px}
 .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
-.tc{background:var(--w05);border:1px solid rgba(255,255,255,.06);padding:30px 22px;position:relative;overflow:hidden;transition:transform .3s,border-color .3s}
+.tc{background:rgba(5,5,113,.15);border:1px solid rgba(255,255,255,.06);padding:30px 22px;position:relative;overflow:hidden;transition:transform .3s,border-color .3s}
 .tc:hover{transform:translateY(-3px);border-color:rgba(252,163,17,.18)}
-.tc.feat{background:linear-gradient(160deg,rgba(255,91,0,.11),rgba(252,163,17,.07));border-color:rgba(252,163,17,.32);border-width:2px}
+.tc.feat{background:linear-gradient(160deg,rgba(255,91,0,.13),rgba(252,163,17,.08));border-color:rgba(252,163,17,.32);border-width:2px}
 .tbg{position:absolute;top:12px;right:12px;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 7px;background:linear-gradient(135deg,var(--o),var(--g));color:var(--bg);border-radius:2px}
 .ttype{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--w6);margin-bottom:7px}
 .tnmb{font-size:19px;font-weight:800;letter-spacing:-.05em;margin-bottom:6px}
@@ -162,93 +145,102 @@ section{position:relative;z-index:2;padding:84px 5%}
 .tfl li.chk::before{content:'✓';width:15px;height:15px;min-width:15px;border-radius:50%;background:linear-gradient(135deg,var(--o),var(--g));font-size:8px;font-weight:800;color:var(--bg);display:flex;align-items:center;justify-content:center}
 .tfl li.gr::before{content:'';width:15px;height:15px;min-width:15px;border-radius:50%;background:rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center}
 
-/* DLACZEGO KALISZ */
-#kalisz{background:linear-gradient(180deg,rgba(5,5,113,.08) 0%,var(--bg) 100%)}
-.kstrip{display:grid;grid-template-columns:1.5fr 1fr 1fr;height:240px;margin-bottom:48px;overflow:hidden}
-.kp{position:relative;overflow:hidden}
-.kp img{width:100%;height:100%;object-fit:cover;filter:brightness(.45) saturate(.6);transition:filter .4s,transform .4s}
-.kp:hover img{filter:brightness(.65) saturate(.8);transform:scale(1.04)}
-.kpl{position:absolute;bottom:12px;left:12px;font-size:8px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--w);opacity:.75;background:rgba(0,0,0,.38);padding:3px 8px;border-radius:2px}
-.kgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
-.kr{background:var(--w05);border:1px solid rgba(255,255,255,.06);padding:28px 22px;position:relative;overflow:hidden}
-.kr::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--o),var(--g));opacity:0;transition:opacity .3s}
-.kr:hover::before{opacity:1}
-.kr .icon{font-size:28px;margin-bottom:14px;opacity:.8}
-.kr h4{font-size:15px;font-weight:800;letter-spacing:-.04em;margin-bottom:8px}
-.kr p{font-size:12px;font-weight:400;color:var(--w6);line-height:1.6;letter-spacing:-.01em}
+/* DLACZEGO KALISZ - REWORKED with hover reveals */
+#kalisz{background:linear-gradient(180deg,rgba(5,5,113,.15) 0%,transparent 100%)}
+.kreasons{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;height:420px}
+.kreason{position:relative;overflow:hidden;cursor:pointer;background:#000}
+.kreason img{width:100%;height:100%;object-fit:cover;filter:brightness(.55) saturate(.75);transition:filter .5s ease,transform .6s ease;display:block}
+.kreason:hover img{filter:brightness(.28) saturate(.6);transform:scale(1.06)}
+.kreason-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:32px 26px;background:linear-gradient(to top,rgba(0,1,16,.85) 0%,rgba(0,1,16,.4) 40%,transparent 75%);transition:background .4s ease}
+.kreason:hover .kreason-overlay{background:linear-gradient(to top,rgba(0,1,16,.95) 0%,rgba(0,1,16,.7) 50%,rgba(0,1,16,.3) 100%)}
+.kreason-title{font-size:22px;font-weight:800;letter-spacing:-.04em;line-height:1.15;margin-bottom:0;transition:transform .45s ease,margin-bottom .45s ease;color:var(--w)}
+.kreason:hover .kreason-title{margin-bottom:14px}
+.kreason-text{font-size:13px;color:var(--w6);line-height:1.65;letter-spacing:-.01em;max-height:0;opacity:0;overflow:hidden;transition:max-height .5s ease,opacity .4s ease}
+.kreason:hover .kreason-text{max-height:260px;opacity:1}
+.kreason-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--g);margin-bottom:8px;background:rgba(252,163,17,.12);padding:3px 9px;border:1px solid rgba(252,163,17,.22);border-radius:2px;width:fit-content}
+
+/* LOKALIZACJA - mapa OBOK info i tytulu */
+#lokalizacja{background:transparent;padding:80px 5%}
+.lokaliz-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:48px;align-items:start}
+.lokaliz-left{display:flex;flex-direction:column;gap:28px}
+.lokaliz-left .sh{margin-bottom:0}
+.linfo{display:flex;flex-direction:column;gap:20px}
+.li{display:flex;gap:14px;align-items:flex-start}
+.lic{width:38px;height:38px;min-width:38px;background:rgba(255,91,0,.07);border:1px solid rgba(255,91,0,.15);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.lil{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--o);margin-bottom:2px}
+.liv{font-size:14px;font-weight:800;letter-spacing:-.03em;margin-bottom:2px}
+.lis{font-size:12px;font-weight:400;color:var(--w6);letter-spacing:-.01em;line-height:1.5}
+.mapwrap{border:1px solid rgba(255,255,255,.07);border-radius:2px;overflow:hidden;height:540px;position:sticky;top:90px}
+.mapwrap iframe{width:100%;height:100%;border:0;display:block;filter:grayscale(.2) invert(.86) hue-rotate(180deg) brightness(.82) contrast(1.1) saturate(.6)}
 
 /* FAQ */
-#faq{background:var(--bg)}
+#faq{background:transparent}
 .fl2{display:flex;flex-direction:column;gap:2px;max-width:760px}
-.fi{border:1px solid rgba(255,255,255,.06);background:var(--w05);overflow:hidden}
+.fi{border:1px solid rgba(255,255,255,.06);background:rgba(5,5,113,.15);overflow:hidden}
 .fq{width:100%;padding:17px 20px;background:none;border:none;cursor:pointer;font-family:'Montserrat',sans-serif;font-weight:700;font-size:13px;letter-spacing:-.03em;color:var(--w);text-align:left;display:flex;justify-content:space-between;align-items:center;gap:12px}
 .fq:hover{color:var(--g)}
 .fa2{font-size:17px;color:var(--o);transition:transform .3s;flex-shrink:0}
 .fi.open .fa2{transform:rotate(45deg)}
 .fans{max-height:0;overflow:hidden;transition:max-height .35s ease}
 .fai{padding:0 20px 16px;font-size:13px;font-weight:400;letter-spacing:-.01em;color:var(--w6);line-height:1.7}
-.fi.open .fans{max-height:260px}
-
-/* LOKALIZACJA */
-#lokalizacja{background:var(--bg)}
-.lgrid{display:grid;grid-template-columns:1fr 1.2fr;gap:48px;align-items:start}
-.linfo{display:flex;flex-direction:column;gap:22px}
-.li{display:flex;gap:14px;align-items:flex-start}
-.lic{width:38px;height:38px;min-width:38px;background:rgba(255,91,0,.07);border:1px solid rgba(255,91,0,.15);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:16px}
-.lil{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--o);margin-bottom:2px}
-.liv{font-size:14px;font-weight:800;letter-spacing:-.03em;margin-bottom:2px}
-.lis{font-size:12px;font-weight:400;color:var(--w6);letter-spacing:-.01em;line-height:1.5}
-.mapwrap{border:1px solid rgba(255,255,255,.07);border-radius:2px;overflow:hidden;height:320px}
-.mapwrap iframe{width:100%;height:100%;border:0;display:block;filter:grayscale(.2) invert(.86) hue-rotate(180deg) brightness(.82) contrast(1.1) saturate(.6)}
+.fi.open .fans{max-height:280px}
 
 /* CTA */
 #kontakt{text-align:center;padding:100px 5%;position:relative;overflow:hidden}
-.ctabg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(5,5,113,.4),transparent)}
-.ctac{position:relative;z-index:1;max-width:640px;margin:0 auto}
+.ctabg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(5,5,113,.55),transparent)}
+.ctac{position:relative;z-index:1;max-width:660px;margin:0 auto}
 .ctae{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:16px}
-.ctat{font-size:clamp(26px,4.2vw,50px);font-weight:800;letter-spacing:-.05em;line-height:1;margin-bottom:16px}
+.ctat{font-size:clamp(26px,4.2vw,50px);font-weight:800;letter-spacing:-.05em;line-height:1;margin-bottom:18px}
 .ctas{font-size:14px;font-weight:400;letter-spacing:-.02em;color:var(--w6);line-height:1.6;margin-bottom:36px}
 .ctabtns{display:flex;gap:11px;justify-content:center;flex-wrap:wrap}
 
 /* FOOTER */
-footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgba(255,255,255,.05)}
+footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgba(255,255,255,.05);background:rgba(0,1,16,.5)}
 .ftop{display:grid;grid-template-columns:1fr auto;gap:36px;margin-bottom:32px;align-items:start}
 .flinks{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px}
 .flinks a{text-decoration:none;font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--w6);transition:color .2s}
 .flinks a:hover{color:var(--g)}
-.fsl{width:36px;height:36px;border:1px solid rgba(255,255,255,.1);border-radius:2px;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:12px;font-weight:800;color:var(--w6);transition:border-color .2s,color .2s}
+.fsl{width:36px;height:36px;border:1px solid rgba(255,255,255,.1);border-radius:2px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-size:12px;font-weight:800;color:var(--w6);transition:border-color .2s,color .2s}
 .fsl:hover{border-color:var(--g);color:var(--g)}
 .fcopy{font-size:10px;font-weight:400;color:rgba(255,255,255,.18);letter-spacing:.04em;margin-top:18px}
+.flegal{display:flex;gap:18px;margin-top:8px;flex-wrap:wrap}
+.flegal a{font-size:10px;color:rgba(255,255,255,.4);text-decoration:none;letter-spacing:.06em}
+.flegal a:hover{color:var(--g)}
 
 /* RESPONSIVE */
 @media(max-width:1024px){
   .tgrid{grid-template-columns:1fr 1fr}
   .sgh{grid-template-columns:1fr 1fr}
   .sgh .sgc:last-child{display:none}
+  .kreasons{grid-template-columns:1fr;height:auto}
+  .kreason{height:280px}
+  .kreason-overlay{background:linear-gradient(to top,rgba(0,1,16,.92) 0%,rgba(0,1,16,.65) 50%,rgba(0,1,16,.25) 100%)}
+  .kreason-title{margin-bottom:14px}
+  .kreason-text{max-height:260px;opacity:1}
 }
 @media(max-width:900px){
-  .ag,.lgrid{grid-template-columns:1fr;gap:36px}
+  .ag,.lokaliz-grid{grid-template-columns:1fr;gap:36px}
+  .mapwrap{height:340px;position:relative;top:auto}
   .nl{display:none}
   .nl.open{display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:rgba(0,1,16,.97);padding:20px 5%;gap:16px;border-bottom:1px solid rgba(255,255,255,.07);z-index:99}
   .hbg{display:flex}
-  .kstrip{grid-template-columns:1fr;height:180px}
-  .kstrip .kp:nth-child(2),.kstrip .kp:nth-child(3){display:none}
-  .kgrid,.sgh{grid-template-columns:1fr 1fr}
+  .sgh{grid-template-columns:1fr 1fr}
   .ftop{grid-template-columns:1fr;gap:18px}
+  .partnerzy-logos{gap:32px}
+  .partnerzy-decor{display:none}
 }
 @media(max-width:680px){
   .tgrid{grid-template-columns:1fr}
   .asg{grid-template-columns:1fr 1fr}
-  .kgrid{grid-template-columns:1fr}
-  .hmeta{gap:16px}
-  .hdv{display:none}
-  .si{grid-template-columns:72px 1fr;gap:12px}
+  .hmeta{gap:4px}
   .dtabs{overflow-x:auto;-webkit-overflow-scrolling:touch}
   .sgh{grid-template-columns:1fr}
   .sgh .sgc{display:block!important}
-  section{padding:64px 5%}
+  section{padding:60px 5%}
   #cb{flex-direction:column;gap:6px;text-align:center}
   .cu{justify-content:center}
+  .partnerzy-logos{gap:18px;flex-direction:column}
+  .pl-box{min-width:200px}
 }
 </style>
 </head>
@@ -257,7 +249,7 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
 
 <!-- NAV -->
 <nav id="nb">
-  <a href="#hero" class="logo"><img src="/images/logo.png" alt="Efekt Feniksa" style="height:50px; width: auto;"></a>
+  <a href="#hero" class="logo"><img src="/images/logo.png" alt="Efekt Feniksa" style="height:45px;"></a>
   <ul class="nl" id="nl">
     <li><a href="#onas">O wydarzeniu</a></li>
     <li><a href="#program">Program</a></li>
@@ -265,7 +257,7 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
     <li><a href="#bilety">Bilety</a></li>
     <li><a href="#kalisz">Kalisz</a></li>
     <li><a href="#faq">FAQ</a></li>
-    <li><a href="#bilety" class="ncta">Zarejestruj sie</a></li>
+    <li><a href="#bilety" class="ncta">Kup bilet</a></li>
   </ul>
   <button class="hbg" id="hbg" aria-label="Menu" onclick="toggleNav()">
     <span></span><span></span><span></span>
@@ -274,7 +266,7 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
 
 <!-- COUNTDOWN -->
 <div id="cb">
-  <div class="clbl">Do Mistrzostw pozostalo</div>
+  <div class="clbl">Do Mistrzostw pozostało</div>
   <div class="cu">
     <div class="cun"><div class="cn" id="cd">000</div><div class="cnm">Dni</div></div>
     <div class="cs">:</div>
@@ -290,25 +282,51 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
 <section id="hero">
   <div class="hbi"></div>
   <div class="hbo"></div>
-  <span class="deco" style="bottom:-16px;right:-60px;color:rgba(5,5,113,.14)">FENIKS</span>
+  <span class="deco" style="bottom:-16px;right:-60px;color:rgba(5,5,113,.18)">FENIKS</span>
   <div class="hc">
     <div class="hlbl">Mistrzostwa Polski - Toastmasters 2026</div>
-    <h1>Plomien tworzą<br><span class="fire">ludzie.</span><br>Z plomienia<br>wzrastasz <span class="fire">TY.</span></h1>
-    <p class="hsub">Najwieksze wydarzenie poswiecone wystąpieniom publicznym w Polsce. Trzy dni rywalizacji, wiedzy i inspiracji.</p>
-    <p class="htag">Człowiek wzrasta wsrod ludzi.</p>
+    <h1>
+      <span class="l1">Płomień tworzą <span class="fire">ludzie.</span></span>
+      <span class="l2">Z płomienia wzrastasz <span class="fire">TY.</span></span>
+    </h1>
+    <p class="hsub">Rozwiń swe skrzydła w ogniu inspiracji.</p>
     <div class="hmeta">
-      <div class="hmi"><div class="lb">Termin</div><div class="vl">28-30 sierpnia 2026</div></div>
-      <div class="hdv"></div>
-      <div class="hmi"><div class="lb">Miejsce</div><div class="vl">Kalisz</div></div>
-      <div class="hdv"></div>
-      <div class="hmi"><div class="lb">Uczestnikow</div><div class="vl">ok. 300 osob</div></div>
+      <div class="hmi">28-30 sierpnia 2026</div>
+      <div class="hmi">Kalisz</div>
     </div>
     <div class="hbtns">
-      <a href="#bilety" class="bp">Sprawdz bilety &rarr;</a>
-      <a href="#onas" class="bs">Dowiedz sie wiecej</a>
+      <a href="#bilety" class="bp">Kup bilet &rarr;</a>
     </div>
   </div>
-  <div class="scroll-h"><span>Przewin</span><div class="sarr"></div></div>
+  <div class="scroll-h"><span>Przewiń</span><div class="sarr"></div></div>
+</section>
+
+<div class="fl"></div>
+
+<!-- PARTNERZY -->
+<section id="partnerzy">
+  <div class="partnerzy-wrap">
+    <div class="partnerzy-tit">Organizatorzy i partnerzy</div>
+    <div class="partnerzy-logos">
+      <div class="pl-box">Toastmasters<br>Centrum</div>
+      <div class="pl-box">Polskie Stowarzyszenie<br>Mówców</div>
+    </div>
+    <div class="partnerzy-decor">
+      
+      <svg class="phoenix-decor" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="19" cy="19" r="18" stroke="#FF5B00" stroke-width="1.2" opacity=".75"/>
+        <ellipse cx="19" cy="24" rx="6" ry="9" fill="url(#pd1)"/>
+        <path d="M19 8C14 12 12 16 15 20C16 17 18 15 19 18C20 15 22 17 23 20C26 16 24 12 19 8Z" fill="url(#pd2)"/>
+        <path d="M11 16C8 14 7 11 10 10C9 13 13 14 14 18Z" fill="url(#pd3)"/>
+        <path d="M27 16C30 14 31 11 28 10C29 13 25 14 24 18Z" fill="url(#pd3)"/>
+        <defs>
+          <linearGradient id="pd1" x1="19" y1="15" x2="19" y2="33" gradientUnits="userSpaceOnUse"><stop stop-color="#FCA311"/><stop offset="1" stop-color="#FF5B00"/></linearGradient>
+          <linearGradient id="pd2" x1="19" y1="8" x2="19" y2="20" gradientUnits="userSpaceOnUse"><stop stop-color="#FCA311"/><stop offset="1" stop-color="#FF5B00"/></linearGradient>
+          <linearGradient id="pd3" x1="10" y1="10" x2="18" y2="18" gradientUnits="userSpaceOnUse"><stop stop-color="#FCA311"/><stop offset="1" stop-color="#FF5B00" stop-opacity=".5"/></linearGradient>
+        </defs>
+      </svg>
+    </div>
+  </div>
 </section>
 
 <div class="fl"></div>
@@ -317,24 +335,20 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
 <section id="onas">
   <div class="sh">
     <div class="slb">O Mistrzostwach</div>
-    <h2 class="st">Jedno wydarzenie.<br>Trzy dni przemiany.</h2>
+    <h2 class="st">Trzy dni przemiany.</h2>
   </div>
   <div class="ag">
     <div class="asg">
       <div class="sb"><div class="sn">10+</div><div class="sl">Lat tradycji</div></div>
-      <div class="sb"><div class="sn">300</div><div class="sl">Uczestnikow</div></div>
+      <div class="sb"><div class="sn">300</div><div class="sl">Uczestników</div></div>
       <div class="sb"><div class="sn">4</div><div class="sl">Konkursy</div></div>
-      <div class="sb"><div class="sn">7+</div><div class="sl">Warsztatow</div></div>
+      <div class="sb"><div class="sn">12+</div><div class="sl">Warsztatów</div></div>
     </div>
     <div class="at">
-      <div class="qb"><p>"Efekt Feniksa to moment, gdy slowo staje sie sila."</p></div>
-      <p><strong>Mistrzostwa Polski w Wystąpieniach Publicznych Toastmasters</strong> to coroczny konkurs z ponad 10-letnia historia - jedno z najwazniejszych wydarzen spolecznosci Toastmasters w Polsce.</p>
-      <p>W 2026 roku spotykamy sie w Kaliszu, na Uniwersytecie Kaliskim. Trzy dni rywalizacji, nauki i budowania relacji z najlepszymi mowcami w Polsce. <strong>Czlowiek wzrasta wsrod ludzi</strong> - i to jest serce tego wydarzenia.</p>
-      <div class="wyroznik">
-        <div class="icon">🔥</div>
-        <p>Pierwsza edycja Mistrzostw organizowana w miescie, w ktorym nie ma klubu Toastmasters. Pokazujemy, ze moc slowa moze dotrzec wszedie.</p>
-      </div>
-      <p>Toastmasters International dziala w <strong>145 krajach</strong>, skupia <strong>265 000 czlonkow</strong>. W Polsce - 69 klubow, ponad 1 900 aktywnych mowcow. Menedzerowie, prawnicy, specjalisci IT, przedsiebiorcy.</p>
+      <p><strong>Mistrzostwa Polski w Wystąpieniach Publicznych Toastmasters</strong> to coroczny konkurs z ponad 10-letnią historią - jedno z najważniejszych wydarzeń społeczności Toastmasters w Polsce.</p>
+      <p>W 2026 roku spotykamy się w Kaliszu, na Uniwersytecie Kaliskim. Trzy dni rywalizacji, nauki i budowania relacji z najlepszymi mówcami w Polsce.</p>
+      <p class="highlight">Pierwsza edycja Mistrzostw organizowana w mieście, w którym nie ma klubu Toastmasters.</p>
+      <p>Toastmasters International działa w <strong>145 krajach</strong>, skupia <strong>265 000 członków</strong>. W Polsce - 69 klubów, ponad 1 900 aktywnych mówców. Menedżerowie, prawnicy, specjaliści IT, przedsiębiorcy.</p>
     </div>
   </div>
 </section>
@@ -346,43 +360,21 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
   <span class="deco" style="top:0;right:-16px">AGENDA</span>
   <div class="sh">
     <div class="slb">Agenda</div>
-    <h2 class="st">Trzy dni.<br>Jeden plomien.</h2>
+    <h2 class="st">Trzy dni.<br>Jeden płomień.</h2>
   </div>
   <div class="agenda-note">
     <div>
-      <p>Agenda poglądowa - godziny i szczegoly zostaną potwierdzone. Pelna agenda zostanie podana wkrotce.</p>
+      <p>Pełna agenda zostanie opublikowana wkrótce.</p>
     </div>
   </div>
   <div class="dtabs">
-    <button class="dtab active" onclick="showDay('p1',this)">Piatek - 28.08</button>
+    <button class="dtab active" onclick="showDay('p1',this)">Piątek - 28.08</button>
     <button class="dtab" onclick="showDay('p2',this)">Sobota - 29.08</button>
     <button class="dtab" onclick="showDay('p3',this)">Niedziela - 30.08</button>
   </div>
-
-  <div id="p1" class="dp active">
-    <div class="si"><div class="stm">10:00</div><div class="sc"><h4>Zwiedzanie Kalisza</h4><p>Czas na odkrycie najstarszego miasta w Polsce. Spacer, historia, pierwsze znajomosci.</p><span class="tag ts">Opcjonalne</span></div></div>
-    <div class="si"><div class="stm">15:00</div><div class="sc"><h4>Rejestracja</h4><p>Odbior materialow, zapoznanie z przestrzenia, pierwsze rozmowy.</p><span class="tag ts">Logistyka</span></div></div>
-    <div class="si"><div class="stm">16:30</div><div class="sc"><h4>Konkurs Mow Humorystycznych</h4><p>6 finalistow. Humor, timing, kunszt slowa. Smiech jako bron mowcy.</p><span class="tag tk">Konkurs</span></div></div>
-    <div class="si"><div class="stm">19:00</div><div class="sc"><h4>Konkurs Gorące Pytania</h4><p>Pytanie pada z sali. Liczy sie refleks, poczucie humoru i precyzja odpowiedzi.</p><span class="tag tk">Konkurs</span></div></div>
-    <div class="si"><div class="stm">21:00</div><div class="sc"><h4>After Party - Wieczor Plenerowy</h4><p>Ognisko, animacje, integracja. Na terenie Uniwersytetu Kaliskiego.</p><span class="tag ts">Social</span></div></div>
-  </div>
-
-  <div id="p2" class="dp">
-    <div class="si"><div class="stm">09:00</div><div class="sc"><h4>Konkurs Mow Wszelakich</h4><p>6 finalistow. Przygotowane przemowienia na dowolny temat. Walka o tytul Mistrza Polski.</p><span class="tag tk">Konkurs</span></div></div>
-    <div class="si"><div class="stm">11:30</div><div class="sc"><h4>Konkurs Ewaluacji</h4><p>Sztuka konstruktywnej informacji zwrotnej pod czas presji. 6 uczestnikow, jeden cel: precyzja.</p><span class="tag tk">Konkurs</span></div></div>
-    <div class="si"><div class="stm">13:00</div><div class="sc"><h4>Przerwa obiadowa</h4><p>Czas na regeneracje, nieformalne rozmowy i naladowanie baterii przed popoluднiem.</p><span class="tag ts">Przerwa - 1,5 godz</span></div></div>
-    <div class="si"><div class="stm">14:30</div><div class="sc"><h4>Warsztaty - 3 sale rownolegle</h4><p>Komunikacja perswazyjana, wystapienia pod presja czasu, trudne rozmowy i inne. Kazdy wybiera swoja sciezke.</p><span class="tag tw">Warsztaty</span></div></div>
-    <div class="si"><div class="stm">18:00</div><div class="sc"><h4>Gala Rozdania Nagrad</h4><p>Ogłoszenie wynikow wszystkich czterech konkursow. Wrecznie puharow i nagrody dla Mistrzow Polski 2026.</p><span class="tag tz">Gala nagrod</span></div></div>
-    <div class="si"><div class="stm">19:30</div><div class="sc"><h4>After Party</h4><p>Swietowanie, muzyka, taniec. Nieformalne zakonczenie sobotniego dnia.</p><span class="tag ts">Social</span></div></div>
-  </div>
-
-  <div id="p3" class="dp">
-    <div class="si"><div class="stm">09:00</div><div class="sc"><h4>Warsztaty - sesja poranna</h4><p>Trzy sale rownolegle. Praktyczne umiejetnosci na wynos do domu.</p><span class="tag tw">Warsztaty</span></div></div>
-    <div class="si"><div class="stm">11:00</div><div class="sc"><h4>Przerwa</h4><p>Kawa, rozmowy, ostatnie networkingowe momenty weekendu.</p><span class="tag ts">Przerwa</span></div></div>
-    <div class="si"><div class="stm">11:30</div><div class="sc"><h4>Warsztaty - sesja popoludniowa</h4><p>Ostatnia runda wiedzy. Trzy sale, rozne tematy, jeden cel: wrocic bogatszym.</p><span class="tag tw">Warsztaty</span></div></div>
-    <div class="si"><div class="stm">13:30</div><div class="sc"><h4>Przerwa obiadowa</h4><p>Czas na obiad i ostatnie rozmowy przed zakonczeniem.</p><span class="tag ts">Przerwa</span></div></div>
-    <div class="si"><div class="stm">15:00</div><div class="sc"><h4>Zakonczenie i pozegnanie</h4><p>Podsumowanie trzech dni. Koniec oficjalnego programu. Wracamy odmienieni.</p><span class="tag tz">Finał</span></div></div>
-  </div>
+  <div id="p1" class="dp active"><div class="dp-empty">Agenda dnia zostanie opublikowana wkrótce</div></div>
+  <div id="p2" class="dp"><div class="dp-empty">Agenda dnia zostanie opublikowana wkrótce</div></div>
+  <div id="p3" class="dp"><div class="dp-empty">Agenda dnia zostanie opublikowana wkrótce</div></div>
 </section>
 
 <div class="fl"></div>
@@ -391,12 +383,11 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
 <section id="prelegenci">
   <div class="sh">
     <div class="slb">Prowadzący i Prelegenci</div>
-    <h2 class="st">Mistrzowie slowa.<br>Twoi mentorzy.</h2>
+    <h2 class="st">Mistrzowie słowa.<br>Twoi mentorzy.</h2>
   </div>
   <div class="spc">
-    <div class="ico">🔥</div>
-    <h3>Prelegenci wkrotce</h3>
-    <p>Pracujemy nad zebraniem najlepszych praktykow wystapien publicznych z calej Polski. Lista zostanie oglосzona wkrotce.</p>
+    <h3>Prelegenci wkrótce</h3>
+    <p>Pracujemy nad zebraniem najlepszych praktyków wystąpień publicznych z całej Polski. Lista zostanie ogłoszona wkrótce.</p>
     <div class="sgh">
       <div class="sgc"><div class="sga"></div><div class="sgl"></div><div class="sgl" style="width:58%"></div><div class="sgl" style="width:38%;margin-top:9px"></div></div>
       <div class="sgc"><div class="sga"></div><div class="sgl"></div><div class="sgl" style="width:58%"></div><div class="sgl" style="width:38%;margin-top:9px"></div></div>
@@ -407,80 +398,62 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
 
 <div class="fl"></div>
 
-<!-- TESTIMONIAL -->
-<section id="opinie">
-  <div class="sh" style="text-align:center">
-    <div class="slb" style="justify-content:center">Co mowia uczestnicy</div>
-    <h2 class="st">Glos spolecznosci</h2>
-  </div>
-  <div class="tw2">
-    <div class="tst"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></div>
-    <div class="tq">Od czterech lat jezdzę na Mistrzostwa i zawsze wiem, ze to polaczenie dobrej zabawy z miejscem pelnym wiedzy. Wracam naladowana i z nowym narzedziem do pracy z glosem.</div>
-    <div class="tath">
-      <div class="tav">MK</div>
-      <div><div class="tnm">Magdalena K.</div><div class="trl">Czlonkini Toastmasters - 4 edycje</div></div>
-    </div>
-  </div>
-</section>
-
-<div class="fl"></div>
-
 <!-- BILETY -->
 <section id="bilety">
   <div class="sh">
     <div class="slb">Rejestracja</div>
-    <h2 class="st">Wybierz swoje<br>miejsce w plomieniu.</h2>
-    <div class="csbg">&#9203;&nbsp; Ceny i rejestracja wkrotce</div>
+    <h2 class="st">Wybierz swoje miejsce.</h2>
+    <div class="csbg">&#9203;&nbsp; Ceny i rejestracja wkrótce</div>
   </div>
   <div class="tgrid">
 
     <div class="tc">
       <div class="ttype">Pakiet podstawowy</div>
       <div class="tnmb">Iskra</div>
-      <div class="tsub">Poczatek zawsze zaczyna sie od iskry</div>
-      <div class="pph">Cena wkrotce</div>
-      <div class="tper">Dostep do konkursow - piatek i sobota</div>
+      <div class="tsub">Początek zawsze zaczyna się od iskry</div>
+      <div class="pph">Cena wkrótce</div>
+      <div class="tper">Dostęp do konkursów - piątek i sobota</div>
       <ul class="tfl">
-        <li class="chk">4 konkursy - Mowy Wszelakie, Humorystyczne, Ewaluacje, Gorace Pytania</li>
+        <li class="chk">4 konkursy - Mowy Wszelakie, Humorystyczne, Ewaluacje, Gorące Pytania</li>
         <li class="chk">Networking z uczestnikami</li>
-        <li class="chk">Materialy uczestnika</li>
+        <li class="chk">Materiały uczestnika</li>
         <li class="gr">Warsztaty - nie wliczone</li>
         <li class="gr">After Party - nie wliczone</li>
       </ul>
-      <div class="bd">Wkrotce dostepny</div>
+      <div class="bd">Wkrótce dostępny</div>
     </div>
 
     <div class="tc feat">
       <div class="tbg">Polecany</div>
-      <div class="ttype">Pakiet pelny</div>
+      <div class="ttype">Pakiet pełny</div>
       <div class="tnmb feat-nm">Efekt Feniksa</div>
-      <div class="tsub">Pelne przezycie - od iskry do plomienia</div>
-      <div class="pph fp">Cena wkrotce</div>
+      <div class="tsub">Pełne przeżycie - od iskry do płomienia</div>
+      <div class="pph fp">Cena wkrótce</div>
       <div class="tper">3 dni - Konkursy + Warsztaty + After Party</div>
       <ul class="tfl">
-        <li class="chk">4 konkursy oratorskie</li>
+        <li class="chk">4 konkursy</li>
         <li class="chk">Wszystkie warsztaty (sobota i niedziela)</li>
-        <li class="chk">After Party piatek</li>
-        <li class="chk">After Party sobota (po Gali Nagrod)</li>
-        <li class="chk">Materialy uczestnika</li>
+        <li class="chk">After Party piątek</li>
+        <li class="chk">After Party sobota (po Gali Nagród)</li>
+        <li class="chk">Materiały uczestnika</li>
       </ul>
-      <div class="bd" style="border-color:rgba(252,163,17,.22);color:var(--g)">Wkrotce dostepny</div>
+      <div class="bd" style="border-color:rgba(252,163,17,.22);color:var(--g)">Wkrótce dostępny</div>
     </div>
 
     <div class="tc">
       <div class="ttype">Pakiet warsztatowy</div>
-      <div class="tnmb">Plomien</div>
-      <div class="tsub">Wiedza, ktora zmienia sposoby dzialania</div>
-      <div class="pph">Cena wkrotce</div>
-      <div class="tper">Warsztaty sobota i niedziela</div>
+      <div class="tnmb">Płomień</div>
+      <div class="tsub">Wiedza, która zmienia sposoby działania</div>
+      <div class="pph">Cena wkrótce</div>
+      <div class="tper">Konkursy + Warsztaty sobota i niedziela</div>
       <ul class="tfl">
+        <li class="chk">4 konkursy</li>
         <li class="chk">Wszystkie warsztaty (sobota i niedziela)</li>
         <li class="chk">Networking z uczestnikami</li>
-        <li class="chk">Materialy uczestnika</li>
-        <li class="gr">Konkursy - nie wliczone</li>
+        <li class="chk">Materiały uczestnika</li>
         <li class="gr">After Party - nie wliczone</li>
       </ul>
-      <div class="bd">Wkrotce dostepny</div>
+      <div class="bd">Wkrótce dostępny</div>
     </div>
 
   </div>
@@ -488,63 +461,59 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
 
 <div class="fl"></div>
 
-<!-- DLACZEGO KALISZ -->
+<!-- DLACZEGO KALISZ - hover reveal -->
 <section id="kalisz">
   <div class="sh">
     <div class="slb">Lokalizacja</div>
     <h2 class="st">Dlaczego Kalisz?</h2>
-    <p class="sd">Nie wybralismy Kalisza przypadkowo. To wybor z przekonania.</p>
   </div>
-  <div class="kstrip">
-    <div class="kp">
-      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=70" alt="Stare miasto">
-      <div class="kpl">Kalisz - najstarsze miasto Polski</div>
+  <div class="kreasons">
+    <div class="kreason">
+      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=70" alt="Centrum Polski">
+      <div class="kreason-overlay">
+        <div class="kreason-tag">Geografia</div>
+        <div class="kreason-title">Centrum Polski</div>
+        <div class="kreason-text">Kalisz leży geograficznie blisko centrum kraju. Dojazd z każdego kierunku - Warszawa, Wrocław, Poznań, Łódź - to 1,5 do 2,5 godziny. Mało które miejsce w Polsce jest tak dostępne dla całego kraju.</div>
+      </div>
     </div>
-    <div class="kp">
-      <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=500&q=70" alt="Architektura">
-      <div class="kpl">Architektura i historia</div>
+    <div class="kreason">
+      <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=900&q=70" alt="Miasto bez klubu">
+      <div class="kreason-overlay">
+        <div class="kreason-tag">Misja</div>
+        <div class="kreason-title">Miasto bez klubu</div>
+        <div class="kreason-text">To pierwsza edycja Mistrzostw organizowana w mieście, w którym nie istnieje klub Toastmasters. Chcemy pokazać, że wydarzenia takie jak to mogą odbywać się wszędzie, bo najważniejsza jest społeczność.</div>
+      </div>
     </div>
-    <div class="kp">
-      <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=500&q=70" alt="Centrum">
-      <div class="kpl">Centrum Polski</div>
-    </div>
-  </div>
-  <div class="kgrid">
-    <div class="kr">
-      <div class="icon">🗺️</div>
-      <h4>Centrum Polski</h4>
-      <p>Kalisz lezy geograficznie blisko centrum kraju. Dojazd z kazdego kierunku - Warszawa, Wroclaw, Poznan, Lodz - to 1,5 do 2,5 godziny. Malo ktore miejsce w Polsce jest tak dostepne dla calego kraju.</p>
-    </div>
-    <div class="kr">
-      <div class="icon">🌱</div>
-      <h4>Miasto bez klubu - i o to chodzi</h4>
-      <p>To pierwsza edycja Mistrzostw organizowana w miescie, w ktorym nie istnieje klub Toastmasters. Celowo. Chcemy pokazac, ze moc slowa i kultura publicznego mowienia moze dotrzec wszedzie - nie tylko tam, gdzie juz jest.</p>
-    </div>
-    <div class="kr">
-      <div class="icon">🏛️</div>
-      <h4>Najstarsze miasto w Polsce</h4>
-      <p>Kalisz to najstarsza udokumentowana osada na ziemiach polskich - wzmiankowana juz przez Ptolemeusza okolo 142 r. n.e. Ponad 1 800 lat historii. Dobre miejsce na to, zeby pisac kolejny rozdzial.</p>
+    <div class="kreason">
+      <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=900&q=70" alt="Najstarsze miasto">
+      <div class="kreason-overlay">
+        <div class="kreason-tag">Historia</div>
+        <div class="kreason-title">Najstarsze miasto w Polsce</div>
+        <div class="kreason-text">Kalisz to najstarsza udokumentowana osada na ziemiach polskich - wzmiankowana już przez Ptolemeusza około 142 r. n.e. To dobre miejsce, by dopisać nasze historie.</div>
+      </div>
     </div>
   </div>
 </section>
 
 <div class="fl"></div>
 
-<!-- MAPA -->
-<section id="lokalizacja" style="padding-top:0">
-  <div class="sh">
-    <div class="slb">Dokladna lokalizacja</div>
-    <h2 class="st">Znajdz nas<br>na mapie.</h2>
-  </div>
-  <div class="lgrid">
-    <div class="linfo">
-      <div class="li"><div class="lic">🏛️</div><div><div class="lil">Glowna lokalizacja</div><div class="liv">Uniwersytet Kaliski</div><div class="lis">ul. Nowy Swiat 4a, 62-800 Kalisz<br>Aula (300 miejsc) - Sale warsztatowe - Teren zewnetrzny</div></div></div>
-      <div class="li"><div class="lic">📅</div><div><div class="lil">Termin</div><div class="liv">28-30 sierpnia 2026</div><div class="lis">Piatek od 15:00 - Niedziela do ok. 15:00<br>Piatek zaczyna sie zwiedzaniem Kalisza od 10:00</div></div></div>
-      <div class="li"><div class="lic">🏨</div><div><div class="lil">Noclegi</div><div class="liv">Akademiki i hotele w poblizu</div><div class="lis">Dysponujemy miejscami w akademikach Uniwersytetu Kaliskiego. Po rejestracji skontaktuj sie z nami po wiecej informacji.</div></div></div>
-      <div class="li"><div class="lic">🚂</div><div><div class="lil">Dojazd</div><div class="liv">Pociag, auto, bus</div><div class="lis">Kalisz ma polaczenia kolejowe i autobusowe z Warszawa, Wrocławiem, Poznaniem i Lodzią. Szczegoly dojazdu udostepnimy wkrotce.</div></div></div>
+<!-- LOKALIZACJA - mapa OBOK -->
+<section id="lokalizacja">
+  <div class="lokaliz-grid">
+    <div class="lokaliz-left">
+      <div class="sh">
+        <div class="slb">Dokładna lokalizacja</div>
+        <h2 class="st">Znajdź nas<br>na mapie.</h2>
+      </div>
+      <div class="linfo">
+        <div class="li"><div class="lic">🏛️</div><div><div class="lil">Główna lokalizacja</div><div class="liv">Uniwersytet Kaliski</div><div class="lis">ul. Poznańska 201, Collegium Oecologicum<br>62-800 Kalisz</div></div></div>
+        <div class="li"><div class="lic">📅</div><div><div class="lil">Termin</div><div class="liv">28-30 sierpnia 2026</div></div></div>
+        <div class="li"><div class="lic">🏨</div><div><div class="lil">Noclegi</div><div class="liv">Akademiki i hotele</div><div class="lis">Dysponujemy miejscami w akademikach Uniwersytetu Kaliskiego. Po rejestracji skontaktuj się z nami po więcej informacji. Polecamy rejestrację grupową.</div></div></div>
+        <div class="li"><div class="lic">🚂</div><div><div class="lil">Dojazd</div><div class="liv">Pociąg, auto</div><div class="lis">Kalisz ma bezpośrednie połączenia kolejowe i autobusowe z Warszawą, Wrocławiem, Poznaniem, Łodzią i Białymstokiem.</div></div></div>
+      </div>
     </div>
     <div class="mapwrap">
-      <iframe src="https://maps.google.com/maps?q=Uniwersytet+Kaliski,+ul.+Nowy+%C5%9Awiat+4a,+Kalisz&output=embed&z=15" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa - Uniwersytet Kaliski"></iframe>
+      <iframe src="https://maps.google.com/maps?q=ul.+Pozna%C5%84ska+201,+62-800+Kalisz&output=embed&z=16" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa - Uniwersytet Kaliski"></iframe>
     </div>
   </div>
 </section>
@@ -554,17 +523,15 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
 <!-- FAQ -->
 <section id="faq">
   <div class="sh">
-    <div class="slb">Najczestsze pytania</div>
+    <div class="slb">Najczęstsze pytania</div>
     <h2 class="st">FAQ</h2>
-    <p class="sd">Nie znalazles odpowiedzi? Napisz - odpiszemy szybko.</p>
   </div>
   <div class="fl2">
-    <div class="fi"><button class="fq" onclick="faq(this)">Czy musze byc czlonkiem Toastmasters, zeby wziac udzial? <span class="fa2">+</span></button><div class="fans"><div class="fai">Nie. Mistrzostwa sa otwarte dla wszystkich - zarowno aktywnych czlonkow Toastmasters, jak i osob, ktore nigdy z organizacja nie mialy kontaktu. Mozesz przyjechac jako widz konkursow, uczestnik warsztatow lub gos ciaz calego weekendu.</div></div></div>
-    <div class="fi"><button class="fq" onclick="faq(this)">Jakie cztery konkursy odbeda sie na Mistrzostwach? <span class="fa2">+</span></button><div class="fans"><div class="fai">W 2026 roku bedziemy miec cztery konkursy: Konkurs Mow Wszelakich (przemowienia przygotowane), Konkurs Mow Humorystycznych, Konkurs Ewaluacji oraz Konkurs Goracych Pytan. Kazdy z nich testuje inne umiejetnosci mowcy.</div></div></div>
-    <div class="fi"><button class="fq" onclick="faq(this)">Czy moge przyjechac tylko na jeden dzien lub wybrane czesci? <span class="fa2">+</span></button><div class="fans"><div class="fai">Tak. Bedziemy miec kilka pakietow biletowych - mozliwosc uczestnictwa tylko w konkursach, tylko w warsztatach lub pelny dostep na trzy dni. Szczegoly i ceny zostaną ogloszone wkrotce.</div></div></div>
-    <div class="fi"><button class="fq" onclick="faq(this)">Czy sa dostepne miejsca noclegowe w poblizu? <span class="fa2">+</span></button><div class="fans"><div class="fai">Tak. Dysponujemy miejscami w akademikach Uniwersytetu Kaliskiego - to najwygodniejsza opcja, zeby byc blisko akcji przez caly weekend. Skontaktuj sie z nami po rejestracji, zeby poznac szczegoly i dostepnosc.</div></div></div>
-    <div class="fi"><button class="fq" onclick="faq(this)">Jak dojechac do Kalisza? <span class="fa2">+</span></button><div class="fans"><div class="fai">Kalisz ma polaczenia kolejowe i autobusowe z glownymi miastami w Polsce. Z Warszawy, Wroclawia, Poznania i Lodzi to okolo 1,5 do 2,5 godziny jazdy. Szczegolowy przewodnik dojazdu - takze dla osob jadacych samochodem - udostepnimy zarejestrowanym uczestnikom wkrotce.</div></div></div>
-    <div class="fi"><button class="fq" onclick="faq(this)">Mam inne pytanie - jak sie skontaktowac? <span class="fa2">+</span></button><div class="fans"><div class="fai">Napisz do nas na adres kontakt@efektfeniksa.pl - odpiszemy w ciagu 48 godzin. Obserwuj tez nasze media spolecznosciowe, zeby byc na biezaco z kazdą aktualizacja.</div></div></div>
+    <div class="fi"><button class="fq" onclick="faq(this)">Czy muszę być członkiem Toastmasters, żeby wziąć udział? <span class="fa2">+</span></button><div class="fans"><div class="fai">Nie. Mistrzostwa są otwarte dla wszystkich - zarówno aktywnych członków Toastmasters, jak i osób, które nigdy z organizacją nie miały kontaktu. Możesz przyjechać jako widz konkursów, uczestnik warsztatów lub uczestniczyć we wszystkich aktywnościach.</div></div></div>
+    <div class="fi"><button class="fq" onclick="faq(this)">Jakie cztery konkursy odbędą się na Mistrzostwach? <span class="fa2">+</span></button><div class="fans"><div class="fai">W 2026 roku będziemy mieć cztery konkursy: Konkurs Mów Wszelakich (przemówienia przygotowane), Konkurs Mów Humorystycznych (przemówienia przygotowane), Konkurs Ewaluacji oraz Konkurs Gorących Pytań (improwizacja). Każdy z konkursów poprzedzały eliminacje.</div></div></div>
+    <div class="fi"><button class="fq" onclick="faq(this)">Czy mogę przyjechać tylko na jeden dzień lub wybrane części? <span class="fa2">+</span></button><div class="fans"><div class="fai">Tak. Będziemy mieć kilka pakietów biletowych - jest możliwość uczestnictwa tylko w konkursach, tylko w warsztatach i konkursach lub pełny dostęp na trzy dni. Szczegóły i ceny zostaną ogłoszone wkrótce.</div></div></div>
+    <div class="fi"><button class="fq" onclick="faq(this)">Czy są dostępne miejsca noclegowe w przystępnej cenie? <span class="fa2">+</span></button><div class="fans"><div class="fai">Tak. Dysponujemy miejscami w akademikach Uniwersytetu Kaliskiego - to najwygodniejsza i najtańsza opcja. Skontaktuj się z nami po rejestracji, żeby poznać szczegóły i dostępność.</div></div></div>
+    <div class="fi"><button class="fq" onclick="faq(this)">Mam inne pytanie - jak się skontaktować? <span class="fa2">+</span></button><div class="fans"><div class="fai">Napisz do nas na adres kontakt@efektfeniksa.pl. Obserwuj też nasze media społecznościowe, żeby być na bieżąco z każdą aktualizacją.</div></div></div>
   </div>
 </section>
 
@@ -573,11 +540,11 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
   <div class="ctabg"></div>
   <span class="deco" style="bottom:-56px;left:50%;transform:translateX(-50%)">2026</span>
   <div class="ctac">
-    <div class="ctae">Dolacz do nas</div>
-    <h2 class="ctat">Twoj plomien czeka<br>na <span class="fire">wzniecenie.</span></h2>
-    <p class="ctas">Zostań czescia najwiekszego eventu poswieconego wystąpieniom publicznym w Polsce. Rejestracja ruszy wkrotce.</p>
+    <div class="ctae">Dołącz do nas</div>
+    <h2 class="ctat">Rozwiń swe skrzydła<br>w <span class="fire">ogniu inspiracji.</span></h2>
+    <p class="ctas">Zostań częścią największego eventu poświęconego wystąpieniom publicznym w Polsce. Rejestracja ruszy wkrótce.</p>
     <div class="ctabtns">
-      <a href="#bilety" class="bp">Sprawdz bilety &rarr;</a>
+      <a href="#bilety" class="bp">Kup bilet &rarr;</a>
       <a href="mailto:kontakt@efektfeniksa.pl" class="bs">Napisz do nas</a>
     </div>
   </div>
@@ -598,6 +565,10 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
         <a href="#faq">FAQ</a>
         <a href="mailto:kontakt@efektfeniksa.pl">Kontakt</a>
       </div>
+      <div class="flegal">
+        <a href="regulamin.html">Regulamin wydarzenia</a>
+        <a href="polityka-prywatnosci.html">Polityka prywatności</a>
+      </div>
     </div>
     <div>
       <div style="font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--w6);margin-bottom:9px;text-align:right">Obserwuj nas</div>
@@ -609,36 +580,27 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
 </footer>
 
 <script is:inline>
-// NAV
 const nb = document.getElementById('nb');
 window.addEventListener('scroll',()=>nb.classList.toggle('sc',scrollY>40));
 function toggleNav(){
-  const nl=document.getElementById('nl');
-  const hb=document.getElementById('hbg');
-  nl.classList.toggle('open');
-  hb.classList.toggle('open');
+  document.getElementById('nl').classList.toggle('open');
+  document.getElementById('hbg').classList.toggle('open');
 }
-
-// TABS
 function showDay(id,btn){
   document.querySelectorAll('.dp').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.dtab').forEach(t=>t.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   btn.classList.add('active');
 }
-
-// FAQ
 function faq(btn){
   const it=btn.closest('.fi');
   const op=it.classList.contains('open');
   document.querySelectorAll('.fi').forEach(i=>i.classList.remove('open'));
   if(!op)it.classList.add('open');
 }
-
-// COUNTDOWN
 function tick(){
   const diff=new Date('2026-08-28T00:00:00')-new Date();
-  if(diff<=0){document.getElementById('cb').innerHTML='<div class="clbl" style="color:var(--g)">Mistrzostwa trwaja!</div>';return;}
+  if(diff<=0){document.getElementById('cb').innerHTML='<div class="clbl" style="color:var(--g)">Mistrzostwa trwają!</div>';return;}
   const d=Math.floor(diff/86400000),h=Math.floor(diff%86400000/3600000),m=Math.floor(diff%3600000/60000),s=Math.floor(diff%60000/1000);
   document.getElementById('cd').textContent=String(d).padStart(3,'0');
   document.getElementById('ch').textContent=String(h).padStart(2,'0');
@@ -647,27 +609,25 @@ function tick(){
 }
 tick();setInterval(tick,1000);
 
-// PARTICLES
 const cv=document.getElementById('cv'),cx=cv.getContext('2d');
 function rsz(){cv.width=innerWidth;cv.height=innerHeight;}
 rsz();addEventListener('resize',rsz);
 const pts=[];
-function mkp(){return{x:innerWidth*.5+(Math.random()-.5)*innerWidth*.88,y:innerHeight*.1+Math.random()*innerHeight*.8,vx:(Math.random()-.5)*.65,vy:-Math.random()*1.05-.18,l:0,ml:130+Math.random()*190,sz:.8+Math.random()*1.7,c:Math.random()>.5?'#FF5B00':'#FCA311'};}
-for(let i=0;i<60;i++){const p=mkp();p.l=Math.random()*p.ml;pts.push(p);}
+function mkp(){return{x:Math.random()*innerWidth,y:innerHeight*.05+Math.random()*innerHeight*.9,vx:(Math.random()-.5)*.7,vy:-Math.random()*1.1-.15,l:0,ml:130+Math.random()*200,sz:.7+Math.random()*1.9,c:Math.random()>.5?'#FF5B00':'#FCA311'};}
+for(let i=0;i<130;i++){const p=mkp();p.l=Math.random()*p.ml;pts.push(p);}
 (function anim(){
   cx.clearRect(0,0,cv.width,cv.height);
   for(const p of pts){
     p.l++;if(p.l>p.ml)Object.assign(p,mkp(),{l:0});
-    const a=Math.sin(p.l/p.ml*Math.PI)*.5;
-    p.x+=p.vx+Math.sin(p.l*.04)*.2;p.y+=p.vy;
+    const a=Math.sin(p.l/p.ml*Math.PI)*.55;
+    p.x+=p.vx+Math.sin(p.l*.04)*.22;p.y+=p.vy;
     cx.save();cx.globalAlpha=a;cx.fillStyle=p.c;cx.shadowBlur=5;cx.shadowColor=p.c;cx.beginPath();cx.arc(p.x,p.y,p.sz,0,Math.PI*2);cx.fill();cx.restore();
   }
   requestAnimationFrame(anim);
 })();
 
-// FADE IN
 const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}}),{threshold:.07});
-document.querySelectorAll('section,.sb,.tc,.fi,.li,.kr').forEach(el=>{
+document.querySelectorAll('section,.sb,.tc,.fi,.li,.kreason').forEach(el=>{
   el.style.opacity='0';el.style.transform='translateY(16px)';el.style.transition='opacity .55s ease,transform .55s ease';
   obs.observe(el);
 });
