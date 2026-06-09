@@ -66,7 +66,6 @@ h1 .l1,h1 .l2{display:block}
 .bp:hover{transform:translateY(-2px);opacity:.9}
 .bs{display:inline-flex;align-items:center;gap:7px;background:transparent;color:var(--w);font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;padding:12px 28px;border-radius:2px;border:1px solid rgba(255,255,255,.15);cursor:pointer;transition:border-color .2s,color .2s}
 .bs:hover{border-color:var(--g);color:var(--g)}
-.bd{display:block;width:100%;text-align:center;padding:11px;border:1px solid rgba(255,255,255,.1);color:var(--w6);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:none;cursor:not-allowed;border-radius:2px;opacity:.5}
 
 /* FLINE */
 .fl{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--o),var(--g),transparent);opacity:.2}
@@ -75,11 +74,11 @@ h1 .l1,h1 .l2{display:block}
 #partnerzy{background:var(--w);padding:48px 5%;position:relative;z-index:2;overflow:hidden}
 .partnerzy-wrap{max-width:1100px;margin:0 auto;position:relative;display:flex;flex-direction:column;align-items:center;gap:24px}
 .partnerzy-tit{font-size:11px;font-weight:800;letter-spacing:.24em;color:var(--dark-o);text-transform:uppercase}
-.partnerzy-logos{display:flex;align-items:center;justify-content:center;gap:64px;flex-wrap:wrap;position:relative;z-index:2}
-.pl-box{height:60px;min-width:160px;display:flex;align-items:center;justify-content:center;padding:10px 22px;border:1px dashed #d4d4d4;border-radius:2px;color:#999;font-size:11px;font-weight:700;letter-spacing:.06em;text-align:center;text-transform:uppercase;line-height:1.4}
-.partnerzy-decor{position:absolute;right:-80px;top:50%;transform:translateY(-50%);width:280px;height:280px;pointer-events:none;z-index:1;display:flex;align-items:center;justify-content:center}
-.mist{position:absolute;inset:0;background:none;filter:blur(28px)}
-.phoenix-decor{position:relative;z-index:2;width:120px;height:120px;opacity:.92}
+.partnerzy-logos{display:flex;align-items:flex-start;justify-content:center;gap:44px;flex-wrap:wrap;position:relative;z-index:2}
+.pl-item{display:flex;flex-direction:column;align-items:center;gap:13px}
+.pl-role{font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--dark-o);min-height:12px}
+.pl-logo{height:58px;width:auto;max-width:230px;object-fit:contain;display:block}
+.pl-logo.is-centrum{mix-blend-mode:multiply}
 
 /* SECTIONS COMMON */
 section{position:relative;z-index:2;padding:80px 5%}
@@ -114,7 +113,17 @@ section{position:relative;z-index:2;padding:80px 5%}
 .dtab:hover:not(.active){color:var(--w)}
 .dp{display:none;min-height:160px;padding:48px 0;text-align:center}
 .dp.active{display:block}
-.dp-empty{font-size:13px;font-weight:700;letter-spacing:.05em;color:var(--w6);font-style:italic;opacity:.7}
+.dp{text-align:left}
+.si{display:flex;gap:20px;align-items:flex-start;padding:18px 0;border-top:1px solid rgba(255,255,255,.06)}
+.si:first-child{border-top:none}
+.stm{font-size:15px;font-weight:800;letter-spacing:-.02em;color:var(--g);min-width:58px;padding-top:2px}
+.sc h4{font-size:16px;font-weight:800;letter-spacing:-.02em;margin-bottom:5px}
+.sc p{font-size:13px;font-weight:400;color:var(--w6);line-height:1.6;margin-bottom:9px;max-width:560px}
+.tag{display:inline-block;font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:3px 9px;border-radius:2px}
+.tag.ts{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--w6)}
+.tag.tk{background:linear-gradient(135deg,var(--o),var(--g));color:var(--bg)}
+.dp-soon{margin-top:18px;font-size:12px;font-weight:700;letter-spacing:.03em;color:var(--w6);font-style:italic;opacity:.75}
+.dp-empty{font-size:13px;font-weight:700;letter-spacing:.05em;color:var(--w6);font-style:italic;opacity:.7;text-align:center}
 .dp-empty::before{content:'⏳';display:block;font-size:32px;margin-bottom:14px;opacity:.5;font-style:normal}
 
 /* PRELEGENCI */
@@ -127,26 +136,6 @@ section{position:relative;z-index:2;padding:80px 5%}
 .sgc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);padding:22px 16px;filter:blur(1.5px);opacity:.28}
 .sga{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.05);margin-bottom:11px}
 .sgl{height:8px;background:rgba(255,255,255,.05);border-radius:2px;margin-bottom:6px}
-
-/* BILETY */
-#bilety{background:linear-gradient(180deg,transparent 0%,rgba(5,5,113,.15) 100%)}
-.csbg{display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;background:rgba(252,163,17,.07);border:1px solid rgba(252,163,17,.2);color:var(--g);padding:4px 11px;border-radius:2px;margin-bottom:32px}
-.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
-.tc{background:rgba(5,5,113,.15);border:1px solid rgba(255,255,255,.06);padding:30px 22px;position:relative;overflow:hidden;transition:transform .3s,border-color .3s}
-.tc:hover{transform:translateY(-3px);border-color:rgba(252,163,17,.18)}
-.tc.feat{background:linear-gradient(160deg,rgba(255,91,0,.13),rgba(252,163,17,.08));border-color:rgba(252,163,17,.32);border-width:2px}
-.tbg{position:absolute;top:12px;right:12px;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 7px;background:linear-gradient(135deg,var(--o),var(--g));color:var(--bg);border-radius:2px}
-.ttype{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--w6);margin-bottom:7px}
-.tnmb{font-size:19px;font-weight:800;letter-spacing:-.05em;margin-bottom:6px}
-.tnmb.feat-nm{background:linear-gradient(135deg,var(--g),var(--o));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.tsub{font-size:11px;font-weight:700;letter-spacing:.04em;font-style:italic;color:var(--w6);margin-bottom:18px}
-.pph{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--w6);background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.09);padding:4px 11px;border-radius:2px;display:inline-block;margin-bottom:6px}
-.pph.fp{color:var(--g);border-color:rgba(252,163,17,.18);background:rgba(252,163,17,.04)}
-.tper{font-size:11px;font-weight:400;color:var(--w6);margin-bottom:20px;letter-spacing:-.01em}
-.tfl{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:22px}
-.tfl li{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:400;color:var(--w6)}
-.tfl li.chk::before{content:'✓';width:15px;height:15px;min-width:15px;border-radius:50%;background:linear-gradient(135deg,var(--o),var(--g));font-size:8px;font-weight:800;color:var(--bg);display:flex;align-items:center;justify-content:center}
-.tfl li.gr::before{content:'';width:15px;height:15px;min-width:15px;border-radius:50%;background:rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center}
 
 /* DLACZEGO KALISZ - REWORKED with hover reveals */
 #kalisz{background:linear-gradient(180deg,rgba(5,5,113,.15) 0%,transparent 100%)}
@@ -186,7 +175,7 @@ section{position:relative;z-index:2;padding:80px 5%}
 .fi.open .fa2{transform:rotate(45deg)}
 .fans{max-height:0;overflow:hidden;transition:max-height .35s ease}
 .fai{padding:0 20px 16px;font-size:13px;font-weight:400;letter-spacing:-.01em;color:var(--w6);line-height:1.7}
-.fi.open .fans{max-height:280px}
+.fi.open .fans{max-height:1200px}
 
 /* CTA */
 #kontakt{text-align:center;padding:100px 5%;position:relative;overflow:hidden}
@@ -212,7 +201,6 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
 
 /* RESPONSIVE */
 @media(max-width:1024px){
-  .tgrid{grid-template-columns:1fr 1fr}
   .sgh{grid-template-columns:1fr 1fr}
   .sgh .sgc:last-child{display:none}
   .kreasons{grid-template-columns:1fr;height:auto}
@@ -230,10 +218,8 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
   .sgh{grid-template-columns:1fr 1fr}
   .ftop{grid-template-columns:1fr;gap:18px}
   .partnerzy-logos{gap:32px}
-  .partnerzy-decor{display:none}
 }
 @media(max-width:680px){
-  .tgrid{grid-template-columns:1fr}
   .asg{grid-template-columns:1fr 1fr}
   .hmeta{gap:4px}
   .dtabs{overflow-x:auto;-webkit-overflow-scrolling:touch}
@@ -257,10 +243,9 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
     <li><a href="#onas">O wydarzeniu</a></li>
     <li><a href="#program">Program</a></li>
     <li><a href="#prelegenci">Prelegenci</a></li>
-    <li><a href="#bilety">Bilety</a></li>
     <li><a href="#kalisz">Kalisz</a></li>
     <li><a href="#faq">FAQ</a></li>
-    <li><a href="#bilety" class="ncta">Kup bilet</a></li>
+    <li><a href="https://goostaura.com" target="_blank" rel="noopener" class="ncta">Dołącz do nas</a></li>
   </ul>
   <button class="hbg" id="hbg" aria-label="Menu" onclick="toggleNav()">
     <span></span><span></span><span></span>
@@ -298,7 +283,7 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
       <div class="hmi">Kalisz</div>
     </div>
     <div class="hbtns">
-      <a href="#bilety" class="bp">Kup bilet &rarr;</a>
+      <a href="https://goostaura.com" target="_blank" rel="noopener" class="bp">Dołącz do nas &rarr;</a>
     </div>
   </div>
   <div class="scroll-h"><span>Przewiń</span><div class="sarr"></div></div>
@@ -311,23 +296,18 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
   <div class="partnerzy-wrap">
     <div class="partnerzy-tit">Organizatorzy i partnerzy</div>
     <div class="partnerzy-logos">
-      <div class="pl-box">Toastmasters<br>Centrum</div>
-      <div class="pl-box">Polskie Stowarzyszenie<br>Mówców</div>
-    </div>
-    <div class="partnerzy-decor">
-      
-      <svg class="phoenix-decor" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="19" cy="19" r="18" stroke="#FF5B00" stroke-width="1.2" opacity=".75"/>
-        <ellipse cx="19" cy="24" rx="6" ry="9" fill="url(#pd1)"/>
-        <path d="M19 8C14 12 12 16 15 20C16 17 18 15 19 18C20 15 22 17 23 20C26 16 24 12 19 8Z" fill="url(#pd2)"/>
-        <path d="M11 16C8 14 7 11 10 10C9 13 13 14 14 18Z" fill="url(#pd3)"/>
-        <path d="M27 16C30 14 31 11 28 10C29 13 25 14 24 18Z" fill="url(#pd3)"/>
-        <defs>
-          <linearGradient id="pd1" x1="19" y1="15" x2="19" y2="33" gradientUnits="userSpaceOnUse"><stop stop-color="#FCA311"/><stop offset="1" stop-color="#FF5B00"/></linearGradient>
-          <linearGradient id="pd2" x1="19" y1="8" x2="19" y2="20" gradientUnits="userSpaceOnUse"><stop stop-color="#FCA311"/><stop offset="1" stop-color="#FF5B00"/></linearGradient>
-          <linearGradient id="pd3" x1="10" y1="10" x2="18" y2="18" gradientUnits="userSpaceOnUse"><stop stop-color="#FCA311"/><stop offset="1" stop-color="#FF5B00" stop-opacity=".5"/></linearGradient>
-        </defs>
-      </svg>
+      <div class="pl-item">
+        <div class="pl-role">Organizator</div>
+        <img class="pl-logo" src="/images/logo-stowarzyszenie.png" alt="Centrum Polskie Stowarzyszenie Mówców" loading="lazy">
+      </div>
+      <div class="pl-item">
+        <div class="pl-role"></div>
+        <img class="pl-logo" src="/images/logo-uniwersytet.png" alt="Uniwersytet Kaliski" loading="lazy">
+      </div>
+      <div class="pl-item">
+        <div class="pl-role">Współorganizator</div>
+        <img class="pl-logo is-centrum" src="/images/logo-centrum.jpg" alt="Toastmasters Centrum" loading="lazy">
+      </div>
     </div>
   </div>
 </section>
@@ -376,12 +356,21 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
     <button class="dtab" onclick="showDay('p3',this)">Niedziela - 30.08</button>
   </div>
   <div id="p1" class="dp active">
- <div class="si"><div class="stm">10:00</div><div class="sc"><h4>Zwiedzanie Kalisza</h4><p>Czas na odkrycie najstarszego miasta w Polsce. Spacer, historia, pierwsze znajomości.</p><span class="tag ts">Opcjonalne</span></div></div>
- <div class="si"><div class="stm">15:00</div><div class="sc"><h4>Rejestracja</h4><p>Odbiór materiałów, zapoznanie z przestrzenią, pierwsze rozmowy.</p><span class="tag ts">Logistyka</span></div></div>
- <div class="si"><div class="stm">18:00</div><div class="sc"><h4>Konkurs Mów Wszelakich</h4><p>Oficjalny konkurs – mistrzowie słowa w akcji. To już potwierdzone!</p><span class="tag tk">Konkurs</span></div></div>
-</div></div>
-  <div id="p2" class="dp"><div class="dp-empty">Agenda dnia zostanie opublikowana wkrótce</div></div>
-  <div id="p3" class="dp"><div class="dp-empty">Agenda dnia zostanie opublikowana wkrótce</div></div>
+    <div class="si"><div class="stm">10:00</div><div class="sc"><h4>Zwiedzanie Kalisza</h4><p>Czas na odkrycie najstarszego miasta w Polsce. Spacer, historia, pierwsze znajomości.</p><span class="tag ts">Opcjonalne</span></div></div>
+    <div class="si"><div class="stm">15:00</div><div class="sc"><h4>Rejestracja</h4><p>Odbiór materiałów, zapoznanie z przestrzenią, pierwsze rozmowy.</p><span class="tag ts">Logistyka</span></div></div>
+    <div class="si"><div class="stm">18:00</div><div class="sc"><h4>Konkurs Mów Wszelakich</h4><p>Oficjalny konkurs – mistrzowie słowa w akcji. To już potwierdzone!</p><span class="tag tk">Konkurs</span></div></div>
+  </div>
+  <div id="p2" class="dp">
+    <div class="si"><div class="stm">—</div><div class="sc"><h4>Warsztaty</h4><p>Dzień rozwoju – warsztaty z najlepszymi praktykami wystąpień publicznych.</p><span class="tag ts">Rozwój</span></div></div>
+    <div class="si"><div class="stm">—</div><div class="sc"><h4>Konkursy</h4><p>Konkurs Mów Humorystycznych, Konkurs Ewaluacji oraz Konkurs Gorących Pytań.</p><span class="tag tk">Konkurs</span></div></div>
+    <div class="si"><div class="stm">—</div><div class="sc"><h4>Gala Nagród i After Party</h4><p>Wieczorne wręczenie nagród, a po nim wspólne świętowanie.</p><span class="tag ts">Wieczór</span></div></div>
+    <div class="dp-soon">Dokładne godziny zostaną wkrótce uzupełnione.</div>
+  </div>
+  <div id="p3" class="dp">
+    <div class="si"><div class="stm">—</div><div class="sc"><h4>Warsztaty</h4><p>Kolejna porcja praktycznej wiedzy i ćwiczeń na zakończenie Mistrzostw.</p><span class="tag ts">Rozwój</span></div></div>
+    <div class="si"><div class="stm">—</div><div class="sc"><h4>Zakończenie</h4><p>Podsumowanie trzech dni i pożegnanie społeczności Efektu Feniksa.</p><span class="tag ts">Finał</span></div></div>
+    <div class="dp-soon">Dokładne godziny zostaną wkrótce uzupełnione.</div>
+  </div>
 </section>
 
 <div class="fl"></div>
@@ -405,69 +394,6 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
 
 <div class="fl"></div>
 
-<!-- BILETY -->
-<section id="bilety">
-  <div class="sh">
-    <div class="slb">Rejestracja</div>
-    <h2 class="st">Wybierz swoje miejsce.</h2>
-    <div class="csbg">&#9203;&nbsp; Ceny i rejestracja wkrótce</div>
-  </div>
-  <div class="tgrid">
-
-    <div class="tc">
-      <div class="ttype">Pakiet podstawowy</div>
-      <div class="tnmb">Iskra</div>
-      <div class="tsub">Początek zawsze zaczyna się od iskry</div>
-      <div class="pph">Cena wkrótce</div>
-      <div class="tper">Dostęp do konkursów - piątek i sobota</div>
-      <ul class="tfl">
-        <li class="chk">4 konkursy - Mowy Wszelakie, Humorystyczne, Ewaluacje, Gorące Pytania</li>
-        <li class="chk">Networking z uczestnikami</li>
-        <li class="chk">Materiały uczestnika</li>
-        <li class="gr">Warsztaty - nie wliczone</li>
-        <li class="gr">After Party - nie wliczone</li>
-      </ul>
-      <div class="bd">Wkrótce dostępny</div>
-    </div>
-
-    <div class="tc feat">
-      <div class="tbg">Polecany</div>
-      <div class="ttype">Pakiet pełny</div>
-      <div class="tnmb feat-nm">Efekt Feniksa</div>
-      <div class="tsub">Pełne przeżycie - od iskry do płomienia</div>
-      <div class="pph fp">Cena wkrótce</div>
-      <div class="tper">3 dni - Konkursy + Warsztaty + After Party</div>
-      <ul class="tfl">
-        <li class="chk">4 konkursy</li>
-        <li class="chk">Wszystkie warsztaty (sobota i niedziela)</li>
-        <li class="chk">After Party piątek</li>
-        <li class="chk">After Party sobota (po Gali Nagród)</li>
-        <li class="chk">Materiały uczestnika</li>
-      </ul>
-      <div class="bd" style="border-color:rgba(252,163,17,.22);color:var(--g)">Wkrótce dostępny</div>
-    </div>
-
-    <div class="tc">
-      <div class="ttype">Pakiet warsztatowy</div>
-      <div class="tnmb">Płomień</div>
-      <div class="tsub">Wiedza, która zmienia sposoby działania</div>
-      <div class="pph">Cena wkrótce</div>
-      <div class="tper">Konkursy + Warsztaty sobota i niedziela</div>
-      <ul class="tfl">
-        <li class="chk">4 konkursy</li>
-        <li class="chk">Wszystkie warsztaty (sobota i niedziela)</li>
-        <li class="chk">Networking z uczestnikami</li>
-        <li class="chk">Materiały uczestnika</li>
-        <li class="gr">After Party - nie wliczone</li>
-      </ul>
-      <div class="bd">Wkrótce dostępny</div>
-    </div>
-
-  </div>
-</section>
-
-<div class="fl"></div>
-
 <!-- DLACZEGO KALISZ - hover reveal -->
 <section id="kalisz">
   <div class="sh">
@@ -476,7 +402,7 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
   </div>
   <div class="kreasons">
     <div class="kreason">
-      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=70" alt="Centrum Polski">
+      <img src="/images/kalisz-centrum-polski.webp" alt="Centrum Polski" loading="lazy">
       <div class="kreason-overlay">
         <div class="kreason-tag">Geografia</div>
         <div class="kreason-title">Centrum Polski</div>
@@ -484,7 +410,7 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
       </div>
     </div>
     <div class="kreason">
-      <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=900&q=70" alt="Miasto bez klubu">
+      <img src="/images/kalisz-miasto-bez-klubu.jpg" alt="Miasto bez klubu" loading="lazy">
       <div class="kreason-overlay">
         <div class="kreason-tag">Misja</div>
         <div class="kreason-title">Miasto bez klubu</div>
@@ -492,7 +418,7 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
       </div>
     </div>
     <div class="kreason">
-      <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=900&q=70" alt="Najstarsze miasto">
+      <img src="/images/kalisz-najstarsze-miasto.jpg" alt="Najstarsze miasto" loading="lazy">
       <div class="kreason-overlay">
         <div class="kreason-tag">Historia</div>
         <div class="kreason-title">Najstarsze miasto w Polsce</div>
@@ -536,9 +462,12 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
   <div class="fl2">
     <div class="fi"><button class="fq" onclick="faq(this)">Czy muszę być członkiem Toastmasters, żeby wziąć udział? <span class="fa2">+</span></button><div class="fans"><div class="fai">Nie. Mistrzostwa są otwarte dla wszystkich - zarówno aktywnych członków Toastmasters, jak i osób, które nigdy z organizacją nie miały kontaktu. Możesz przyjechać jako widz konkursów, uczestnik warsztatów lub uczestniczyć we wszystkich aktywnościach.</div></div></div>
     <div class="fi"><button class="fq" onclick="faq(this)">Jakie cztery konkursy odbędą się na Mistrzostwach? <span class="fa2">+</span></button><div class="fans"><div class="fai">W 2026 roku będziemy mieć cztery konkursy: Konkurs Mów Wszelakich (przemówienia przygotowane), Konkurs Mów Humorystycznych (przemówienia przygotowane), Konkurs Ewaluacji oraz Konkurs Gorących Pytań (improwizacja). Każdy z konkursów poprzedzały eliminacje.</div></div></div>
-    <div class="fi"><button class="fq" onclick="faq(this)">Czy mogę przyjechać tylko na jeden dzień lub wybrane części? <span class="fa2">+</span></button><div class="fans"><div class="fai">Tak. Będziemy mieć kilka pakietów biletowych - jest możliwość uczestnictwa tylko w konkursach, tylko w warsztatach i konkursach lub pełny dostęp na trzy dni. Szczegóły i ceny zostaną ogłoszone wkrótce.</div></div></div>
+    <div class="fi"><button class="fq" onclick="faq(this)">Czy mogę przyjechać tylko na jeden dzień lub wybrane części? <span class="fa2">+</span></button><div class="fans"><div class="fai">Tak. Możesz dołączyć na cały weekend albo wybrać interesujące Cię części - same konkursy, konkursy z warsztatami lub pełny, trzydniowy program. Efekt Feniksa jest wydarzeniem niekomercyjnym - dołączasz, przekazując darowiznę, a w podziękowaniu otrzymujesz wejściówkę. Szczegóły ogłosimy wkrótce.</div></div></div>
     <div class="fi"><button class="fq" onclick="faq(this)">Czy są dostępne miejsca noclegowe w przystępnej cenie? <span class="fa2">+</span></button><div class="fans"><div class="fai">Tak. Dysponujemy miejscami w akademikach Uniwersytetu Kaliskiego - to najwygodniejsza i najtańsza opcja. Skontaktuj się z nami po rejestracji, żeby poznać szczegóły i dostępność.</div></div></div>
     <div class="fi"><button class="fq" onclick="faq(this)">Mam inne pytanie - jak się skontaktować? <span class="fa2">+</span></button><div class="fans"><div class="fai">Napisz do nas na adres kontakt@efektfeniksa.pl. Obserwuj też nasze media społecznościowe, żeby być na bieżąco z każdą aktualizacją.</div></div></div>
+    <div class="fi"><button class="fq" onclick="faq(this)">Kto organizuje Efekt Feniksa? <span class="fa2">+</span></button><div class="fans"><div class="fai">Organizatorem wydarzenia jest Centrum Polskie Stowarzyszenie Mówców. Efekt Feniksa wyrasta ze społeczności Toastmasters - ludzi, którzy na co dzień ćwiczą wystąpienia publiczne i wspierają się w rozwoju. Społeczność jest sercem wydarzenia, ale za organizację odpowiada stowarzyszenie. Działamy jako stowarzyszenie. Nie zarabiamy na tym wydarzeniu - tworzymy je z pasji i z potrzeby budowania kultury wystąpień publicznych w Polsce. Wydarzenie powstaje dzięki ludziom, którzy chcą być jego częścią i wspierają je swoimi darowiznami.</div></div></div>
+    <div class="fi"><button class="fq" onclick="faq(this)">Chcesz być częścią Efektu Feniksa? <span class="fa2">+</span></button><div class="fans"><div class="fai">Świetnie - to proste. Zbieramy darowizny na organizację wydarzenia i z nich powstaje cały Efekt Feniksa. Dołączasz, przekazując darowiznę na stronie <a href="https://goostaura.com" target="_blank" rel="noopener" style="color:var(--g);text-decoration:underline">goostaura.com</a>.</div></div></div>
+    <div class="fi"><button class="fq" onclick="faq(this)">Co jeśli wesprę wydarzenie, ale ostatecznie nie mogę przyjechać? <span class="fa2">+</span></button><div class="fans"><div class="fai">Darowizna jest bezzwrotna, ale może ktoś inny mógłby być częścią wydarzenia. Daj nam tylko znać na <a href="mailto:kontakt@efektfeniksa.pl" style="color:var(--g);text-decoration:underline">kontakt@efektfeniksa.pl</a>.</div></div></div>
   </div>
 </section>
 
@@ -551,7 +480,7 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
     <h2 class="ctat">Rozwiń swe skrzydła<br>w <span class="fire">ogniu inspiracji.</span></h2>
     <p class="ctas">Zostań częścią największego eventu poświęconego wystąpieniom publicznym w Polsce. Rejestracja ruszy wkrótce.</p>
     <div class="ctabtns">
-      <a href="#bilety" class="bp">Kup bilet &rarr;</a>
+      <a href="https://goostaura.com" target="_blank" rel="noopener" class="bp">Dołącz do nas &rarr;</a>
       <a href="mailto:kontakt@efektfeniksa.pl" class="bs">Napisz do nas</a>
     </div>
   </div>
@@ -567,19 +496,18 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
         <a href="#onas">O wydarzeniu</a>
         <a href="#program">Program</a>
         <a href="#prelegenci">Prelegenci</a>
-        <a href="#bilety">Bilety</a>
         <a href="#kalisz">Kalisz</a>
         <a href="#faq">FAQ</a>
         <a href="mailto:kontakt@efektfeniksa.pl">Kontakt</a>
       </div>
       <div class="flegal">
-        <a href="regulamin.html">Regulamin wydarzenia</a>
-        <a href="polityka-prywatnosci.html">Polityka prywatności</a>
+        <a href="/regulamin/">Regulamin wydarzenia</a>
+        <a href="/polityka-prywatnosci/">Polityka prywatności</a>
       </div>
     </div>
     <div>
       <div style="font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--w6);margin-bottom:9px;text-align:right">Obserwuj nas</div>
-      <a href="#" class="fsl" title="Facebook" style="font-weight:800">f</a>
+      <a href="https://www.facebook.com/events/2033061234283047" target="_blank" rel="noopener" class="fsl" title="Facebook" aria-label="Facebook" style="font-weight:800">f</a>
     </div>
   </div>
   <div class="fl"></div>
@@ -631,26 +559,12 @@ for(let i=0;i<130;i++){const p=mkp();p.l=Math.random()*p.ml;pts.push(p);}
     cx.save();cx.globalAlpha=a;cx.fillStyle=p.c;cx.shadowBlur=5;cx.shadowColor=p.c;cx.beginPath();cx.arc(p.x,p.y,p.sz,0,Math.PI*2);cx.fill();cx.restore();
   }
   requestAnimationFrame(anim);
-<!-- EASTER EGG: Feniks z jajka -->
-<div style="text-align:center; padding:50px 20px 70px; background:rgba(0,1,16,.55); border-top:1px solid rgba(252,163,17,.08);">
-  <div onclick="hatchPhoenix()" 
-       style="display:inline-block; cursor:pointer; user-select:none; padding:20px; border-radius:8px; transition:all .2s;"
-       onmouseover="this.style.background='rgba(252,163,17,.06)'; this.style.transform='scale(1.02)'"
-       onmouseout="this.style.background='transparent'; this.style.transform='scale(1)'">
-    <pre id="egg" style="margin:0; font-size:15px; line-height:1.05; color:#FCA311; font-family:monospace; text-align:left;">   ___
-  /   \
- /     \
-|  • •  |
- \  ^  /
-  \___/</pre>
-  </div>
-  <div style="margin-top:14px; font-size:10px; letter-spacing:3px; color:#555;">kliknij jajko</div>
-</div>
+})();
 
-<script>
-function hatchPhoenix() {
-  const el = document.getElementById('egg');
-  const frames = [
+function hatchPhoenix(){
+  const el=document.getElementById('egg');
+  if(!el) return;
+  const frames=[
 `   ___
   /   \\
  /     \\
@@ -674,7 +588,7 @@ function hatchPhoenix() {
   /   \\
  / • • \\
 |   ^   |
- \\___/`,
+  \\___/`,
 `    /\\
    /  \\
   / 🔥 \\
@@ -686,78 +600,29 @@ function hatchPhoenix() {
   |       |
    \\    /`
   ];
-  let i = 0;
-  const interval = setInterval(() => {
-    i = (i + 1) % frames.length;
-    el.textContent = frames[i];
-    if (i === 0) clearInterval(interval);
-  }, 360);
+  let i=0;
+  const id=setInterval(()=>{
+    i=(i+1)%frames.length;
+    el.textContent=frames[i];
+    if(i===0) clearInterval(id);
+  },360);
 }
-
 </script>
 
-<!-- EASTER EGG: Feniks z jajka -->
-<div style="text-align:center; padding:60px 20px 80px; background:rgba(0,1,16,.6); border-top:1px solid rgba(252,163,17,.1);">
-  <div onclick="hatchPhoenix()" 
-       style="display:inline-block; cursor:pointer; user-select:none; padding:24px; border-radius:12px; transition:all .2s;"
-       onmouseover="this.style.background='rgba(252,163,17,.07)'; this.style.transform='scale(1.03)'"
-       onmouseout="this.style.background='transparent'; this.style.transform='scale(1)'">
-    <pre id="egg" style="margin:0; font-size:18px; line-height:1.1; color:#FCA311; font-family:monospace; text-align:left;">   ___
+<!-- EASTER EGG: klikalny feniks z jajka -->
+<div style="text-align:center;padding:54px 20px 76px;background:rgba(0,1,16,.55);border-top:1px solid rgba(252,163,17,.08)">
+  <div onclick="hatchPhoenix()" role="button" tabindex="0" aria-label="Tajny feniks"
+       style="display:inline-block;cursor:pointer;user-select:none;padding:20px;border-radius:10px;transition:all .2s"
+       onmouseover="this.style.background='rgba(252,163,17,.06)';this.style.transform='scale(1.02)'"
+       onmouseout="this.style.background='transparent';this.style.transform='scale(1)'">
+    <pre id="egg" style="margin:0;font-size:16px;line-height:1.05;color:#FCA311;font-family:monospace;text-align:left">   ___
   /   \
  /     \
 |  • •  |
  \  ^  /
   \___/</pre>
   </div>
-  <div style="margin-top:12px; font-size:11px; letter-spacing:3px; color:#555;">kliknij jajko 🥚</div>
+  <div style="margin-top:14px;font-size:10px;letter-spacing:3px;color:#555">kliknij jajko 🥚</div>
 </div>
-
-<script>
-function hatchPhoenix() {
-  const el = document.getElementById('egg');
-  const frames = [
-`   ___
-  /   \
- /     \
-|  • •  |
- \  ^  /
-  \___/`,
-`   ___
-  / _ \
- / / \ \
-|  • •  |
- \  ^  /
-  \___/`,
-`    _
-  / _ \
- / / \ \
-| •   • |
- \  ^  /
-  \___/`,
-`    _
-   / \
-  /   \
- / • • \
-|   ^   |
- \___/`,
-`    /\
-   /  \
-  / 🔥 \
- |  🦅  |
-  \    /`,
-`     /\
-    /🔥 \
-   / 🦅  \
-  |       |
-   \    /`
-  ];
-  let i = 0;
-  const interval = setInterval(() => {
-    i = (i + 1) % frames.length;
-    el.textContent = frames[i];
-    if (i === 0) clearInterval(interval);
-  }, 380);
-}
-</script>
 </body>
 </html>
