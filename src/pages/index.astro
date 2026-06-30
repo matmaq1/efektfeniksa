@@ -116,12 +116,13 @@ section{position:relative;z-index:2;padding:80px 5%}
 .dp{text-align:left}
 .si{display:flex;gap:20px;align-items:flex-start;padding:18px 0;border-top:1px solid rgba(255,255,255,.06)}
 .si:first-child{border-top:none}
-.stm{font-size:15px;font-weight:800;letter-spacing:-.02em;color:var(--g);min-width:58px;padding-top:2px}
+.stm{font-size:15px;font-weight:800;letter-spacing:-.02em;color:var(--g);min-width:108px;white-space:nowrap;padding-top:2px}
 .sc h4{font-size:16px;font-weight:800;letter-spacing:-.02em;margin-bottom:5px}
 .sc p{font-size:13px;font-weight:400;color:var(--w6);line-height:1.6;margin-bottom:9px;max-width:560px}
 .tag{display:inline-block;font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:3px 9px;border-radius:2px}
 .tag.ts{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--w6)}
 .tag.tk{background:linear-gradient(135deg,var(--o),var(--g));color:var(--bg)}
+.dintro{font-size:13px;font-weight:400;letter-spacing:-.01em;color:var(--w6);line-height:1.6;margin-bottom:6px;max-width:620px}
 .dp-soon{margin-top:18px;font-size:12px;font-weight:700;letter-spacing:.03em;color:var(--w6);font-style:italic;opacity:.75}
 .dp-empty{font-size:13px;font-weight:700;letter-spacing:.05em;color:var(--w6);font-style:italic;opacity:.7;text-align:center}
 .dp-empty::before{content:'⏳';display:block;font-size:32px;margin-bottom:14px;opacity:.5;font-style:normal}
@@ -322,8 +323,8 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
   </div>
   <div class="ag">
     <div class="asg">
-      <div class="sb"><div class="sn">10+</div><div class="sl">Lat tradycji</div></div>
-      <div class="sb"><div class="sn">300</div><div class="sl">Uczestników</div></div>
+      <div class="sb"><div class="sn">11</div><div class="sl">Edycja</div></div>
+      <div class="sb"><div class="sn">250</div><div class="sl">Uczestników</div></div>
       <div class="sb"><div class="sn">4</div><div class="sl">Konkursy</div></div>
       <div class="sb"><div class="sn">12+</div><div class="sl">Warsztatów</div></div>
     </div>
@@ -345,31 +346,35 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
     <div class="slb">Agenda</div>
     <h2 class="st">Trzy dni.<br>Jeden płomień.</h2>
   </div>
-  <div class="agenda-note">
-    <div>
-      <p>Pełna agenda zostanie opublikowana wkrótce.</p>
-    </div>
-  </div>
   <div class="dtabs">
     <button class="dtab active" onclick="showDay('p1',this)">Piątek - 28.08</button>
     <button class="dtab" onclick="showDay('p2',this)">Sobota - 29.08</button>
     <button class="dtab" onclick="showDay('p3',this)">Niedziela - 30.08</button>
   </div>
   <div id="p1" class="dp active">
-    <div class="si"><div class="stm">10:00</div><div class="sc"><h4>Zwiedzanie Kalisza</h4><p>Czas na odkrycie najstarszego miasta w Polsce. Spacer, historia, pierwsze znajomości.</p><span class="tag ts">Opcjonalne</span></div></div>
-    <div class="si"><div class="stm">15:00</div><div class="sc"><h4>Rejestracja</h4><p>Odbiór materiałów, zapoznanie z przestrzenią, pierwsze rozmowy.</p><span class="tag ts">Logistyka</span></div></div>
-    <div class="si"><div class="stm">18:00</div><div class="sc"><h4>Konkurs Mów Wszelakich</h4><p>Oficjalny konkurs – mistrzowie słowa w akcji. To już potwierdzone!</p><span class="tag tk">Konkurs</span></div></div>
+    <div class="dintro">Dzień otwarcia – poznajemy miasto, ruszają pierwsze konkursy, a wieczór należy do integracji.</div>
+    <div class="si"><div class="stm">10:30 – 13:30</div><div class="sc"><h4>Wycieczka po Kaliszu</h4><p>Spacer po najstarszym mieście w Polsce – historia, klimat i pierwsze rozmowy przed startem.</p><span class="tag ts">Opcjonalne</span></div></div>
+    <div class="si"><div class="stm">14:00 – 15:15</div><div class="sc"><h4>Rejestracja uczestników i gości</h4><p>Odbiór wejściówek i materiałów oraz zapoznanie z przestrzenią Uniwersytetu Kaliskiego.</p><span class="tag ts">Logistyka</span></div></div>
+    <div class="si"><div class="stm">14:30 – 15:15</div><div class="sc"><h4>Próba generalna uczestników konkursów</h4><p>Czas dla konkursowiczów na rozgrzewkę, próbę sceny i ostatnie przygotowania.</p><span class="tag ts">Konkurs</span></div></div>
+    <div class="si"><div class="stm">15:30</div><div class="sc"><h4>Rozpoczęcie wydarzenia</h4><p>Oficjalne otwarcie Mistrzostw i powitanie społeczności na scenie głównej.</p><span class="tag ts">Start</span></div></div>
+    <div class="si"><div class="stm">15:30 – 18:40</div><div class="sc"><h4>Konkursy mów – Mowy Humorystyczne i Gorące Pytania</h4><p>Pierwszy blok rywalizacji – błyskotliwy humor i improwizacja pod presją czasu.</p><span class="tag tk">Konkurs</span></div></div>
+    <div class="si"><div class="stm">19:00 – 22:00</div><div class="sc"><h4>Piknik z networkingiem</h4><p>Luźny wieczór w dobrym towarzystwie: jedzenie, rozmowy i nowe znajomości.</p><span class="tag ts">Wieczór</span></div></div>
   </div>
   <div id="p2" class="dp">
-    <div class="si"><div class="stm">—</div><div class="sc"><h4>Warsztaty</h4><p>Dzień rozwoju – warsztaty z najlepszymi praktykami wystąpień publicznych.</p><span class="tag ts">Rozwój</span></div></div>
-    <div class="si"><div class="stm">—</div><div class="sc"><h4>Konkursy</h4><p>Konkurs Mów Humorystycznych, Konkurs Ewaluacji oraz Konkurs Gorących Pytań.</p><span class="tag tk">Konkurs</span></div></div>
-    <div class="si"><div class="stm">—</div><div class="sc"><h4>Gala Nagród i After Party</h4><p>Wieczorne wręczenie nagród, a po nim wspólne świętowanie.</p><span class="tag ts">Wieczór</span></div></div>
-    <div class="dp-soon">Dokładne godziny zostaną wkrótce uzupełnione.</div>
+    <div class="dintro">Najintensywniejszy dzień – kluczowe konkursy, warsztaty, wyniki i wieczorna gala.</div>
+    <div class="si"><div class="stm">08:30 – 09:45</div><div class="sc"><h4>Rejestracja uczestników i gości</h4><p>Druga tura rejestracji dla osób dołączających w sobotni poranek.</p><span class="tag ts">Logistyka</span></div></div>
+    <div class="si"><div class="stm">09:00 – 09:45</div><div class="sc"><h4>Próba generalna uczestników konkursów</h4><p>Poranna próba sceny przed sobotnim blokiem konkursowym.</p><span class="tag ts">Konkurs</span></div></div>
+    <div class="si"><div class="stm">10:00 – 13:00</div><div class="sc"><h4>Konkursy mów – Mowy Wszelakie i Ewaluacje</h4><p>Najważniejsze konkurencje dnia – przygotowane przemówienia i sztuka ewaluacji.</p><span class="tag tk">Konkurs</span></div></div>
+    <div class="si"><div class="stm">13:00 – 15:00</div><div class="sc"><h4>Przerwa obiadowa</h4><p>Czas na obiad, odpoczynek i kuluarowe rozmowy.</p><span class="tag ts">Przerwa</span></div></div>
+    <div class="si"><div class="stm">15:00 – 18:00</div><div class="sc"><h4>Prelekcje i warsztaty</h4><p>Praktyczna wiedza od doświadczonych mówców – komunikacja, scena, przywództwo.</p><span class="tag ts">Rozwój</span></div></div>
+    <div class="si"><div class="stm">18:00 – 19:30</div><div class="sc"><h4>Ogłoszenie wyników konkursów</h4><p>Moment prawdy – ogłoszenie zwycięzców piątkowych i sobotnich konkursów.</p><span class="tag tk">Wyniki</span></div></div>
+    <div class="si"><div class="stm">21:30 – 02:00</div><div class="sc"><h4>Gala i integracja w Komodzie</h4><p>Uroczysta gala i wspólne świętowanie w Komoda Club przy ul. Niecałej 6.</p><span class="tag ts">Wieczór</span></div></div>
   </div>
   <div id="p3" class="dp">
-    <div class="si"><div class="stm">—</div><div class="sc"><h4>Warsztaty</h4><p>Kolejna porcja praktycznej wiedzy i ćwiczeń na zakończenie Mistrzostw.</p><span class="tag ts">Rozwój</span></div></div>
-    <div class="si"><div class="stm">—</div><div class="sc"><h4>Zakończenie</h4><p>Podsumowanie trzech dni i pożegnanie społeczności Efektu Feniksa.</p><span class="tag ts">Finał</span></div></div>
-    <div class="dp-soon">Dokładne godziny zostaną wkrótce uzupełnione.</div>
+    <div class="dintro">Spokojniejszy finał – inspiracje, panele i wspólne pożegnanie.</div>
+    <div class="si"><div class="stm">09:00 – 09:45</div><div class="sc"><h4>Niespodzianka</h4><p>Poranny akcent, którego nie zdradzimy z wyprzedzeniem – warto być na miejscu.</p><span class="tag ts">Specjalne</span></div></div>
+    <div class="si"><div class="stm">09:45 – 15:00</div><div class="sc"><h4>Prelekcje i panele dyskusyjne</h4><p>Inspirujące wystąpienia i panele – wiedza i wymiana doświadczeń na finał.</p><span class="tag ts">Rozwój</span></div></div>
+    <div class="si"><div class="stm">15:00</div><div class="sc"><h4>Zakończenie wydarzenia</h4><p>Podsumowanie trzech dni i pożegnanie społeczności Efektu Feniksa.</p><span class="tag ts">Finał</span></div></div>
   </div>
 </section>
 
@@ -460,14 +465,16 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
     <h2 class="st">FAQ</h2>
   </div>
   <div class="fl2">
-    <div class="fi"><button class="fq" onclick="faq(this)">Czy muszę być członkiem Toastmasters, żeby wziąć udział? <span class="fa2">+</span></button><div class="fans"><div class="fai">Nie. Mistrzostwa są otwarte dla wszystkich - zarówno aktywnych członków Toastmasters, jak i osób, które nigdy z organizacją nie miały kontaktu. Możesz przyjechać jako widz konkursów, uczestnik warsztatów lub uczestniczyć we wszystkich aktywnościach.</div></div></div>
-    <div class="fi"><button class="fq" onclick="faq(this)">Jakie cztery konkursy odbędą się na Mistrzostwach? <span class="fa2">+</span></button><div class="fans"><div class="fai">W 2026 roku będziemy mieć cztery konkursy: Konkurs Mów Wszelakich (przemówienia przygotowane), Konkurs Mów Humorystycznych (przemówienia przygotowane), Konkurs Ewaluacji oraz Konkurs Gorących Pytań (improwizacja). Każdy z konkursów poprzedzały eliminacje.</div></div></div>
-    <div class="fi"><button class="fq" onclick="faq(this)">Czy mogę przyjechać tylko na jeden dzień lub wybrane części? <span class="fa2">+</span></button><div class="fans"><div class="fai">Tak. Możesz dołączyć na cały weekend albo wybrać interesujące Cię części - same konkursy, konkursy z warsztatami lub pełny, trzydniowy program. Efekt Feniksa jest wydarzeniem niekomercyjnym - dołączasz, przekazując darowiznę, a w podziękowaniu otrzymujesz wejściówkę. Szczegóły ogłosimy wkrótce.</div></div></div>
-    <div class="fi"><button class="fq" onclick="faq(this)">Czy są dostępne miejsca noclegowe w przystępnej cenie? <span class="fa2">+</span></button><div class="fans"><div class="fai">Tak. Dysponujemy miejscami w akademikach Uniwersytetu Kaliskiego - to najwygodniejsza i najtańsza opcja. Skontaktuj się z nami po rejestracji, żeby poznać szczegóły i dostępność.</div></div></div>
-    <div class="fi"><button class="fq" onclick="faq(this)">Mam inne pytanie - jak się skontaktować? <span class="fa2">+</span></button><div class="fans"><div class="fai">Napisz do nas na adres kontakt@efektfeniksa.pl. Obserwuj też nasze media społecznościowe, żeby być na bieżąco z każdą aktualizacją.</div></div></div>
-    <div class="fi"><button class="fq" onclick="faq(this)">Kto organizuje Efekt Feniksa? <span class="fa2">+</span></button><div class="fans"><div class="fai">Organizatorem wydarzenia jest Centrum Polskie Stowarzyszenie Mówców. Efekt Feniksa wyrasta ze społeczności Toastmasters - ludzi, którzy na co dzień ćwiczą wystąpienia publiczne i wspierają się w rozwoju. Społeczność jest sercem wydarzenia, ale za organizację odpowiada stowarzyszenie. Działamy jako stowarzyszenie. Nie zarabiamy na tym wydarzeniu - tworzymy je z pasji i z potrzeby budowania kultury wystąpień publicznych w Polsce. Wydarzenie powstaje dzięki ludziom, którzy chcą być jego częścią i wspierają je swoimi darowiznami.</div></div></div>
-    <div class="fi"><button class="fq" onclick="faq(this)">Chcesz być częścią Efektu Feniksa? <span class="fa2">+</span></button><div class="fans"><div class="fai">Świetnie - to proste. Zbieramy darowizny na organizację wydarzenia i z nich powstaje cały Efekt Feniksa. Dołączasz, przekazując darowiznę na stronie <a href="https://goostaura.com/c/EFEKT%20Feniksa%202026/34203-efekt-feniksa-mistrzostwa-polski-konferencja-toastmasters-2026" target="_blank" rel="noopener" style="color:var(--g);text-decoration:underline">goostaura.com</a>.</div></div></div>
-    <div class="fi"><button class="fq" onclick="faq(this)">Co jeśli wesprę wydarzenie, ale ostatecznie nie mogę przyjechać? <span class="fa2">+</span></button><div class="fans"><div class="fai">Darowizna jest bezzwrotna, ale może ktoś inny mógłby być częścią wydarzenia. Daj nam tylko znać na <a href="mailto:kontakt@efektfeniksa.pl" style="color:var(--g);text-decoration:underline">kontakt@efektfeniksa.pl</a>.</div></div></div>
+    <div class="fi"><button class="fq" onclick="faq(this)">Czym jest Efekt Feniksa? <span class="fa2">+</span></button><div class="fans"><div class="fai">To Mistrzostwa Polski w Wystąpieniach Publicznych społeczności Toastmasters. To 11. edycja i jedno z największych spotkań mówców w Polsce. W 2026 roku wydarzenie odbywa się po raz pierwszy w Kaliszu. Trwa trzy dni i obejmuje część konkursową, prelekcje, warsztaty oraz wydarzenia wieczorne.</div></div></div>
+    <div class="fi"><button class="fq" onclick="faq(this)">Czy trzeba być członkiem Toastmasters? <span class="fa2">+</span></button><div class="fans"><div class="fai">Nie. Wydarzenie jest otwarte. Przyjeżdżają na nie zarówno osoby związane z Toastmasters, jak i te, które nigdy wcześniej nie miały kontaktu z organizacją.</div></div></div>
+    <div class="fi"><button class="fq" onclick="faq(this)">Kiedy i gdzie się odbywa? <span class="fa2">+</span></button><div class="fans"><div class="fai">28-30 sierpnia 2026, na Uniwersytecie Kaliskim, Collegium Oecologicum, w Kaliszu. Gala w sobotni wieczór odbywa się w Komoda Club przy ul. Niecałej 6 w Kaliszu.</div></div></div>
+    <div class="fi"><button class="fq" onclick="faq(this)">Co jest w programie? <span class="fa2">+</span></button><div class="fans"><div class="fai">Część konkursowa to cztery konkurencje: Mowy Wszelakie, Mowy Humorystyczne, Ewaluacje i Gorące Pytania. Towarzyszy im ponad 12 prelekcji i warsztatów rozwijających komunikację i przywództwo. W piątek wieczorem odbywa się piknik z integracją, w sobotę uroczysta gala.</div></div></div>
+    <div class="fi"><button class="fq" onclick="faq(this)">Kto organizuje wydarzenie? <span class="fa2">+</span></button><div class="fans"><div class="fai">Organizatorem jest Centrum Polskie Stowarzyszenie Mówców. Jest to wydarzenie niekomercyjne. Nikt na nim nie zarabia. Powstaje z pasji i z potrzeby budowania kultury wystąpień publicznych w Polsce.</div></div></div>
+    <div class="fi"><button class="fq" onclick="faq(this)">Jak finansowane jest wydarzenie? <span class="fa2">+</span></button><div class="fans"><div class="fai">W całości z dobrowolnych darowizn. Stowarzyszenie nie prowadzi sprzedaży. To dzięki darowiznom Efekt Feniksa może się odbyć.</div></div></div>
+    <div class="fi"><button class="fq" onclick="faq(this)">Jak mogę wesprzeć Efekt Feniksa? <span class="fa2">+</span></button><div class="fans"><div class="fai">Dobrowolną darowizną na stronie <a href="https://goostaura.com/c/EFEKT%20Feniksa%202026/34203-efekt-feniksa-mistrzostwa-polski-konferencja-toastmasters-2026" target="_blank" rel="noopener" style="color:var(--g);text-decoration:underline">goostaura.com</a>. Każde wsparcie pomaga nam przygotować te trzy dni.</div></div></div>
+    <div class="fi"><button class="fq" onclick="faq(this)">Czy mogę zorganizować nocleg na miejscu? <span class="fa2">+</span></button><div class="fans"><div class="fai">Tak. Dysponujemy miejscami w akademikach Uniwersytetu Kaliskiego, to najwygodniejsza i najtańsza opcja. Napisz do nas na <a href="mailto:kontakt@efektfeniksa.pl" style="color:var(--g);text-decoration:underline">kontakt@efektfeniksa.pl</a>, podamy szczegóły i dostępność.</div></div></div>
+    <div class="fi"><button class="fq" onclick="faq(this)">A co z wyżywieniem? <span class="fa2">+</span></button><div class="fans"><div class="fai">Wyżywienie uczestnicy organizują we własnym zakresie.</div></div></div>
+    <div class="fi"><button class="fq" onclick="faq(this)">Mam jeszcze pytanie. <span class="fa2">+</span></button><div class="fans"><div class="fai">Napisz do nas na <a href="mailto:kontakt@efektfeniksa.pl" style="color:var(--g);text-decoration:underline">kontakt@efektfeniksa.pl</a>. Odpowiemy najszybciej, jak się da.</div></div></div>
   </div>
 </section>
 
@@ -560,69 +567,6 @@ for(let i=0;i<130;i++){const p=mkp();p.l=Math.random()*p.ml;pts.push(p);}
   }
   requestAnimationFrame(anim);
 })();
-
-function hatchPhoenix(){
-  const el=document.getElementById('egg');
-  if(!el) return;
-  const frames=[
-`   ___
-  /   \\
- /     \\
-|  • •  |
- \\  ^  /
-  \\___/`,
-`   ___
-  / _ \\
- / / \\ \\
-|  • •  |
- \\  ^  /
-  \\___/`,
-`    _
-  / _ \\
- / / \\ \\
-| •   • |
- \\  ^  /
-  \\___/`,
-`    _
-   / \\
-  /   \\
- / • • \\
-|   ^   |
-  \\___/`,
-`    /\\
-   /  \\
-  / 🔥 \\
- |  🦅  |
-  \\    /`,
-`     /\\
-    /🔥 \\
-   / 🦅  \\
-  |       |
-   \\    /`
-  ];
-  let i=0;
-  const id=setInterval(()=>{
-    i=(i+1)%frames.length;
-    el.textContent=frames[i];
-    if(i===0) clearInterval(id);
-  },360);
-}
 </script>
-
-<!-- EASTER EGG: klikalny feniks z jajka -->
-<div style="text-align:center;padding:54px 20px 76px;background:rgba(0,1,16,.55);border-top:1px solid rgba(252,163,17,.08)">
-  <div onclick="hatchPhoenix()" role="button" tabindex="0" aria-label="Tajny feniks"
-       style="display:inline-block;cursor:pointer;user-select:none;padding:20px;border-radius:10px;transition:all .2s"
-       onmouseover="this.style.background='rgba(252,163,17,.06)';this.style.transform='scale(1.02)'"
-       onmouseout="this.style.background='transparent';this.style.transform='scale(1)'">
-    <pre id="egg" style="margin:0;font-size:16px;line-height:1.05;color:#FCA311;font-family:monospace;text-align:left">   ___
-  /   \
- /     \
-|  • •  |
- \  ^  /
-  \___/</pre>
-  </div>
-  <div style="margin-top:14px;font-size:10px;letter-spacing:3px;color:#555">kliknij jajko 🥚</div>
-</div>
 </body>
 </html>
