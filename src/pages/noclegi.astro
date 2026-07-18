@@ -105,6 +105,15 @@ h1{font-size:clamp(32px,4.8vw,58px);font-weight:800;letter-spacing:-.05em;line-h
 .hcta .note{font-size:11px;color:var(--w6);line-height:1.5}
 .hcta .note strong{color:var(--g)}
 
+/* MAPA */
+.mapgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.mapcell{border:1px solid rgba(255,255,255,.07);background:rgba(5,5,113,.13);overflow:hidden}
+.mapcell iframe{width:100%;height:280px;border:0;display:block;filter:grayscale(.2) invert(.86) hue-rotate(180deg) brightness(.82) contrast(1.1) saturate(.6)}
+.mapcap{padding:14px 16px}
+.mapcap .mcl{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--o);margin-bottom:3px}
+.mapcap .mcn{font-size:13px;font-weight:800;letter-spacing:-.02em;margin-bottom:2px}
+.mapcap .mca{font-size:11px;font-weight:400;color:var(--w6)}
+
 /* INFO */
 #info .infobox{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;max-width:1000px}
 .ibox{background:rgba(5,5,113,.15);border:1px solid rgba(255,255,255,.06);padding:22px 22px;display:flex;gap:13px;align-items:flex-start}
@@ -143,6 +152,8 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
   .hphotos{flex-direction:row;min-height:0}
   .hph1,.hph2{flex:1;min-height:0;height:210px}
   .steps{grid-template-columns:1fr}
+  .mapgrid{grid-template-columns:1fr}
+  .mapcell iframe{height:240px}
   #info .infobox{grid-template-columns:1fr}
   .nl{display:none}
   .nl.open{display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:rgba(0,1,16,.97);padding:20px 5%;gap:16px;border-bottom:1px solid rgba(255,255,255,.07);z-index:99}
@@ -269,10 +280,35 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
           <div class="prow"><div><div class="pname">Pokój 2-os. ze śniadaniem</div><div class="pnote">Cena za pokój za noc, po 15% zniżce</div></div><div class="pval">369 zł<small>/noc</small></div></div>
         </div>
         <div class="haddr"><div class="ico">📍</div><div><a href="https://maps.google.com/?q=Niecała+6a,+Kalisz" target="_blank" rel="noopener">ul. Niecała 6a, Kalisz</a><div class="sub">W miejscu sobotniej gali (Komoda Club). Rezerwacja bezpośrednio w hotelu - telefonicznie.</div></div></div>
-        <div class="hcta"><a href="tel:+48627521400" class="bp">Zadzwoń: 62 752 14 00</a><div class="note">Podaj hasło <strong>&bdquo;Efekt Toastmasters&rdquo;</strong>,<br>aby otrzymać 15% zniżki.</div></div>
+        <div class="hcta"><a href="tel:+48627521400" class="bp">Zadzwoń: 62 752 14 00</a><a href="https://komodaresidence.pl/" target="_blank" rel="noopener" class="bs">komodaresidence.pl &rarr;</a><div class="note">Podaj hasło <strong>&bdquo;Efekt Toastmasters&rdquo;</strong>,<br>aby otrzymać 15% zniżki.</div></div>
       </div>
     </article>
 
+  </div>
+</section>
+
+<div class="fl"></div>
+
+<!-- MAPA -->
+<section id="mapa">
+  <div class="sh">
+    <div class="slb">Lokalizacje</div>
+    <h2 class="st">Znajdź je na mapie.</h2>
+    <p class="sd">Miejsce konferencji - Uniwersytet Kaliski, ul. Poznańska 201 - znajdziesz na mapie na <a href="/#lokalizacja" style="color:var(--g);text-decoration:underline">stronie głównej</a>.</p>
+  </div>
+  <div class="mapgrid">
+    <div class="mapcell">
+      <iframe src="https://maps.google.com/maps?q=Nowy+%C5%9Awiat+28,+62-800+Kalisz&output=embed&z=16" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa - Dom Studencki Rubin"></iframe>
+      <div class="mapcap"><div class="mcl">Akademik</div><div class="mcn">Dom Studencki UAM &bdquo;Rubin&rdquo;</div><div class="mca">Nowy Świat 28/30, Kalisz</div></div>
+    </div>
+    <div class="mapcell">
+      <iframe src="https://maps.google.com/maps?q=Cz%C4%99stochowska+77,+62-800+Kalisz&output=embed&z=16" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa - Hotel Seven"></iframe>
+      <div class="mapcap"><div class="mcl">Hotel</div><div class="mcn">Hotel Seven &bdquo;7&rdquo;</div><div class="mca">ul. Częstochowska 77, Kalisz</div></div>
+    </div>
+    <div class="mapcell">
+      <iframe src="https://maps.google.com/maps?q=Nieca%C5%82a+6a,+62-800+Kalisz&output=embed&z=16" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa - Komoda Club Residence"></iframe>
+      <div class="mapcap"><div class="mcl">Hotel &middot; Miejsce gali</div><div class="mcn">Komoda Club Residence</div><div class="mca">ul. Niecała 6a, Kalisz</div></div>
+    </div>
   </div>
 </section>
 
