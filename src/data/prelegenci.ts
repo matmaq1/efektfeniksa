@@ -28,7 +28,9 @@ export const speakers: Speaker[] = [
     slug: "artur-sojka",
     name: "Artur Sójka",
     photo: null,
-    day: "Piątek", date: "28.08", room: "", time: "", format: "networking",
+    // Godzina potwierdzona przez organizatora - to piatkowy blok "Networking
+    // z integracja" 19:00-20:30. W zakladce "WWW Agenda" nie ma osobnego wiersza.
+    day: "Piątek", date: "28.08", room: "", time: "19:00-20:30", format: "networking",
     title: "Praktyczne warsztaty umiejętności networkingowych",
     desc: [
       {t:"p",s:"„Jedyne życie, które ma sens, to życie towarzyskie” – mawiał Edward Dziewoński (pseudonim „Dudek”) - wybitny polski aktor, reżyser i legendarny twórca kabaretu Dudek."},

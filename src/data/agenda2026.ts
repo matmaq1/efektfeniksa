@@ -45,7 +45,7 @@ export const agenda: AgendaDay[] = [
       { time: '17:30-18:30', room: 'AULA', kind: 'konkurs', title: 'Konkurs Gorących Pytań',
         note: 'Improwizacja pod presją czasu - mowa testowa, a potem uczestnicy jeden po drugim.' },
       { time: '19:00-20:30', room: '', kind: 'prelekcja', speaker: 'artur-sojka',
-        note: 'Networking z integracją - praktyczne warsztaty prowadzone przez Artura Sójkę.' },
+        note: 'Networking z integracją - praktyczne warsztaty budowania relacji, prowadzi Artur Sójka. Zamiast luźnego mixera: konkretne techniki, które od razu ćwiczysz na sali.' },
       { time: '20:30-02:00', room: '', kind: 'wieczor', title: 'Piknik i ognisko',
         note: 'Luźny wieczór w dobrym towarzystwie: jedzenie, rozmowy i nowe znajomości.' },
     ],
