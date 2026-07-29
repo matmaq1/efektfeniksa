@@ -1,4 +1,9 @@
 ---
+import { speakers } from '../data/prelegenci';
+
+// Najpierw prelegenci ze zdjeciem - sort jest stabilny, wiec wewnatrz obu grup
+// zostaje kolejnosc chronologiczna z arkusza.
+const lineup = [...speakers].sort((a, b) => (a.photo ? 0 : 1) - (b.photo ? 0 : 1));
 ---
 <!DOCTYPE html>
 <html lang="pl">
@@ -129,14 +134,26 @@ section{position:relative;z-index:2;padding:80px 5%}
 
 /* PRELEGENCI */
 #prelegenci{background:linear-gradient(180deg,rgba(5,5,113,.2) 0%,transparent 100%)}
-.spc{border:1px dashed rgba(252,163,17,.2);padding:64px 32px;text-align:center;position:relative;overflow:hidden}
-.spc::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(5,5,113,.25),transparent)}
-.spc h3{font-size:24px;font-weight:800;letter-spacing:-.05em;margin-bottom:9px;position:relative;z-index:1}
-.spc p{font-size:13px;font-weight:400;color:var(--w6);max-width:400px;margin:0 auto 20px;line-height:1.6;position:relative;z-index:1}
-.sgh{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px;position:relative;z-index:1}
-.sgc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);padding:22px 16px;filter:blur(1.5px);opacity:.28}
-.sga{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.05);margin-bottom:11px}
-.sgl{height:8px;background:rgba(255,255,255,.05);border-radius:2px;margin-bottom:6px}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.pcard{background:rgba(5,5,113,.14);border:1px solid rgba(255,255,255,.07);overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:border-color .3s}
+.pcard:hover{border-color:rgba(252,163,17,.3)}
+.pcard.anim{opacity:0;transform:translateX(-44px);transition:opacity .65s cubic-bezier(.22,.61,.36,1),transform .65s cubic-bezier(.22,.61,.36,1),border-color .3s}
+.pcard.anim.fromright{transform:translateX(44px)}
+.pcard.anim.in{opacity:1;transform:translateX(0)}
+.pcimg{position:relative;overflow:hidden;background:linear-gradient(150deg,#02020f 0%,#0a0a4a 55%,#050571 100%);aspect-ratio:4/5}
+.pcimg img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.pcard:hover .pcimg img{transform:scale(1.045)}
+.pcph{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:18px 16px}
+.pcph::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 62% 32%,rgba(255,91,0,.16),transparent 70%)}
+.pcph .glyph{position:absolute;top:50%;left:50%;transform:translate(-50%,-64%);font-size:46px;opacity:.13}
+.pcph .phname{position:relative;font-size:16px;font-weight:800;letter-spacing:-.04em;line-height:1.15;color:var(--w)}
+.pcbody{padding:15px 16px 17px;display:flex;flex-direction:column;gap:7px;flex:1}
+.pcwhen{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--g)}
+.pctitle{font-size:12.5px;font-weight:700;letter-spacing:-.02em;line-height:1.45;color:var(--w6)}
+.pcard:hover .pctitle{color:var(--w)}
+.pmore{display:flex;align-items:center;gap:14px;margin-top:32px;flex-wrap:wrap}
+.pmore .note{font-size:12px;color:var(--w6);line-height:1.6}
 
 /* DLACZEGO KALISZ - REWORKED with hover reveals */
 #kalisz{background:linear-gradient(180deg,rgba(5,5,113,.15) 0%,transparent 100%)}
@@ -202,8 +219,7 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
 
 /* RESPONSIVE */
 @media(max-width:1024px){
-  .sgh{grid-template-columns:1fr 1fr}
-  .sgh .sgc:last-child{display:none}
+  .pgrid{grid-template-columns:repeat(3,1fr)}
   .kreasons{grid-template-columns:1fr;height:auto}
   .kreason{height:280px}
   .kreason-overlay{background:linear-gradient(to top,rgba(0,1,16,.92) 0%,rgba(0,1,16,.65) 50%,rgba(0,1,16,.25) 100%)}
@@ -216,7 +232,6 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
   .nl{display:none}
   .nl.open{display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:rgba(0,1,16,.97);padding:20px 5%;gap:16px;border-bottom:1px solid rgba(255,255,255,.07);z-index:99}
   .hbg{display:flex}
-  .sgh{grid-template-columns:1fr 1fr}
   .ftop{grid-template-columns:1fr;gap:18px}
   .partnerzy-logos{gap:32px}
 }
@@ -224,13 +239,20 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
   .asg{grid-template-columns:1fr 1fr}
   .hmeta{gap:4px}
   .dtabs{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .sgh{grid-template-columns:1fr}
-  .sgh .sgc{display:block!important}
+  .pgrid{grid-template-columns:repeat(2,1fr)}
+  .pcbody{padding:12px 12px 14px}
+  .pctitle{font-size:11.5px}
+  .pcph .phname{font-size:13px}
   section{padding:60px 5%}
   #cb{flex-direction:column;gap:6px;text-align:center}
   .cu{justify-content:center}
   .partnerzy-logos{gap:18px;flex-direction:column}
   .pl-box{min-width:200px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .pcard.anim,.pcard.anim.fromright{opacity:1;transform:none;transition:none}
+  .pcard:hover .pcimg img{transform:none}
 }
 </style>
 </head>
@@ -242,9 +264,9 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
   <a href="#hero" class="logo"><img src="/images/logo.png" alt="Efekt Feniksa" style="height:45px;"></a>
   <ul class="nl" id="nl">
     <li><a href="#onas">O wydarzeniu</a></li>
-    <li><a href="#program">Program</a></li>
-    <li><a href="#prelegenci">Prelegenci</a></li>
-    <li><a href="#kalisz">Kalisz</a></li>
+    <li><a href="/agenda/">Agenda</a></li>
+    <li><a href="/prelegenci/">Prelegenci</a></li>
+    <li><a href="/noclegi/">Noclegi</a></li>
     <li><a href="#faq">FAQ</a></li>
     <li><a href="https://goostaura.com/c/EFEKT%20Feniksa%202026/34203-efekt-feniksa-mistrzostwa-polski-konferencja-toastmasters-2026" target="_blank" rel="noopener" class="ncta">Dołącz do nas</a></li>
   </ul>
@@ -385,15 +407,28 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
   <div class="sh">
     <div class="slb">Prowadzący i Prelegenci</div>
     <h2 class="st">Mistrzowie słowa.<br>Twoi mentorzy.</h2>
+    <p class="sd">Mistrzowie Polski, trenerzy biznesu, psychoterapeuci, przedsiębiorcy i liderzy klubów Toastmasters - {speakers.length} wystąpień i warsztatów na trzech salach Uniwersytetu Kaliskiego.</p>
   </div>
-  <div class="spc">
-    <h3>Prelegenci wkrótce</h3>
-    <p>Pracujemy nad zebraniem najlepszych praktyków wystąpień publicznych z całej Polski. Lista zostanie ogłoszona wkrótce.</p>
-    <div class="sgh">
-      <div class="sgc"><div class="sga"></div><div class="sgl"></div><div class="sgl" style="width:58%"></div><div class="sgl" style="width:38%;margin-top:9px"></div></div>
-      <div class="sgc"><div class="sga"></div><div class="sgl"></div><div class="sgl" style="width:58%"></div><div class="sgl" style="width:38%;margin-top:9px"></div></div>
-      <div class="sgc"><div class="sga"></div><div class="sgl"></div><div class="sgl" style="width:58%"></div><div class="sgl" style="width:38%;margin-top:9px"></div></div>
-    </div>
+  <div class="pgrid">
+    {lineup.map((s, i) => (
+    <a class:list={['pcard', 'anim', i % 2 === 1 && 'fromright']} href={`/prelegenci/#${s.slug}`}>
+      <div class="pcimg">
+        {s.photo
+          ? <img src={s.photo} alt={`${s.name} - ${s.format}, ${s.day} ${s.date}`} width="1200" height="1500" loading="lazy" decoding="async">
+          : <div class="pcph"><span class="glyph">🔥</span><span class="phname">{s.name}</span></div>}
+      </div>
+      <div class="pcbody">
+        <h3 class="sr">{s.name}</h3>
+        <div class="pcwhen">{s.day}{s.time && ` · ${s.time}`}</div>
+        <div class="pctitle">{s.title || 'Temat wkrótce'}</div>
+      </div>
+    </a>
+    ))}
+  </div>
+  <div class="pmore">
+    <a href="/prelegenci/" class="bp">Poznaj prelegentów &rarr;</a>
+    <a href="/agenda/" class="bs">Pełna agenda</a>
+    <div class="note">Pełne opisy wystąpień, notki biograficzne<br>i godziny na wszystkich trzech salach.</div>
   </div>
 </section>
 
@@ -501,8 +536,9 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
       <div style="font-size:10px;letter-spacing:.09em;color:var(--w6)">Mistrzostwa Polski w Wystąpieniach Publicznych Toastmasters 2026</div>
       <div class="flinks">
         <a href="#onas">O wydarzeniu</a>
-        <a href="#program">Program</a>
-        <a href="#prelegenci">Prelegenci</a>
+        <a href="/agenda/">Agenda</a>
+        <a href="/prelegenci/">Prelegenci</a>
+        <a href="/noclegi/">Noclegi</a>
         <a href="#kalisz">Kalisz</a>
         <a href="#faq">FAQ</a>
         <a href="mailto:kontakt@efektfeniksa.pl">Kontakt</a>
@@ -540,6 +576,17 @@ function faq(btn){
   document.querySelectorAll('.fi').forEach(i=>i.classList.remove('open'));
   if(!op)it.classList.add('open');
 }
+/* wjazd kart prelegentow: nieparzyste z lewej, parzyste z prawej */
+(function(){
+  const cards=document.querySelectorAll('.pcard.anim');
+  if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches){
+    cards.forEach(c=>c.classList.add('in'));return;
+  }
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{rootMargin:'0px 0px -10% 0px',threshold:.08});
+  cards.forEach(c=>io.observe(c));
+})();
 function tick(){
   const diff=new Date('2026-08-28T00:00:00')-new Date();
   if(diff<=0){document.getElementById('cb').innerHTML='<div class="clbl" style="color:var(--g)">Mistrzostwa trwają!</div>';return;}
