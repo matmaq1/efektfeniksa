@@ -65,7 +65,7 @@ export const agenda: AgendaDay[] = [
     date: '28.08',
     intro: 'Dzień otwarcia - poznajemy miasto, ruszają pierwsze dwa konkursy, a wieczór należy do integracji przy ognisku.',
     items: [
-      { time: '10:30-13:30', room: '', kind: 'logistyka', title: 'Zwiedzanie Kalisza',
+      { time: '10:30-12:30', room: '', kind: 'logistyka', title: 'Zwiedzanie Kalisza',
         note: 'Spacer po najstarszym mieście w Polsce - historia, klimat i pierwsze rozmowy przed startem. Udział opcjonalny.' },
       { time: '10:30-14:30', room: 'Warsztatowa I', kind: 'logistyka', title: 'COT - Club Officer Training',
         note: 'Szkolenie dla zarządów klubów Toastmasters.' },

@@ -56,7 +56,12 @@ const days = agenda.map(d => ({ ...d, slots: groupByStart(d.items) }));
                     <td colspan="3" class="c-all">
                       {slot.items.filter(i => !i.room).map(i => {
                         const l = label(i);
-                        return <span class="c-ev">{l.who && <b>{l.who} &mdash; </b>}{l.what}</span>;
+                        return (
+                          <span class="c-ev">
+                            {l.who && <b>{l.who} &mdash; </b>}{l.what}
+                            <span class="c-when">{l.time}</span>
+                          </span>
+                        );
                       })}
                     </td>
                   ) : ROOMS.map(room => {
