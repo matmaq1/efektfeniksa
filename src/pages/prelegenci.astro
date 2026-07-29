@@ -1,5 +1,6 @@
 ---
 import { speakers } from '../data/prelegenci';
+import AgendaSummary from '../components/AgendaSummary.astro';
 
 // Kolejnosc: najpierw prelegenci ze zdjeciem, potem ci bez - sort jest stabilny,
 // wiec wewnatrz obu grup zostaje kolejnosc chronologiczna z arkusza.
@@ -214,6 +215,11 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
       <a href="/#program" class="bs">Zobacz pełną agendę</a>
     </div>
   </div>
+</section>
+
+<!-- PELNY PLAN W TABELI -->
+<section id="tabela" style="padding-top:0;padding-bottom:24px">
+  <AgendaSummary />
 </section>
 
 <!-- STATY -->

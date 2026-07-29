@@ -27,9 +27,7 @@ export const speakers: Speaker[] = [
   {
     slug: "artur-sojka",
     name: "Artur Sójka",
-    photo: null,
-    // Godzina potwierdzona przez organizatora - to piatkowy blok "Networking
-    // z integracja" 19:00-20:30. W zakladce "WWW Agenda" nie ma osobnego wiersza.
+    photo: "/images/prelegenci/artur-sojka.webp",
     day: "Piątek", date: "28.08", room: "", time: "19:00-20:30", format: "networking",
     title: "Praktyczne warsztaty umiejętności networkingowych",
     desc: [
@@ -90,7 +88,21 @@ export const speakers: Speaker[] = [
     photo: "/images/prelegenci/magdalena-andler.webp",
     day: "Sobota", date: "29.08", room: "Warsztatowa II", time: "9:00-9:45", format: "warsztaty 45 min",
     title: "By ciało chciało - mowa ciała, która wzmacnia przekaz",
-    desc: [],
+    desc: [
+      {t:"p",s:"Czy zdarzyło Ci się przygotować świetną treść, a mimo to mieć poczucie, że nie wybrzmiała tak, jak chciałeś?"},
+      {t:"p",s:"A może zastanawiasz się, dlaczego jedni mówcy przyciągają uwagę od pierwszych sekund, podczas gdy inni- mimo wiedzy i doświadczenia nie potrafią zbudować takiej samej siły oddziaływania?"},
+      {t:"p",s:"Prawda jest taka, że Twoje ciało zabiera głos, zanim wypowiesz pierwsze słowo."},
+      {t:"p",s:"To ono buduje pierwsze wrażenie, wzmacnia wiarygodność lub osłabia przekaz. Podczas warsztatu odkryjesz, jak świadomie wykorzystywać mowę ciała, aby mówić z większą pewnością siebie, autentycznością i wpływem."},
+      {t:"p",s:"Nauczysz się, jak postawa, gesty, kontakt wzrokowy, mimika i sposób poruszania się mogą stać się Twoim sprzymierzeńcem na scenie i podczas codziennej komunikacji."},
+      {t:"p",s:"To będzie praktyczne spotkanie pełne ćwiczeń, obserwacji i doświadczeń, dzięki którym od razu zobaczysz, jak niewielkie zmiany w mowie ciała potrafią diametralnie zmienić odbiór mówcy."},
+      {t:"h",s:"Po warsztacie będziesz wiedzieć, jak"},
+      {t:"li",s:"świadomie budować pierwsze wrażenie,"},
+      {t:"li",s:"wzmacniać przekaz mową ciała zamiast go osłabiać,"},
+      {t:"li",s:"wykorzystywać postawę, gesty i kontakt wzrokowy do budowania autorytetu,"},
+      {t:"li",s:"eliminować niewerbalne nawyki odbierające wiarygodność,"},
+      {t:"li",s:"sprawić, by Twoje ciało i słowa mówiły jednym głosem."},
+      {t:"p",s:"Bo najbardziej przekonujący mówca to nie ten, który mówi najwięcej. To ten, którego ciało, głos i słowa tworzą spójną historię."}
+    ],
     intro: [],
     tm: [],
     misjaLabel: "Misja",
@@ -126,7 +138,7 @@ export const speakers: Speaker[] = [
       {t:"li",s:"atraktory (jak utrzymać uwagę widowni)"},
       {t:"li",s:"interakcje (jak zaangażować widownię, bez chaosu i nieprzewidywalności)"},
       {t:"li",s:"strutkura (jak zacząć prezentację, żeby od razu chcieli słuchać)"},
-      {t:"p",s:"Którko (45 minut), interaktywnie (bo tak), z przykładami i narzędziami od razu do wzięcia (norma, co nie)"}
+      {t:"p",s:"Którko (45 minut), interaktywnie (bo tak), z przykładami i narzędziami od razu do wzięcia (norma, co nie)\""}
     ],
     intro: [
       {t:"p",s:"Z wykształcenia informatyk, z zawodu mówca profesjonalny. Z blisko 30‑letnim dorobkiem w biznesie i współpracą z najróżniejszymi branżami i firmami różnej wielkości, posiada doświadczenie i unikatowy punkt patrzenia na skuteczność i efektywność biznesu."}
@@ -241,10 +253,10 @@ export const speakers: Speaker[] = [
   },
   {
     slug: "czarnieski-turek",
-    name: "Michał Czarnieski i Ewa Turek",
+    name: "Michał Czarniewski i Ewa Turek",
     photo: null,
-    day: "Sobota", date: "29.08", room: "Warsztatowa I", time: "17:00-17:45", format: "wywiad",
-    title: "Wywiad",
+    day: "Sobota", date: "29.08", room: "Warsztatowa I", time: "17:00-17:45", format: "wywiad 45 min",
+    title: "Wywiad z Ewą Turek",
     desc: [],
     intro: [],
     tm: [],
@@ -326,7 +338,7 @@ export const speakers: Speaker[] = [
   {
     slug: "agnieszka-brak",
     name: "Agnieszka Brak",
-    photo: null,
+    photo: "/images/prelegenci/agnieszka-brak.webp",
     day: "Niedziela", date: "30.08", room: "Warsztatowa II", time: "10:00-10:45", format: "warsztaty 45 min",
     title: "Stres? To nie wróg, lecz sprzymierzeniec!",
     desc: [
@@ -350,8 +362,8 @@ export const speakers: Speaker[] = [
   },
   {
     slug: "karolina-rzeznik",
-    name: "Karolina Natalia Rzeźnik",
-    photo: null,
+    name: "Karolina Kazanowska-Rzeźnik",
+    photo: "/images/prelegenci/karolina-rzeznik.webp",
     day: "Niedziela", date: "30.08", room: "Warsztatowa I", time: "10:30-10:50", format: "prelekcja 20 min",
     title: "W świecie AI każdy może być ekspertem. Kto zostanie liderem?",
     desc: [
@@ -367,6 +379,7 @@ export const speakers: Speaker[] = [
       {t:"p",s:"Być może będzie należała do tych, którzy potrafią rozwijać innych."}
     ],
     intro: [
+      {t:"h",s:"Karolina Natalia Rzeźnik"},
       {t:"p",s:"Project Manager, mentorka i liderka rozwoju przywództwa. Od lat rozwija liderów zarówno w biznesie, jak i w Toastmasters International."}
     ],
     tm: [
@@ -432,8 +445,8 @@ export const speakers: Speaker[] = [
   {
     slug: "eliza-krzak",
     name: "Eliza Krzak",
-    photo: null,
-    day: "Niedziela", date: "30.08", room: "Warsztatowa I", time: "11:00-11:45", format: "warsztaty 45 min",
+    photo: "/images/prelegenci/eliza-krzak.webp",
+    day: "Niedziela", date: "30.08", room: "Warsztatowa II", time: "11:00-11:45", format: "warsztaty 45 min",
     title: "W DRODZE DO SIEBIE. O autentyczności, własnej odpowiedzialności i sprawczości",
     desc: [
       {t:"p",s:"Wchodzisz na Facebooka, Instagrama, TikToka, na inne media w świecie internetu."},
@@ -508,7 +521,7 @@ export const speakers: Speaker[] = [
     slug: "anna-kaldonek",
     name: "Anna Kałdonek",
     photo: "/images/prelegenci/anna-kaldonek.webp",
-    day: "Niedziela", date: "30.08", room: "AULA", time: "", format: "prelekcja 20 min",
+    day: "Niedziela", date: "30.08", room: "AULA", time: "10:20-10:40", format: "prelekcja 20 min",
     title: "Dlaczego rozłożyłam psa na części? Czyli jak tłumaczyć trudne zagadnienia, aby ludzie rzeczywiście Cię słuchali.",
     desc: [
       {t:"p",s:"Według badań prosty i zrozumiały język sprawia, że jesteśmy postrzegani jako osoby inteligentniejsze, bardziej kompetentne i godne zaufania."},
