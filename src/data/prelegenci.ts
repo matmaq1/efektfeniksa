@@ -252,7 +252,7 @@ export const speakers: Speaker[] = [
     links: [{label:"piotr.rudzki.studio",url:"https://piotr.rudzki.studio/"}],
   },
   {
-    slug: "czarnieski-turek",
+    slug: "czarniewski-turek",
     name: "Michał Czarniewski i Ewa Turek",
     photo: null,
     day: "Sobota", date: "29.08", room: "Warsztatowa I", time: "17:00-17:45", format: "wywiad 45 min",

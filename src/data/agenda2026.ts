@@ -2,9 +2,6 @@
 // Zrodlo: arkusz "Efekt 2026 - zespol", zakladka "WWW Agenda" (wersja pod strone).
 // Pozycje prelegentow wskazuja slug z ../data/prelegenci - tytul, sala i opis
 // sa brane stamtad, zeby nie duplikowac tresci w dwoch miejscach.
-//
-// tbc: true = pozycja koliduje w arkuszu z inna (ta sama sala i godzina) albo nie ma
-// jeszcze godziny. Na stronie dostaje etykiete "do potwierdzenia".
 
 export type Kind = 'konkurs' | 'przerwa' | 'wieczor' | 'logistyka' | 'scena' | 'prelekcja';
 
@@ -15,7 +12,6 @@ export type AgendaItem = {
   kind: Kind;
   note?: string;
   speaker?: string;
-  tbc?: boolean;
 };
 
 export type AgendaDay = {
@@ -104,8 +100,8 @@ export const agenda: AgendaDay[] = [
         note: 'Nazwisko zostanie ogłoszone wkrótce.' },
       { time: '16:00-16:45', room: 'Warsztatowa II', kind: 'prelekcja', speaker: 'robert-umpirowicz' },
       { time: '17:00-17:45', room: 'AULA', kind: 'prelekcja', speaker: 'piotr-rudzki' },
-      { time: '17:00-17:45', room: 'Warsztatowa I', kind: 'prelekcja', speaker: 'czarnieski-turek',
-        note: 'Wywiad z Ewą Turek, prowadzi Michał Czarnieski.' },
+      { time: '17:00-17:45', room: 'Warsztatowa I', kind: 'prelekcja', speaker: 'czarniewski-turek',
+        note: 'Wywiad z Ewą Turek, prowadzi Michał Czarniewski.' },
       { time: '17:00-17:45', room: 'Warsztatowa II', kind: 'prelekcja', speaker: 'adrian-dornia' },
       { time: '18:30-19:30', room: 'AULA', kind: 'konkurs', title: 'Ogłoszenie wyników konkursów',
         note: 'Moment prawdy - wyniki wszystkich czterech konkurencji.' },
