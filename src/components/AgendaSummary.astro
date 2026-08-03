@@ -8,6 +8,10 @@ import { speakers } from '../data/prelegenci';
 
 const bySlug = Object.fromEntries(speakers.map(s => [s.slug, s]));
 
+// open=true dla wersji tylko-do-druku (/agenda): <details> musi byc rozwiniete
+// juz w HTML, bo iOS Safari nie odpala zdarzenia beforeprint.
+const { open = false } = Astro.props;
+
 // krotka etykieta do komorki tabeli
 function label(it: (typeof agenda)[number]['items'][number]) {
   const sp = it.speaker ? bySlug[it.speaker] : null;
@@ -19,7 +23,7 @@ const days = agenda.map(d => ({ ...d, slots: groupByStart(d.items) }));
 ---
 
 <div class="asum">
-  <details class="asum-box">
+  <details class="asum-box" open={open}>
     <summary class="asum-head">
       <span class="asum-ico" aria-hidden="true">🗓️</span>
       <span class="asum-txt">

@@ -15,6 +15,10 @@ export type Speaker = {
   time: string;
   format: string;
   title: string;
+  /** Zajawka na karcie kalendarza (/agenda), do ~150 znakow. Nasza parafraza -
+      uzupelniona tam, gdzie pierwszy akapit opisu nie tnie sie na sensowna
+      calosc (zaczyna sie od cytatu, pytania albo urwanego zdania). */
+  micro?: string;
   desc: Block[];
   intro: Block[];
   tm: Block[];
@@ -30,6 +34,7 @@ export const speakers: Speaker[] = [
     photo: "/images/prelegenci/artur-sojka.webp",
     day: "Piątek", date: "28.08", room: "", time: "19:00-20:30", format: "networking",
     title: "Praktyczne warsztaty umiejętności networkingowych",
+    micro: "Praktyczne warsztaty networkingu w cyklu Kolba: konkretne techniki zaczynania i kończenia rozmów, które od razu przećwiczysz na sali.",
     desc: [
       {t:"p",s:"„Jedyne życie, które ma sens, to życie towarzyskie” – mawiał Edward Dziewoński (pseudonim „Dudek”) - wybitny polski aktor, reżyser i legendarny twórca kabaretu Dudek."},
       {t:"p",s:"Ale co jeśli jesteś osobą nieśmiałą, introwertyczną? Jak prowadzić życie towarzyskie, gdy wyzwaniem jest samo przebywanie wśród obcych? A co, jeśli jesteś osobą zbyt ekspansywną i ekstrawertyczną? Widzisz, jak bardzo wielu ludzi zamyka się w sobie i masz kłopot. Czujesz, że dominowanie rozmów to nie najlepsza strategia, ale gdy Ty milkniesz, nastaje ta krępująca cisza? Jak ośmielić innych? A może umiejętności budowania relacji potrzebne Ci są zawodowo/biznesowo? Potrafisz to robić, ale jakoś tak intuicyjnie i nie do końca profesjonalnie?"},
@@ -59,6 +64,7 @@ export const speakers: Speaker[] = [
     photo: "/images/prelegenci/maciej-benben.webp",
     day: "Sobota", date: "29.08", room: "Warsztatowa I", time: "9:00-9:45", format: "warsztaty 45 min",
     title: "Table Chatter: Rozmawiaj bez strachu.",
+    micro: "Warsztat swobodnej rozmowy: impro na rozgrzewkę, gotowe wytrychy słowne i feedback, żeby wejść do dyskusji w obcym towarzystwie bez stresu.",
     desc: [
       {t:"h",s:"Warsztaty „Table Chatter” – Opanuj Sztukę Swobodnej Rozmowy"},
       {t:"p",s:"Masz problem z wejściem w dyskusję w obcym towarzystwie? Chcesz mówić płynnie i bez stresu? Te warsztaty łączą naukę z doskonałą zabawą, budując Twoją pewność siebie w każdej sytuacji towarzyskiej."},
@@ -88,6 +94,7 @@ export const speakers: Speaker[] = [
     photo: "/images/prelegenci/magdalena-andler.webp",
     day: "Sobota", date: "29.08", room: "Warsztatowa II", time: "9:00-9:45", format: "warsztaty 45 min",
     title: "By ciało chciało - mowa ciała, która wzmacnia przekaz",
+    micro: "Świetna treść to nie wszystko: warsztat o tym, jak postawa, gest i mimika decydują, czy przekaz wybrzmi tak, jak chcesz.",
     desc: [
       {t:"p",s:"Czy zdarzyło Ci się przygotować świetną treść, a mimo to mieć poczucie, że nie wybrzmiała tak, jak chciałeś?"},
       {t:"p",s:"A może zastanawiasz się, dlaczego jedni mówcy przyciągają uwagę od pierwszych sekund, podczas gdy inni- mimo wiedzy i doświadczenia nie potrafią zbudować takiej samej siły oddziaływania?"},
@@ -128,6 +135,7 @@ export const speakers: Speaker[] = [
     photo: "/images/prelegenci/jerzy-zientkowski.webp",
     day: "Sobota", date: "29.08", room: "Warsztatowa I", time: "15:00-15:45", format: "warsztaty 45 min",
     title: "Pimp my speech, czyli jak stworzyć efektowną mowę!",
+    micro: "Warsztat podkręcania mowy: co sprawia, że serca widowni biją mocniej, i jak dołożyć te elementy do własnego wystąpienia.",
     desc: [
       {t:"p",s:"W każdej mowie jest hais. Pieniądz. Sława. Płomień w oczach widowni, serca bijące mocniej, dłonie składające się do oklasków - albo wędrujące w stronę portfeli."},
       {t:"p",s:"Ale ważna jest też i autentyczność, i narzędziowość. Nic po sukcesie tej samej mowy dla jednej widowni, gdy druga podczas niej zasypia."},
@@ -159,6 +167,7 @@ export const speakers: Speaker[] = [
     photo: "/images/prelegenci/julia-jasiczak.webp",
     day: "Sobota", date: "29.08", room: "Warsztatowa II", time: "15:00-15:45", format: "prelekcja 45 min",
     title: "Archetypy marki osobistej. Jak świadomie budować swój indywidualny styl komunikacji.",
+    micro: "Dlaczego jednych zapamiętujemy od razu, a innych mimo kompetencji nie? O archetypach, które porządkują twój styl komunikacji.",
     desc: [
       {t:"p",s:"Dlaczego niektóre osoby są natychmiast rozpoznawalne, a inne pomimo dużych kompetencji, mają trudność z pokazaniem światu swojej wartości? Co sprawia, że sposób, w jaki komunikujemy siebie, pozostaje spójny i na długo zapada w pamięć?"},
       {t:"p",s:"Archetypy marki osobistej pomagają lepiej zrozumieć to, w jaki sposób budujemy relacje z odbiorcami. Dają nam narzędzie, które pozwala odkryć nasz naturalny styl komunikacji, świadomie kształtować wizerunek i tworzyć przekaz zgodny z tym, kim jesteśmy i jaką wartość dajemy innym."},
@@ -183,6 +192,7 @@ export const speakers: Speaker[] = [
     photo: "/images/prelegenci/przemyslaw-kutnyj.webp",
     day: "Sobota", date: "29.08", room: "AULA", time: "16:00-16:45", format: "prelekcja 45 min",
     title: "Życie to zagadka, więc szukaj dowodów na to, kim jesteś. O sztuce autonarracji dla popełniających błędy",
+    micro: "Każdy ma jakąś markę - pytanie, czy sam w nią wierzysz. O budowaniu opowieści o sobie, która niesie także wtedy, gdy popełniasz błędy.",
     desc: [
       {t:"p",s:"Każdy ma jakąś markę. Wystarczy zapytać o nią tych, którzy zostali w pokoju tuż po naszym wyjściu. Skupiamy się na budowaniu marki, mając na myśli to, jak odczytają nas inni i zapominamy o sobie. Z czego i jak budować historię samego/samej siebie? Jak snuć opowieść, w którą uwierzymy sami na tyle, by stanowiła dla nas światło także wtedy, gdy wokół zrobi się ciemno?"},
       {t:"p",s:"Jak zadbać o to, co stanowi dla nas duchowe spa i gdzie go szukać? Jeśli życie to zagadka, to jak szukać dowodów na to, kim jesteśmy? Czy to, co się wydarzyło, może stanowić trampolinę do tego, co się dopiero stanie? Jeśli tak, to jak skakać, by się nie połamać, bardziej, niż trzeba? Wystąpienie pomoże przyjrzeć się sobie krytycznie, by złapać trop swojej narracji, odsączonej z bieżącego zamętu i marketingowego chaosu."},
@@ -212,6 +222,7 @@ export const speakers: Speaker[] = [
     photo: "/images/prelegenci/robert-umpirowicz.webp",
     day: "Sobota", date: "29.08", room: "Warsztatowa II", time: "16:00-16:45", format: "warsztaty 45 min",
     title: "Komunikuj się z energią! Inspiruj z entuzjazmem",
+    micro: "Entuzjazm i autentyczne emocje to jedne z najskuteczniejszych narzędzi wpływu - na scenie i w roli lidera. Warsztat o tym, jak ich używać.",
     desc: [
       {t:"p",s:"Jeśli nie umiesz się uśmiechać, nie otwieraj sklepu” – głosi chińskie przysłowie. To jednak znacznie więcej niż rada dla sprzedawców. To przypomnienie, że entuzjazm, pozytywna energia i autentyczne emocje należą do najskuteczniejszych narzędzi wpływu – zarówno na scenie, jak i w roli lidera."},
       {t:"p",s:"Podczas tego 45-minutowego, pełnego energii warsztatu przekonasz się, jak ogromny wpływ na odbiór Twojego wystąpienia mają nastawienie, głos i mowa ciała. Dzięki praktycznym ćwiczeniom nauczysz się świadomie budować pozytywne emocje oraz wykorzystywać je, by skuteczniej angażować, inspirować i przekonywać swoich odbiorców."},
@@ -236,6 +247,7 @@ export const speakers: Speaker[] = [
     photo: "/images/prelegenci/piotr-rudzki.webp",
     day: "Sobota", date: "29.08", room: "AULA", time: "17:00-17:45", format: "prelekcja 45 min",
     title: "Heurystyką, dobijemy go heurystyką! Jak mózg oszukuje nas w Toastmasters?",
+    micro: "Pięćdziesiąt osób słucha, jedna ziewa - i już wiesz, że była katastrofa. Interaktywny wykład o błędach poznawczych mówcy, sędziego i lidera.",
     desc: [
       {t:"p",s:"Pięćdziesiąt osób słucha z uwagą, jedna ziewa — i już masz pewność, że Twoje wystąpienie było katastrofą. Sędzia chce być obiektywny, ale kolejność wystąpień lub pierwsze wrażenie niepostrzeżenie wpływają na jego ocenę. Lider wie, że warto coś zmienić, a mimo to wybiera to, co znane. Dlaczego mózg tak łatwo podsuwa nam przekonujące, lecz błędne interpretacje? Jak rozpoznać moment, w którym skrót myślowy zaczyna sterować naszym zachowaniem? Ten interaktywny wykład to spojrzenie na błędy poznawcze z trzech perspektyw: mówcy, sędziego i lidera. Dowiesz się, dlaczego przeceniamy własne potknięcia, ulegamy efektowi halo, bronimy wcześniejszych decyzji i wybieramy utrzymanie status quo. Nie nauczę Cię wyłączać heurystyk — to praktycznie niemożliwe. Ale kiedy poznasz ich imiona, przestaną działać po cichu."}
     ],
@@ -270,6 +282,7 @@ export const speakers: Speaker[] = [
     photo: null,
     day: "Sobota", date: "29.08", room: "Warsztatowa II", time: "17:00-17:45", format: "warsztaty 45 min",
     title: "Jak założyć firmę i nie zwariować?",
+    micro: "Za kulisami kilku branż: realne case study od pozyskania środków na start, przez marketing i sprzedaż, po obsługę klienta - bez owijania w bawełnę.",
     desc: [
       {t:"p",s:"Myślisz o pójściu „na swoje”, ale przeraża Cię wizja bycia własnym szefem? Własny biznes brzmi jak wolność, a w praktyce bywa bezlitosnym rollercoasterem. Operacyjna bieżączka, faktury, prospecting i obsługa klienta potrafią przytłoczyć. 📈📊 Jak utrzymać tempo i nie stracić głowy? Czy da się budować firmę od zera bez pewności sukcesu, zachowując przy tym zdrowe zmysły i czas na odpoczynek? 🤔⏳ Podczas warsztatu bez owijania w bawełnę wejdziemy za kulisy kilku branż. Przejdziemy przez realne case study – od pozyskiwania środków na start, przez marketing i twardą sprzedaż, aż po procesy obsługi klienta. 🛠️🚀"},
       {t:"h",s:"Przeanalizujemy kluczowe obszary"},
@@ -296,6 +309,7 @@ export const speakers: Speaker[] = [
     photo: "/images/prelegenci/pawel-konieczko.webp",
     day: "Niedziela", date: "30.08", room: "AULA", time: "10:00-10:20", format: "prelekcja 20 min",
     title: "Dlaczego twoje prezentacje nie prowadzą do decyzji?",
+    micro: "Większość prezentacji kończy się serią pytań albo kolejnym spotkaniem - zamiast decyzją. O tym, jak zbudować wystąpienie, które ją domyka.",
     desc: [
       {t:"p",s:"Większość prezentacji w biznesie kończy się albo serią pytań albo potrzebą zrobienia kolejnego spotkania. Niewiele z nich kończy się tym, co było ich prawdziwym celem – decyzją, zmianą sposobu myślenia lub konkretnym działaniem."},
       {t:"p",s:"Dlaczego tak się dzieje? Czy problemem są slajdy, treść, a może coś zupełnie innego?"},
@@ -319,6 +333,7 @@ export const speakers: Speaker[] = [
     photo: null,
     day: "Niedziela", date: "30.08", room: "Warsztatowa I", time: "10:00-10:20", format: "prelekcja 20 min",
     title: "Nie ma ostatniej góry. Stoicka odwaga w świecie, którego nie da się kontrolować.",
+    micro: "Każdy zdobyty szczyt odsłania kolejny. O stoickiej odwadze w świecie, którego nie da się kontrolować, i o tym, że trudności to nie dowód słabości.",
     desc: [
       {t:"p",s:"Każdy zdobyty szczyt odsłania kolejny. Rozwiązujemy jeden problem, a za nim pojawia się następny w pracy, relacjach i życiu. Czy trudności świadczą o tym, że jesteśmy niewystarczający?"},
       {t:"p",s:"A może nie zakłócają życia, lecz właśnie je tworzą?"},
@@ -425,6 +440,7 @@ export const speakers: Speaker[] = [
     photo: "/images/prelegenci/agnieszka-ciochon.webp",
     day: "Niedziela", date: "30.08", room: "Warsztatowa I", time: "11:00-11:45", format: "prelekcja 45 min",
     title: "A co, jeśli to, co Cię zatrzymuje, jest tylko przekonaniem?",
+    micro: "Niewidzialne stery życia: dlaczego rezygnujemy z marzeń, nie potrafimy odmówić i boimy się oceny? O przekonaniach, które kierują nami po cichu.",
     desc: [
       {t:"p",s:"Niewidzialne stery życia. Dlaczego tak często rezygnujemy z własnych marzeń, nie potrafimy odmówić, boimy się oceny innych albo przez lata tkwimy w sytuacjach, które nas unieszczęśliwiają? Czy naprawdę brakuje nam odwagi, czy może naszym życiem kieruje coś, czego nawet nie zauważamy?"},
       {t:"p",s:"Podczas wystąpienia pokażę, jak ograniczające przekonania wpływają na nasze decyzje, relacje i poczucie własnej wartości. Opowiem o własnych doświadczeniach i historiach, które doprowadziły mnie do odkrycia, że wiele naszych życiowych wyborów nie wynika z rzeczywistości, lecz z przekonań, które przejęły stery naszego życia."},
@@ -448,6 +464,7 @@ export const speakers: Speaker[] = [
     photo: "/images/prelegenci/eliza-krzak.webp",
     day: "Niedziela", date: "30.08", room: "Warsztatowa II", time: "11:00-11:45", format: "warsztaty 45 min",
     title: "W DRODZE DO SIEBIE. O autentyczności, własnej odpowiedzialności i sprawczości",
+    micro: "Cudze wakacje, awanse i sukcesy w mediach - i pytanie, co ze mną nie tak. O odróżnianiu presji otoczenia od tego, co naprawdę twoje.",
     desc: [
       {t:"p",s:"Wchodzisz na Facebooka, Instagrama, TikToka, na inne media w świecie internetu."},
       {t:"p",s:"Widzisz zdjęcie znajomych, którzy polecieli na kolejne wakacje w tym roku. Kolejne zdjęcie, inny znajomy pokazuje zakup nowego samochodu. Ktoś jeszcze inny wrzuca zdjęcie z uśmiechem i pisze, że właśnie zmienił pracę na pracę swoich marzeń. Kolejny post i kolejna informacja, że komuś coś się udało. Oglądasz ich wyjazdy, uśmiechy, sukcesy. I zaczynasz się zastanawiać co z Tobą nie tak? Dlaczego Ja tak nie mam? Czemu to mi przytrafia się tyle kłopotów i trudności?"},
@@ -476,6 +493,7 @@ export const speakers: Speaker[] = [
     photo: "/images/prelegenci/luiza-markiewicz.webp",
     day: "Niedziela", date: "30.08", room: "Warsztatowa I", time: "12:00-12:20", format: "prelekcja 20 min",
     title: "Po co wstajesz rano? O sile IKIGAI",
+    micro: "Z zewnątrz wszystko wygląda dobrze, a mimo to gubisz sens? O japońskiej idei ikigai i o powodzie, dla którego warto wstawać rano.",
     desc: [
       {t:"p",s:"Budzik dzwoni. Otwierasz oczy i zaczyna się kolejny dzień. Praca, obowiązki, dom, kolejne zadania. Z zewnątrz wszystko wygląda dobrze, a jednak coraz więcej ludzi gubi radość i poczucie sensu."},
       {t:"p",s:"Dlaczego jedni budzą się z energią, a inni tylko odliczają dni do weekendu? Czy można na nowo odnaleźć w sobie pasję do życia?"},
@@ -500,6 +518,7 @@ export const speakers: Speaker[] = [
     photo: null,
     day: "Niedziela", date: "30.08", room: "Warsztatowa II", time: "12:00-12:20", format: "prelekcja 20 min",
     title: "Z cyklu feniks w popiele czyli kryzys na scenie - jak bez pomocy narzędzi AI uratować sytuację?",
+    micro: "Mowa humorystyczno-informacyjna o wpadkach na scenie: praktyczne triki, dzięki którym poradzisz sobie w kryzysie bez pomocy AI.",
     desc: [
       {t:"p",s:"Mowa humorystyczno-informacyjna o wpadkach na scenie - Praktyczne trik dla mówców. Cel - Pomóc Mówcy poradzić sobie w kryzysowych sytuacjach."},
       {t:"p",s:"Wybiegasz na scenę jako feniks, a kończysz jak grillowany kurczak w popiele? Czarna dziura w pamięci sprawia, że osiągasz „wewnętrzną pustkę”. Prezentacja w stylu Mad Max z niedziałającym pilotem do slajdów a Twój lewy policzek niespodziewanie wchodzi w tryb wibracji ? Ostatkiem sił ratujesz się dowcipem wygenerowanym przez „darmową wersję” a on nie wywołuje nawet uśmiechu?"},

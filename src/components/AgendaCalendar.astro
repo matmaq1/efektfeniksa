@@ -1,0 +1,467 @@
+---
+// Kalendarzowy widok calego programu - glowna tresc /agenda.
+//
+// Wiersze siatki wynikaja z realnych granic czasowych dnia (kazdego startu i
+// kazdego konca), a nie z kolejnych "slotow". Dzieki temu poszarpana niedziela
+// (10:20, 10:30, 10:40, panel o 11:11) trafia na wlasciwe miejsce na osi,
+// a wolne okna zostaja po prostu wolnymi oknami - bez kratek "brak".
+//
+// Karta jest minimalna: godzina, nazwisko, temat i jedna linijka opisu.
+// Na hover (desktop) albo na srodku ekranu (mobile, klasa .on z JS ponizej)
+// rozwija sie plynnie do pelnej notki ze zdjeciem prelegenta i linkiem do
+// pelnego opisu, spychajac pozycje ponizej w dol.
+import { agenda, ROOMS, roomSlug, type AgendaDay, type AgendaItem } from '../data/agenda2026';
+import { speakers, type Speaker } from '../data/prelegenci';
+
+const bySlug = Object.fromEntries(speakers.map(s => [s.slug, s]));
+
+const kindLabel: Record<string, string> = {
+  konkurs: 'Konkurs', przerwa: 'Przerwa', wieczor: 'Wieczór',
+  logistyka: 'Organizacja', scena: 'Scena główna', prelekcja: 'Prelekcja',
+};
+
+/** Przycina na granicy zdania, a gdy jej nie ma w rozsadnym miejscu - na granicy slowa. */
+function cut(txt: string, max: number): string {
+  const t = txt.trim();
+  if (t.length <= max) return t;
+  const c = t.slice(0, max);
+  const stop = Math.max(c.lastIndexOf('. '), c.lastIndexOf('? '), c.lastIndexOf('! '));
+  return stop > max * 0.55 ? c.slice(0, stop + 1) : c.replace(/\s+\S*$/, '') + '…';
+}
+
+/** Zajawka widoczna od razu (~150 znakow): recznie napisana parafraza z danych
+    prelegenta, wlasna notka pozycji albo poczatek opisu wystapienia. */
+function microText(it: AgendaItem, sp: Speaker | null): string {
+  if (sp?.micro) return sp.micro;
+  if (it.note) return it.note;
+  const first = sp?.desc.find(b => b.t === 'p');
+  return first ? cut(first.s, 150) : '';
+}
+
+/** Pelniejszy opis pod rozwiniecie: kolejne akapity, az uzbiera sie sensowny kawalek. */
+function fullText(sp: Speaker | null): string {
+  if (!sp) return '';
+  let out = '';
+  for (const b of sp.desc) {
+    if (b.t !== 'p') continue;
+    out = out ? out + ' ' + b.s.trim() : b.s.trim();
+    if (out.length >= 240) break;
+  }
+  return cut(out, 460);
+}
+
+const toMin = (t: string): number => {
+  const m = /^(\d{1,2}):(\d{2})/.exec(t.trim());
+  return m ? Number(m[1]) * 60 + Number(m[2]) : 0;
+};
+
+/** Start i koniec pozycji w minutach. Wieczory za polnoc (20:30-02:00) lecą poza 24h. */
+function span(time: string): { s: number; e: number } {
+  const [a, b] = time.split('-');
+  const s = toMin(a);
+  let e = b ? toMin(b) : s + 30;
+  if (e <= s) e += 24 * 60;
+  return { s, e };
+}
+
+const fmt = (m: number): string =>
+  String(Math.floor(m / 60) % 24).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0');
+
+/** Wysokosc wiersza rosnie z czasem trwania, ale sciezona z obu stron - inaczej
+    piknik do 2:00 zajalby pol ekranu, a 5-minutowa szczelina znikalaby zupelnie. */
+const rowPx = (dur: number): number => Math.round(Math.max(22, Math.min(160, 18 + dur * 0.75)));
+
+function layout(day: AgendaDay) {
+  const all = day.items.map(it => ({ it, ...span(it.time) }));
+
+  // Pozycje bez sali, ktore nachodza czasowo na cokolwiek innego (rejestracja
+  // przez pol dnia, zwiedzanie w trakcie COT), nie zmieszcza sie w siatce sal -
+  // ida do paska "Rownolegle przez cały dzień" nad nia.
+  const band = all.filter(x => !x.it.room && all.some(o => o !== x && o.s < x.e && x.s < o.e));
+  const grid = all.filter(x => !band.includes(x))
+    .sort((a, b) => a.s - b.s || ROOMS.indexOf(a.it.room) - ROOMS.indexOf(b.it.room));
+
+  const bounds = [...new Set(grid.flatMap(x => [x.s, x.e]))].sort((a, b) => a - b);
+  const starts = new Set(grid.map(x => x.s));
+
+  return {
+    day,
+    band: band.map(x => x.it),
+    rows: bounds.slice(0, -1).map((s, i) => ({
+      line: i + 1,
+      label: starts.has(s) ? fmt(s) : null,
+      full: s % 60 === 0,
+      px: rowPx(bounds[i + 1] - s),
+    })),
+    items: grid.map(x => ({ it: x.it, r1: bounds.indexOf(x.s) + 1, r2: bounds.indexOf(x.e) + 1 })),
+  };
+}
+
+const days = agenda.map(layout);
+---
+
+<div class="caltop">
+  <button type="button" class="calpdf" onclick="window.print()">Pobierz plan w PDF &darr;</button>
+  <p class="calhint">W oknie druku wybierz <strong>&bdquo;Zapisz jako PDF&rdquo;</strong> - cały program zmieści się
+  na jednej kartce i zadziała bez zasięgu. Działa tak samo na telefonie i na komputerze.</p>
+</div>
+
+{days.map(d => (
+<div class="calday" id={d.day.key}>
+  <div class="dayhd">
+    <h2 class="daynum">{d.day.label} {d.day.date}</h2>
+    <span class="daytag">{d.day.items.filter(i => i.kind === 'prelekcja').length} wystąpień</span>
+  </div>
+  <p class="dayintro">{d.day.intro}</p>
+
+  {d.band.length > 0 && (
+    <div class="calband">
+      <span class="cbl">Równolegle</span>
+      <div class="cbi">
+        {d.band.map(it => (
+          <div class:list={['cb', it.kind]}>
+            <span class="cbt">{it.time}</span>
+            <span class="cbn">{it.title}</span>
+            {it.note && <span class="cbd">{it.note}</span>}
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <div class="rfilter">
+    <div class="rfbar" role="tablist" aria-label="Filtruj po sali">
+      <span class="rfpill" aria-hidden="true"></span>
+      <button type="button" class="rfb" role="tab" aria-selected="true" data-f="all">Wszystko</button>
+      <button type="button" class="rfb" role="tab" aria-selected="false" data-f="aula">AULA</button>
+      <button type="button" class="rfb" role="tab" aria-selected="false" data-f="w1">Warsztatowa I</button>
+      <button type="button" class="rfb" role="tab" aria-selected="false" data-f="w2">Warsztatowa II</button>
+    </div>
+  </div>
+
+  <div class="calhd">
+    <div class="chtime">Czas</div>
+    {ROOMS.map(r => <div class:list={[r === 'AULA' && 'aula']}>{r}</div>)}
+  </div>
+
+  <div class="cal" data-filter="all" style={`grid-template-rows:${d.rows.map(r => `minmax(${r.px}px,auto)`).join(' ')}`}>
+    {d.rows.map(row => (
+      <>
+        {row.label && <div class:list={['ct', !row.full && 'half']} style={`grid-row:${row.line}`}>{row.label}</div>}
+        {row.label && <div class="cl" style={`grid-row:${row.line}`} aria-hidden="true"></div>}
+        {d.items.filter(x => x.r1 === row.line).map(({ it, r1, r2 }) => {
+          const sp = it.speaker ? bySlug[it.speaker] : null;
+          const micro = microText(it, sp);
+          const long = fullText(sp);
+          // rozwiniecie ma sens tylko wtedy, gdy dokłada cos ponad zajawke:
+          // dluzszy opis, zdjecie albo link do pelnej sylwetki
+          const body = long && long !== micro ? long : '';
+          const open = !!(sp || body);
+          const mini = sp?.photo ? sp.photo.replace('/prelegenci/', '/prelegenci/mini/') : null;
+          const style = `grid-row:${r1}/${r2};grid-column:${it.room ? ROOMS.indexOf(it.room) + 2 : '2/-1'}`;
+          const inner = (
+            <>
+              <div class="evhd">
+                <span class="evtime">{it.time}</span>
+                <span class:list={['rm', it.room === 'AULA' && 'aula']}>{it.room || 'Całe wydarzenie'}</span>
+                {!sp && <span class="evkind">{kindLabel[it.kind]}</span>}
+              </div>
+              {sp && <div class="evwho">{sp.name}</div>}
+              <div class="evtitle">{sp ? (sp.title || 'Temat wkrótce') : it.title}</div>
+              {micro && <div class="evm"><div class="evmc"><p class="evmicro">{micro}</p></div></div>}
+              {open && (
+                <div class="evx">
+                  <div class="evxc">
+                    <div class="evxi">
+                      {mini && <img class="evph" src={mini} width="128" height="160" alt={sp!.name} loading="lazy" decoding="async" />}
+                      <div class="evxt">
+                        {body && <p class="evnote">{body}</p>}
+                        {sp && <span class="evgo">Pełny opis i sylwetka &rarr;</span>}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
+          );
+          return sp
+            ? <a class:list={['ev', it.kind, !it.room && 'wide']} data-room={roomSlug(it.room)} data-x="1" style={style} href={`/prelegenci/#${sp.slug}`}>{inner}</a>
+            : <div class:list={['ev', it.kind, !it.room && 'wide']} data-room={roomSlug(it.room)} data-x={open ? '1' : null} style={style}>{inner}</div>;
+        })}
+      </>
+    ))}
+  </div>
+</div>
+))}
+
+<div class="legend">
+  <div class="lgi"><span class="lgb"></span> Konkurs</div>
+  <div class="lgi"><span class="lgb b2"></span> Scena główna / wieczór</div>
+  <div class="lgi"><span class="lgb b3"></span> Prelekcje, warsztaty i organizacja</div>
+  <div class="lgi lgh">Najedź na pozycję (na telefonie: przewiń ją na środek ekranu), żeby zobaczyć opis</div>
+</div>
+
+<style>
+/* EKSPORT PDF */
+.caltop{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:34px;padding:16px 20px;
+  border:1px solid rgba(252,163,17,.22);background:rgba(5,5,113,.18);border-radius:3px}
+.calpdf{background:linear-gradient(135deg,var(--o),var(--g));color:var(--bg);font-family:'Montserrat',sans-serif;
+  font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:13px 24px;border:none;
+  border-radius:2px;cursor:pointer;transition:transform .2s,opacity .2s;white-space:nowrap}
+.calpdf:hover{transform:translateY(-2px);opacity:.9}
+.calhint{font-size:11.5px;font-weight:400;color:var(--w6);line-height:1.55;max-width:460px}
+.calhint strong{color:var(--g);font-weight:700}
+
+/* DZIEN */
+.calday{--rail:74px;margin-bottom:56px;scroll-margin-top:86px}
+.dayhd{display:flex;align-items:baseline;gap:14px;margin-bottom:10px;flex-wrap:wrap}
+.daynum{font-size:clamp(24px,3vw,36px);font-weight:800;letter-spacing:-.05em;line-height:1}
+.daytag{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--g);
+  border:1px solid rgba(252,163,17,.25);background:rgba(252,163,17,.1);padding:4px 11px;border-radius:2px}
+.dayintro{font-size:14px;color:var(--w6);line-height:1.7;max-width:640px;margin-bottom:22px}
+
+/* PASEK "ROWNOLEGLE" - pozycje bez sali, ktore trwaja obok calej reszty */
+.calband{display:flex;align-items:stretch;gap:10px;margin-bottom:14px}
+.cbl{writing-mode:vertical-rl;transform:rotate(180deg);font-size:8.5px;font-weight:800;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(255,255,255,.28);text-align:center;padding:2px 0}
+.cbi{flex:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2px}
+.cb{background:rgba(255,255,255,.025);border:1px dashed rgba(255,255,255,.12);border-left:2px solid rgba(255,255,255,.18);
+  padding:10px 14px;display:flex;flex-direction:column;gap:3px}
+.cbt{font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--o)}
+.cbn{font-size:13px;font-weight:800;letter-spacing:-.03em}
+.cbd{font-size:11.5px;color:var(--w6);line-height:1.55}
+
+/* SIATKA: os godzin + trzy stale kolumny sal */
+.calhd,.cal{display:grid;grid-template-columns:var(--rail) repeat(3,minmax(0,1fr));gap:2px}
+.calhd{position:sticky;top:68px;z-index:5;background:rgba(0,1,16,.94);backdrop-filter:blur(10px);margin-bottom:2px}
+.calhd>div{font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--w6);
+  padding:11px 14px;border:1px solid rgba(255,255,255,.08)}
+.calhd>div.aula{color:var(--g);border-color:rgba(252,163,17,.25)}
+.chtime{color:var(--o)}
+.cal{position:relative;align-items:stretch}
+.cal::before{content:'';position:absolute;top:0;bottom:0;left:calc(var(--rail) - 1px);width:1px;pointer-events:none;
+  background:linear-gradient(180deg,rgba(252,163,17,.3),rgba(252,163,17,.05))}
+.ct{grid-column:1;align-self:start;padding:2px 13px 0 0;text-align:right;white-space:nowrap;
+  font-size:13px;font-weight:800;letter-spacing:-.02em;color:var(--g)}
+/* pol godziny i "niekrągłe" starty sa nizsze w hierarchii, ale nadal czytelne -
+   o 15:30 zaczyna sie pierwszy konkurs, to nie jest drobny druk */
+.ct.half{font-size:11.5px;font-weight:700;color:rgba(252,163,17,.62)}
+.cl{grid-column:2/-1;align-self:start;height:1px;background:rgba(255,255,255,.05);pointer-events:none}
+
+/* KARTA: minimum + panel rozwijany plynnie (grid-template-rows 0fr -> 1fr).
+   Rozwiniecie musi byc ustawione wprost na elementach, a nie przez zmienna CSS -
+   przy var() przegladarka nie interpoluje grid-template-rows, tylko przeskakuje. */
+.ev{position:relative;min-width:0;overflow:hidden;background:rgba(5,5,113,.15);
+  border:1px solid rgba(255,255,255,.07);border-left:2px solid rgba(255,255,255,.14);
+  padding:12px 15px;display:flex;flex-direction:column;gap:5px;text-decoration:none;color:inherit;
+  transition:background .25s,border-color .25s,border-left-color .25s}
+a.ev{cursor:pointer}
+.ev.konkurs{border-left-color:var(--o);background:rgba(255,91,0,.07)}
+.ev.wieczor,.ev.scena{border-left-color:var(--g)}
+.ev.przerwa{background:rgba(255,255,255,.02);border-left-color:rgba(255,255,255,.1)}
+.evhd{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.evtime{font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--w6);white-space:nowrap}
+.rm{display:none;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--w6);
+  border:1px solid rgba(255,255,255,.13);padding:2px 7px;border-radius:2px}
+.ev.wide .rm{display:inline-block}
+.rm.aula{color:var(--g);border-color:rgba(252,163,17,.28)}
+.evkind{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--o)}
+.evwho{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--o)}
+.evtitle{font-size:14.5px;font-weight:800;letter-spacing:-.03em;line-height:1.3}
+.ev.przerwa .evtitle{font-weight:700;color:var(--w6)}
+/* zajawka: do trzech linijek (~150 znakow), zwija sie tak samo plynnie jak panel */
+.evm{display:grid;grid-template-rows:1fr;transition:grid-template-rows .45s cubic-bezier(.22,1,.36,1)}
+.evmc{overflow:hidden;min-height:0}
+.evmicro{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;opacity:1;
+  font-size:12px;font-weight:400;color:var(--w6);line-height:1.5;transition:opacity .25s}
+
+.evx{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.22,1,.36,1)}
+.evxc{overflow:hidden;min-height:0}
+.evxi{display:flex;gap:13px;margin-top:8px;padding-top:11px;border-top:1px solid rgba(255,255,255,.09);
+  opacity:0;transform:translateY(-8px);transition:opacity .3s ease .06s,transform .4s cubic-bezier(.22,1,.36,1)}
+.evph{width:48px;height:60px;flex-shrink:0;object-fit:cover;object-position:top;border-radius:2px;
+  border:1px solid rgba(252,163,17,.22)}
+.evxt{min-width:0}
+.evnote{font-size:12px;font-weight:400;color:var(--wb);line-height:1.6}
+.evgo{display:inline-block;margin-top:9px;font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--g);border-bottom:1px solid rgba(252,163,17,.45);padding-bottom:2px}
+
+/* rozwiniecie: hover na desktopie, klasa .on na mobile, focus dla klawiatury */
+:is(.ev.on,.ev:focus-visible) .evx{grid-template-rows:1fr}
+:is(.ev.on,.ev:focus-visible) .evm{grid-template-rows:0fr}
+:is(.ev.on,.ev:focus-visible) .evmicro{opacity:0}
+:is(.ev.on,.ev:focus-visible) .evxi{opacity:1;transform:none}
+.ev.on,a.ev:focus-visible{background:rgba(5,5,113,.32);border-left-color:var(--g)}
+@media(hover:hover){
+  .ev[data-x]:hover .evx{grid-template-rows:1fr}
+  .ev[data-x]:hover .evm{grid-template-rows:0fr}
+  .ev[data-x]:hover .evmicro{opacity:0}
+  .ev[data-x]:hover .evxi{opacity:1;transform:none}
+  a.ev:hover{background:rgba(5,5,113,.32);border-left-color:var(--g)}
+}
+
+/* FILTR SAL (mobile) - pigulka z przesuwnym wskaznikiem */
+.rfilter{display:none;position:sticky;top:74px;z-index:6;margin:0 0 14px}
+.rfbar{display:flex;gap:2px;position:relative;padding:4px;border-radius:999px;
+  background:rgba(10,10,42,.55);border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);
+  box-shadow:0 6px 22px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.14)}
+.rfpill{position:absolute;top:4px;bottom:4px;left:0;width:0;border-radius:999px;
+  background:linear-gradient(135deg,var(--o),var(--g));
+  box-shadow:0 3px 12px rgba(255,91,0,.4),inset 0 1px 0 rgba(255,255,255,.3);
+  transition:transform .42s cubic-bezier(.34,1.32,.5,1),width .42s cubic-bezier(.34,1.32,.5,1);
+  pointer-events:none;z-index:0}
+.rfb{position:relative;z-index:1;flex:1;border:none;background:none;cursor:pointer;
+  font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--w6);padding:9px 4px;border-radius:999px;
+  transition:color .3s;white-space:nowrap}
+.rfb[aria-selected="true"]{color:var(--bg)}
+
+/* LEGENDA */
+.legend{display:flex;gap:18px;flex-wrap:wrap;align-items:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.07)}
+.lgi{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--w6)}
+.lgb{width:14px;height:14px;border-left:2px solid var(--o);background:rgba(255,91,0,.07)}
+.lgb.b2{border-left-color:var(--g);background:rgba(5,5,113,.2)}
+.lgb.b3{border-left-color:rgba(255,255,255,.14);background:rgba(5,5,113,.2)}
+.lgh{margin-left:auto;color:rgba(255,255,255,.32);font-size:10.5px}
+
+@media(max-width:1000px){
+  .calday{--rail:62px}
+  .ct{font-size:12px;padding-right:10px}
+  .evnote{font-size:11.5px}
+  /* waskie kolumny - te same ~150 znakow potrzebuje wiecej linijek */
+  .evmicro{-webkit-line-clamp:5}
+}
+@media(max-width:860px){
+  /* Mobile: jedna kolumna, os godzin robi sie naglowkiem grupy, dochodzi filtr sal.
+     Inline'owe grid-row/column z siatki desktopowej trzeba zdjac. */
+  .rfilter{display:block}
+  .calhd,.cl,.cal::before{display:none}
+  .cal{grid-template-columns:1fr;grid-template-rows:none!important}
+  .cal>*{grid-row:auto!important;grid-column:1!important}
+  .ct{text-align:left;padding:16px 0 3px;font-size:13.5px;font-weight:800;letter-spacing:.06em;color:var(--o)}
+  .ct.half{font-size:12.5px;color:rgba(255,91,0,.8)}
+  .ct:first-child{padding-top:0}
+  .ct.hidden{display:none}
+  /* bez kolumn sal godzina "od-do" jest jedynym punktem odniesienia - musi byc czytelna */
+  .evhd{gap:9px}
+  .evtime{font-size:12px;font-weight:800;letter-spacing:.02em;color:var(--g)}
+  .cbt{font-size:11px;font-weight:800;letter-spacing:.02em}
+  .evmicro{-webkit-line-clamp:4}
+  .rm{display:inline-block}
+  .calband{gap:8px}
+  .lgh{margin-left:0;flex-basis:100%}
+  /* filtrowanie po sali; pozycje ogolnodostepne (data-room="all") zostaja zawsze */
+  .cal[data-filter="aula"] .ev[data-room="w1"],
+  .cal[data-filter="aula"] .ev[data-room="w2"],
+  .cal[data-filter="w1"]   .ev[data-room="aula"],
+  .cal[data-filter="w1"]   .ev[data-room="w2"],
+  .cal[data-filter="w2"]   .ev[data-room="aula"],
+  .cal[data-filter="w2"]   .ev[data-room="w1"]{display:none}
+}
+@media(max-width:680px){
+  .caltop{padding:14px 15px;gap:12px}
+  .calpdf{width:100%;justify-content:center}
+  .rfb{font-size:9px;letter-spacing:.05em;padding:9px 2px}
+  .cbl{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .evx,.evmicro,.evxi,.rfpill{transition:none}
+}
+</style>
+
+<script is:inline>
+/* Filtr sal na mobile. Jeden wspolny stan dla wszystkich dni - inaczej kazdy dzien
+   trzymalby wlasny wybor i plan rozjezdzalby sie przy scrollowaniu. Po przefiltrowaniu
+   chowamy te godziny, przy ktorych nie zostala juz zadna pozycja. */
+(function () {
+  var bars = [].slice.call(document.querySelectorAll('.rfilter'));
+  var grids = [].slice.call(document.querySelectorAll('.cal'));
+  if (!bars.length) return;
+  var state = 'all';
+
+  function movePill(bar) {
+    var pill = bar.querySelector('.rfpill');
+    var btn = bar.querySelector('.rfb[data-f="' + state + '"]');
+    if (!pill || !btn || bar.offsetParent === null) return;
+    pill.style.width = btn.offsetWidth + 'px';
+    pill.style.transform = 'translateX(' + (btn.offsetLeft - 4) + 'px)';
+  }
+  function pruneTimes(grid) {
+    var kids = [].slice.call(grid.children);
+    kids.forEach(function (n) { if (n.classList.contains('ct')) n.classList.remove('hidden'); });
+    kids.forEach(function (n, i) {
+      if (!n.classList.contains('ct')) return;
+      var any = false;
+      for (var j = i + 1; j < kids.length; j++) {
+        var k = kids[j];
+        if (k.classList.contains('ct')) break;
+        if (k.classList.contains('ev') && getComputedStyle(k).display !== 'none') { any = true; break; }
+      }
+      if (!any) n.classList.add('hidden');
+    });
+  }
+  function apply() {
+    grids.forEach(function (g) { g.setAttribute('data-filter', state); pruneTimes(g); });
+    bars.forEach(function (bar) {
+      [].slice.call(bar.querySelectorAll('.rfb')).forEach(function (b) {
+        b.setAttribute('aria-selected', String(b.dataset.f === state));
+      });
+      movePill(bar);
+    });
+  }
+
+  bars.forEach(function (bar) {
+    bar.addEventListener('click', function (e) {
+      var b = e.target.closest('.rfb');
+      if (!b) return;
+      state = b.dataset.f;
+      apply();
+    });
+  });
+
+  addEventListener('resize', apply);
+  if (document.readyState === 'complete') apply();
+  else addEventListener('load', apply);
+  // Montserrat dociaga sie pozniej i zmienia szerokosci przyciskow - bez tego
+  // pigulka zostaje w miejscu policzonym dla fontu zastepczego.
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(apply);
+})();
+
+/* Rozwijanie na dotyku: bez hovera aktywna jest ta pozycja, ktora przewinela sie
+   na srodek ekranu. Wybieramy ostatnia karte zaczynajaca sie nad linia srodka -
+   jej gora nie rusza sie przy rozwijaniu, wiec wybor jest stabilny. Krotka blokada
+   po zmianie zapobiega kaskadzie, gdy zwiniecie poprzedniej podciagnie liste w gore. */
+(function () {
+  var cards = [].slice.call(document.querySelectorAll('.cal .ev[data-x]'));
+  if (!cards.length) return;
+  var active = null, locked = false, queued = false;
+
+  function pick() {
+    queued = false;
+    if (locked) return;
+    if (matchMedia('(hover:hover)').matches) {
+      if (active) { active.classList.remove('on'); active = null; }
+      return;
+    }
+    var line = innerHeight * 0.42, best = null, bestTop = -Infinity;
+    for (var i = 0; i < cards.length; i++) {
+      var c = cards[i];
+      if (c.offsetParent === null) continue;
+      var top = c.getBoundingClientRect().top;
+      if (top <= line && top > bestTop) { bestTop = top; best = c; }
+    }
+    if (best === active) return;
+    if (active) active.classList.remove('on');
+    active = best;
+    if (active) active.classList.add('on');
+    locked = true;
+    setTimeout(function () { locked = false; }, 420);
+  }
+  function onScroll() { if (!queued) { queued = true; requestAnimationFrame(pick); } }
+
+  addEventListener('scroll', onScroll, { passive: true });
+  addEventListener('resize', onScroll);
+  onScroll();
+})();
+</script>

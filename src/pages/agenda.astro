@@ -1,31 +1,7 @@
 ---
-import { agenda, ROOMS, roomSlug, groupByStart } from '../data/agenda2026';
-import { speakers } from '../data/prelegenci';
+import { agenda } from '../data/agenda2026';
 import AgendaSummary from '../components/AgendaSummary.astro';
-
-const bySlug = Object.fromEntries(speakers.map(s => [s.slug, s]));
-
-// krotki opis pod agende: pierwszy akapit opisu wystapienia, przyciety do jednego zdania
-function teaser(slug: string): string {
-  const s = bySlug[slug];
-  if (!s) return '';
-  const first = s.desc.find(b => b.t === 'p');
-  if (!first) return '';
-  const txt = first.s.trim();
-  if (txt.length <= 165) return txt;
-  const cut = txt.slice(0, 165);
-  const stop = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('? '), cut.lastIndexOf('! '));
-  return stop > 70 ? cut.slice(0, stop + 1) : cut.replace(/\s+\S*$/, '') + '…';
-}
-
-const kindLabel: Record<string, string> = {
-  konkurs: 'Konkurs', przerwa: 'Przerwa', wieczor: 'Wieczór',
-  logistyka: 'Organizacja', scena: 'Scena główna', prelekcja: 'Prelekcja',
-};
-
-// Wiersze siatki: jeden na godzine startu, zeby trzy sale stanely obok siebie
-// nawet gdy maja rozna dlugosc bloku (10:00-10:20 obok 10:00-10:45).
-const daysGrouped = agenda.map(day => ({ ...day, slots: groupByStart(day.items) }));
+import AgendaCalendar from '../components/AgendaCalendar.astro';
 
 const talkCount = agenda.flatMap(d => d.items).filter(i => i.kind === 'prelekcja').length;
 ---
@@ -94,66 +70,9 @@ h1{font-size:clamp(32px,4.8vw,58px);font-weight:800;letter-spacing:-.05em;line-h
 .jump .jd{font-size:19px;font-weight:800;letter-spacing:-.04em;margin-bottom:4px}
 .jump .jn{font-size:11px;font-weight:400;color:var(--w6);line-height:1.5}
 
-/* DZIEN */
-.dayhd{display:flex;align-items:baseline;gap:14px;margin-bottom:12px;flex-wrap:wrap}
-.daynum{font-size:clamp(24px,3vw,36px);font-weight:800;letter-spacing:-.05em;line-height:1}
-.daytag{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--g);border:1px solid rgba(252,163,17,.25);background:rgba(252,163,17,.1);padding:4px 11px;border-radius:2px}
-.dayintro{font-size:14px;color:var(--w6);line-height:1.7;max-width:640px;margin-bottom:34px}
-
-/* SIATKA SAL: czas + trzy stale kolumny, zeby uklad byl ten sam w kazdym dniu */
-.rgrid{display:grid;grid-template-columns:84px repeat(3,1fr);gap:2px;align-items:stretch}
-.rhead{position:sticky;top:68px;z-index:3;background:rgba(0,1,16,.94);backdrop-filter:blur(10px);
-  font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--w6);
-  padding:11px 14px;border:1px solid rgba(255,255,255,.08)}
-.rhead.aula{color:var(--g);border-color:rgba(252,163,17,.25)}
-.rh-time{color:var(--o)}
-.rtime{display:flex;align-items:flex-start;padding:16px 8px 0 0;font-size:14px;font-weight:800;
-  letter-spacing:-.02em;color:var(--g);white-space:nowrap}
-.evtime{font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--w6);white-space:nowrap}
-.ev.empty{background:rgba(255,255,255,.012);border:1px dashed rgba(255,255,255,.055);border-left-width:1px;
-  display:flex;align-items:center;justify-content:center;min-height:64px}
-.emptyrm{font-size:8.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.13)}
-.ev.span3{grid-column:2 / -1}
-
-/* FILTR SAL (mobile) - pigulka z przesuwnym wskaznikiem */
-.rfilter{display:none;position:sticky;top:74px;z-index:6;margin:0 0 14px}
-.rfbar{display:flex;gap:2px;position:relative;padding:4px;border-radius:999px;
-  background:rgba(10,10,42,.55);border:1px solid rgba(255,255,255,.12);
-  backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);
-  box-shadow:0 6px 22px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.14)}
-.rfpill{position:absolute;top:4px;bottom:4px;left:0;width:0;border-radius:999px;
-  background:linear-gradient(135deg,var(--o),var(--g));
-  box-shadow:0 3px 12px rgba(255,91,0,.4),inset 0 1px 0 rgba(255,255,255,.3);
-  transition:transform .42s cubic-bezier(.34,1.32,.5,1),width .42s cubic-bezier(.34,1.32,.5,1);
-  pointer-events:none;z-index:0}
-.rfb{position:relative;z-index:1;flex:1;border:none;background:none;cursor:pointer;
-  font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--w6);padding:9px 4px;border-radius:999px;
-  transition:color .3s;white-space:nowrap}
-.rfb[aria-selected="true"]{color:var(--bg)}
-
-.ev{background:rgba(5,5,113,.15);border:1px solid rgba(255,255,255,.07);border-left:2px solid rgba(255,255,255,.14);padding:16px 18px;display:flex;flex-direction:column;gap:7px;text-decoration:none;color:inherit;transition:border-color .25s,background .25s}
-a.ev:hover{background:rgba(5,5,113,.28);border-left-color:var(--g)}
-.ev.konkurs{border-left-color:var(--o);background:rgba(255,91,0,.07)}
-.ev.wieczor,.ev.scena{border-left-color:var(--g)}
-.ev.przerwa{background:rgba(255,255,255,.02);border-left-color:rgba(255,255,255,.1)}
-.evtop{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.rm{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--w6);border:1px solid rgba(255,255,255,.13);padding:3px 8px;border-radius:2px}
-.rm.aula{color:var(--g);border-color:rgba(252,163,17,.28)}
-.evkind{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--o)}
-.evwho{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--o)}
-.evtitle{font-size:15px;font-weight:800;letter-spacing:-.03em;line-height:1.3}
-.ev.przerwa .evtitle{font-weight:700;color:var(--w6)}
-.evnote{font-size:12.5px;font-weight:400;color:var(--wb);line-height:1.65}
-.evmore{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--w6);margin-top:auto;padding-top:4px}
-a.ev:hover .evmore{color:var(--g)}
-
-/* LEGENDA */
-.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:34px;padding-top:20px;border-top:1px solid rgba(255,255,255,.07)}
-.lgi{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--w6)}
-.lgb{width:14px;height:14px;border-left:2px solid var(--o);background:rgba(255,91,0,.07)}
-.lgb.b2{border-left-color:var(--g);background:rgba(5,5,113,.2)}
-.lgb.b3{border-left-color:rgba(255,255,255,.14);background:rgba(5,5,113,.2)}
+/* PLAN - siatka kalendarza siedzi w AgendaCalendar.astro */
+#plan{padding-top:30px}
+.printonly{display:none}
 
 /* CTA */
 #dolacz{text-align:center;padding:90px 5%;position:relative;overflow:hidden}
@@ -179,43 +98,19 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
 .flegal a:hover{color:var(--g)}
 
 /* RESPONSIVE */
-@media(max-width:1000px){
-  .rgrid{grid-template-columns:70px repeat(3,1fr)}
-  .evnote{font-size:11.5px}
-}
 @media(max-width:860px){
   .nl{display:none}
   .nl.open{display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:rgba(0,1,16,.97);padding:20px 5%;gap:16px;border-bottom:1px solid rgba(255,255,255,.07);z-index:99}
   .hbg{display:flex}
   .ftop{grid-template-columns:1fr;gap:18px}
-
-  /* Mobile: jedna kolumna + filtr sal. Naglowki kolumn i puste kratki znikaja,
-     kazda karta niesie wlasny chip z sala. */
-  .rfilter{display:block}
-  .rgrid{grid-template-columns:1fr;gap:2px}
-  .rhead{display:none}
-  .ev.empty{display:none}
-  .ev.span3{grid-column:1}
-  .rtime{padding:14px 0 2px;font-size:12px;letter-spacing:.1em;color:var(--o)}
-  .rtime:first-of-type{padding-top:0}
-  /* filtrowanie: pozycje ogolnodostepne (data-room="all") zostaja zawsze */
-  .rgrid[data-filter="aula"] .ev[data-room="w1"],
-  .rgrid[data-filter="aula"] .ev[data-room="w2"],
-  .rgrid[data-filter="w1"]   .ev[data-room="aula"],
-  .rgrid[data-filter="w1"]   .ev[data-room="w2"],
-  .rgrid[data-filter="w2"]   .ev[data-room="aula"],
-  .rgrid[data-filter="w2"]   .ev[data-room="w1"]{display:none}
-  .rgrid .rtime.hidden{display:none}
 }
 @media(max-width:680px){
   section{padding:56px 5%}
   #ahero{padding:120px 5% 34px}
   .jump a{min-width:100%}
-  .rfb{font-size:9px;letter-spacing:.05em;padding:9px 2px}
 }
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .rfpill{transition:none}
 }
 </style>
 </head>
@@ -252,15 +147,10 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
   </div>
 </section>
 
-<!-- PELNY PLAN W TABELI -->
-<section id="tabela" style="padding-top:0;padding-bottom:26px">
-  <AgendaSummary />
-</section>
-
 <!-- SKOKI -->
 <section id="skoki">
   <div class="jump">
-    {daysGrouped.map(d => (
+    {agenda.map(d => (
       <a href={`#${d.key}`}>
         <div class="jd">{d.label} {d.date}</div>
         <div class="jn">{d.items.filter(i => i.kind === 'prelekcja').length} wystąpień &middot; {d.items.filter(i => i.kind === 'konkurs').length} punktów konkursowych</div>
@@ -269,92 +159,15 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
   </div>
 </section>
 
-{daysGrouped.map(day => (
-<>
-<div class="fl"></div>
-<section id={day.key}>
-  <span class="deco" style="top:0;right:-16px">{day.label.toUpperCase()}</span>
-  <div class="dayhd">
-    <h2 class="daynum">{day.label} {day.date}</h2>
-    <span class="daytag">{day.items.filter(i => i.kind === 'prelekcja').length} wystąpień</span>
-  </div>
-  <p class="dayintro">{day.intro}</p>
-
-  <div class="rfilter">
-    <div class="rfbar" role="tablist" aria-label="Filtruj po sali">
-      <span class="rfpill" aria-hidden="true"></span>
-      <button type="button" class="rfb" role="tab" aria-selected="true" data-f="all">Wszystko</button>
-      <button type="button" class="rfb" role="tab" aria-selected="false" data-f="aula">AULA</button>
-      <button type="button" class="rfb" role="tab" aria-selected="false" data-f="w1">Warsztatowa I</button>
-      <button type="button" class="rfb" role="tab" aria-selected="false" data-f="w2">Warsztatowa II</button>
-    </div>
-  </div>
-
-  <div class="rgrid" data-filter="all">
-    <div class="rhead rh-time">Czas</div>
-    {ROOMS.map(r => <div class:list={['rhead', r === 'AULA' && 'aula']}>{r}</div>)}
-
-    {day.slots.map(slot => {
-      const full = slot.items.filter(i => !i.room);
-      const inRoom = (room: string) => slot.items.find(i => i.room === room);
-      return (
-        <>
-          <div class="rtime">{slot.start}</div>
-          {full.length > 0 && full.map(it => {
-            const note = it.note || '';
-            const sp = it.speaker ? bySlug[it.speaker] : null;
-            const inner = (
-              <>
-                <div class="evtop">
-                  <span class="rm">Całe wydarzenie</span>
-                  <span class="evtime">{it.time}</span>
-                  {!sp && <span class="evkind">{kindLabel[it.kind]}</span>}
-                </div>
-                {sp && <div class="evwho">{sp.name}</div>}
-                <div class="evtitle">{sp ? (sp.title || 'Temat wkrótce') : it.title}</div>
-                {(note || sp) && <div class="evnote">{note || teaser(sp!.slug)}</div>}
-                {sp && <div class="evmore">Zobacz pełny opis &rarr;</div>}
-              </>
-            );
-            return sp
-              ? <a class:list={['ev', it.kind, 'span3']} data-room="all" href={`/prelegenci/#${sp.slug}`}>{inner}</a>
-              : <div class:list={['ev', it.kind, 'span3']} data-room="all">{inner}</div>;
-          })}
-          {full.length === 0 && ROOMS.map(room => {
-            const it = inRoom(room);
-            if (!it) return <div class="ev empty" data-room={roomSlug(room)} aria-hidden="true"><span class="emptyrm">{room}</span></div>;
-            const sp = it.speaker ? bySlug[it.speaker] : null;
-            const note = it.note || (sp ? teaser(sp.slug) : '');
-            const inner = (
-              <>
-                <div class="evtop">
-                  <span class:list={['rm', room === 'AULA' && 'aula']}>{room}</span>
-                  <span class="evtime">{it.time}</span>
-                  {!sp && <span class="evkind">{kindLabel[it.kind]}</span>}
-                </div>
-                {sp && <div class="evwho">{sp.name}</div>}
-                <div class="evtitle">{sp ? (sp.title || 'Temat wkrótce') : it.title}</div>
-                {note && <div class="evnote">{note}</div>}
-                {sp && <div class="evmore">Zobacz pełny opis &rarr;</div>}
-              </>
-            );
-            return sp
-              ? <a class:list={['ev', it.kind]} data-room={roomSlug(room)} href={`/prelegenci/#${sp.slug}`}>{inner}</a>
-              : <div class:list={['ev', it.kind]} data-room={roomSlug(room)}>{inner}</div>;
-          })}
-        </>
-      );
-    })}
-  </div>
-
-  <div class="legend">
-    <div class="lgi"><span class="lgb"></span> Konkurs</div>
-    <div class="lgi"><span class="lgb b2"></span> Scena główna / wieczór</div>
-    <div class="lgi"><span class="lgb b3"></span> Prelekcje, warsztaty i organizacja</div>
-  </div>
+<!-- KALENDARZ - GLOWNA TRESC STRONY -->
+<section id="plan">
+  <AgendaCalendar />
 </section>
-</>
-))}
+
+<!-- PELNY PLAN W TABELI: niewidoczny na ekranie, sluzy tylko za wydruk / PDF -->
+<section id="tabela" class="printonly">
+  <AgendaSummary open />
+</section>
 
 <!-- CTA -->
 <section id="dolacz">
@@ -408,60 +221,6 @@ function toggleNav(){
   document.getElementById('nl').classList.toggle('open');
   document.getElementById('hbg').classList.toggle('open');
 }
-
-/* Filtr sal na mobile. Jeden wspolny stan dla wszystkich trzech dni - inaczej
-   kazdy dzien trzymalby wlasny wybor i plan rozjezdzalby sie przy scrollowaniu.
-   Po przefiltrowaniu chowamy te godziny, ktore nie maja juz zadnej pozycji. */
-(function(){
-  var bars  = [].slice.call(document.querySelectorAll('.rfilter'));
-  var grids = [].slice.call(document.querySelectorAll('.rgrid'));
-  if (!bars.length) return;
-  var state = 'all';
-
-  function movePill(bar){
-    var pill = bar.querySelector('.rfpill');
-    var btn  = bar.querySelector('.rfb[data-f="' + state + '"]');
-    if (!pill || !btn || bar.offsetParent === null) return;
-    pill.style.width = btn.offsetWidth + 'px';
-    pill.style.transform = 'translateX(' + (btn.offsetLeft - 4) + 'px)';
-  }
-  function pruneTimes(grid){
-    var kids = [].slice.call(grid.children);
-    kids.forEach(function(n){ if (n.classList.contains('rtime')) n.classList.remove('hidden'); });
-    kids.forEach(function(n, i){
-      if (!n.classList.contains('rtime')) return;
-      var any = false;
-      for (var j = i + 1; j < kids.length; j++){
-        var k = kids[j];
-        if (k.classList.contains('rtime')) break;
-        if (k.classList.contains('ev') && getComputedStyle(k).display !== 'none'){ any = true; break; }
-      }
-      if (!any) n.classList.add('hidden');
-    });
-  }
-  function apply(){
-    grids.forEach(function(g){ g.setAttribute('data-filter', state); pruneTimes(g); });
-    bars.forEach(function(bar){
-      [].slice.call(bar.querySelectorAll('.rfb')).forEach(function(b){
-        b.setAttribute('aria-selected', String(b.dataset.f === state));
-      });
-      movePill(bar);
-    });
-  }
-
-  bars.forEach(function(bar){
-    bar.addEventListener('click', function(e){
-      var b = e.target.closest('.rfb');
-      if (!b) return;
-      state = b.dataset.f;
-      apply();
-    });
-  });
-
-  addEventListener('resize', apply);
-  if (document.readyState === 'complete') apply();
-  else addEventListener('load', apply);
-})();
 
 const cv=document.getElementById('cv'),cx=cv.getContext('2d');
 function rsz(){cv.width=innerWidth;cv.height=innerHeight;}
