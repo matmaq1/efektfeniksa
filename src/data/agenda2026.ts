@@ -105,7 +105,7 @@ export const agenda: AgendaDay[] = [
       { time: '17:00-17:45', room: 'Warsztatowa II', kind: 'prelekcja', speaker: 'adrian-dornia' },
       { time: '18:30-19:30', room: 'AULA', kind: 'konkurs', title: 'Ogłoszenie wyników konkursów',
         note: 'Moment prawdy - wyniki wszystkich czterech konkurencji.' },
-      { time: '20:30-02:00', room: '', kind: 'wieczor', title: 'Gala i integracja',
+      { time: '21:00-02:00', room: '', kind: 'wieczor', title: 'Gala i integracja',
         note: 'Uroczysta gala i wspólne świętowanie w Komoda Club przy ul. Niecałej 6.' },
     ],
   },
