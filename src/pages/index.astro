@@ -1,9 +1,14 @@
 ---
 import { speakers } from '../data/prelegenci';
+import { agenda } from '../data/agenda2026';
+import AgendaCalendar from '../components/AgendaCalendar.astro';
+import AgendaSummary from '../components/AgendaSummary.astro';
 
 // Najpierw prelegenci ze zdjeciem - sort jest stabilny, wiec wewnatrz obu grup
 // zostaje kolejnosc chronologiczna z arkusza.
 const lineup = [...speakers].sort((a, b) => (a.photo ? 0 : 1) - (b.photo ? 0 : 1));
+
+const talkCount = agenda.flatMap(d => d.items).filter(i => i.kind === 'prelekcja').length;
 ---
 <!DOCTYPE html>
 <html lang="pl">
@@ -17,7 +22,7 @@ const lineup = [...speakers].sort((a, b) => (a.photo ? 0 : 1) - (b.photo ? 0 : 1
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#000110;--bl:#050571;--o:#FF5B00;--g:#FCA311;--w:#fff;--w6:rgba(255,255,255,.6);--w1:rgba(255,255,255,.08);--w05:rgba(255,255,255,.05);--dark-o:#C44400}
+:root{--bg:#000110;--bl:#050571;--o:#FF5B00;--g:#FCA311;--w:#fff;--w6:rgba(255,255,255,.6);--wb:rgba(255,255,255,.88);--w1:rgba(255,255,255,.08);--w05:rgba(255,255,255,.05);--dark-o:#C44400}
 html{scroll-behavior:smooth}
 body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--w);overflow-x:hidden;-webkit-font-smoothing:antialiased;background-image:radial-gradient(ellipse 80% 50% at 30% 20%,rgba(5,5,113,.4) 0%,transparent 60%),radial-gradient(ellipse 70% 50% at 80% 70%,rgba(5,5,113,.35) 0%,transparent 65%);background-attachment:fixed}
 img{display:block;max-width:100%}
@@ -108,29 +113,10 @@ section{position:relative;z-index:2;padding:80px 5%}
 .at p strong{color:var(--w);font-weight:700}
 .at p.highlight{font-size:15px;color:var(--g);font-weight:700;border-left:3px solid var(--o);padding-left:18px}
 
-/* PROGRAM */
+/* PROGRAM - siatka kalendarza siedzi w AgendaCalendar.astro */
 #program{background:linear-gradient(180deg,rgba(5,5,113,.12) 0%,rgba(5,5,113,.2) 100%)}
-.agenda-note{display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-left:3px solid var(--g);padding:12px 16px;margin-bottom:36px;max-width:700px}
-.agenda-note p{font-size:12px;font-weight:700;color:var(--g);letter-spacing:.01em;line-height:1.5}
-.dtabs{display:flex;border-bottom:1px solid rgba(255,255,255,.07);overflow-x:auto;margin-bottom:36px}
-.dtab{padding:12px 22px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--w6);cursor:pointer;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s;background:none;font-family:'Montserrat',sans-serif;white-space:nowrap}
-.dtab.active{color:var(--g);border-bottom-color:var(--g)}
-.dtab:hover:not(.active){color:var(--w)}
-.dp{display:none;min-height:160px;padding:48px 0;text-align:center}
-.dp.active{display:block}
-.dp{text-align:left}
-.si{display:flex;gap:20px;align-items:flex-start;padding:18px 0;border-top:1px solid rgba(255,255,255,.06)}
-.si:first-child{border-top:none}
-.stm{font-size:15px;font-weight:800;letter-spacing:-.02em;color:var(--g);min-width:108px;white-space:nowrap;padding-top:2px}
-.sc h4{font-size:16px;font-weight:800;letter-spacing:-.02em;margin-bottom:5px}
-.sc p{font-size:13px;font-weight:400;color:var(--w6);line-height:1.6;margin-bottom:9px;max-width:560px}
-.tag{display:inline-block;font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:3px 9px;border-radius:2px}
-.tag.ts{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--w6)}
-.tag.tk{background:linear-gradient(135deg,var(--o),var(--g));color:var(--bg)}
-.dintro{font-size:13px;font-weight:400;letter-spacing:-.01em;color:var(--w6);line-height:1.6;margin-bottom:6px;max-width:620px}
-.dp-soon{margin-top:18px;font-size:12px;font-weight:700;letter-spacing:.03em;color:var(--w6);font-style:italic;opacity:.75}
-.dp-empty{font-size:13px;font-weight:700;letter-spacing:.05em;color:var(--w6);font-style:italic;opacity:.7;text-align:center}
-.dp-empty::before{content:'⏳';display:block;font-size:32px;margin-bottom:14px;opacity:.5;font-style:normal}
+#program .sh{margin-bottom:34px}
+.printonly{display:none}
 
 /* PRELEGENCI */
 #prelegenci{background:linear-gradient(180deg,rgba(5,5,113,.2) 0%,transparent 100%)}
@@ -238,7 +224,6 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
 @media(max-width:680px){
   .asg{grid-template-columns:1fr 1fr}
   .hmeta{gap:4px}
-  .dtabs{overflow-x:auto;-webkit-overflow-scrolling:touch}
   .pgrid{grid-template-columns:repeat(2,1fr)}
   .pcbody{padding:12px 12px 14px}
   .pctitle{font-size:11.5px}
@@ -367,37 +352,14 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
   <div class="sh">
     <div class="slb">Agenda</div>
     <h2 class="st">Trzy dni.<br>Jeden płomień.</h2>
+    <p class="sd">Cztery konkursy mów, {talkCount} prelekcji i warsztatów na trzech salach równolegle, piknik przy grillu i sobotnia gala. Kliknij w wystąpienie, żeby przeczytać pełny opis i notkę o prelegencie.</p>
   </div>
-  <div class="dtabs">
-    <button class="dtab active" onclick="showDay('p1',this)">Piątek - 28.08</button>
-    <button class="dtab" onclick="showDay('p2',this)">Sobota - 29.08</button>
-    <button class="dtab" onclick="showDay('p3',this)">Niedziela - 30.08</button>
-  </div>
-  <div id="p1" class="dp active">
-    <div class="dintro">Dzień otwarcia – poznajemy miasto, ruszają pierwsze konkursy, a wieczór należy do integracji.</div>
-    <div class="si"><div class="stm">10:30 – 12:30</div><div class="sc"><h4>Wycieczka po Kaliszu</h4><p>Spacer po najstarszym mieście w Polsce – historia, klimat i pierwsze rozmowy przed startem.</p><span class="tag ts">Opcjonalne</span></div></div>
-    <div class="si"><div class="stm">14:00 – 15:15</div><div class="sc"><h4>Rejestracja uczestników i gości</h4><p>Odbiór wejściówek i materiałów oraz zapoznanie z przestrzenią Uniwersytetu Kaliskiego.</p><span class="tag ts">Logistyka</span></div></div>
-    <div class="si"><div class="stm">14:30 – 15:15</div><div class="sc"><h4>Próba generalna uczestników konkursów</h4><p>Czas dla konkursowiczów na rozgrzewkę, próbę sceny i ostatnie przygotowania.</p><span class="tag ts">Konkurs</span></div></div>
-    <div class="si"><div class="stm">15:30</div><div class="sc"><h4>Rozpoczęcie wydarzenia</h4><p>Oficjalne otwarcie Mistrzostw i powitanie społeczności na scenie głównej.</p><span class="tag ts">Start</span></div></div>
-    <div class="si"><div class="stm">15:30 – 18:40</div><div class="sc"><h4>Konkursy mów – Mowy Humorystyczne i Gorące Pytania</h4><p>Pierwszy blok rywalizacji – błyskotliwy humor i improwizacja pod presją czasu.</p><span class="tag tk">Konkurs</span></div></div>
-    <div class="si"><div class="stm">19:00 – 22:00</div><div class="sc"><h4>Piknik z networkingiem</h4><p>Luźny wieczór w dobrym towarzystwie: jedzenie, rozmowy i nowe znajomości.</p><span class="tag ts">Wieczór</span></div></div>
-  </div>
-  <div id="p2" class="dp">
-    <div class="dintro">Najintensywniejszy dzień – kluczowe konkursy, warsztaty, wyniki i wieczorna gala.</div>
-    <div class="si"><div class="stm">08:30 – 09:45</div><div class="sc"><h4>Rejestracja uczestników i gości</h4><p>Druga tura rejestracji dla osób dołączających w sobotni poranek.</p><span class="tag ts">Logistyka</span></div></div>
-    <div class="si"><div class="stm">09:00 – 09:45</div><div class="sc"><h4>Próba generalna uczestników konkursów</h4><p>Poranna próba sceny przed sobotnim blokiem konkursowym.</p><span class="tag ts">Konkurs</span></div></div>
-    <div class="si"><div class="stm">10:00 – 13:00</div><div class="sc"><h4>Konkursy mów – Mowy Wszelakie i Ewaluacje</h4><p>Najważniejsze konkurencje dnia – przygotowane przemówienia i sztuka ewaluacji.</p><span class="tag tk">Konkurs</span></div></div>
-    <div class="si"><div class="stm">13:00 – 15:00</div><div class="sc"><h4>Przerwa obiadowa</h4><p>Czas na obiad, odpoczynek i kuluarowe rozmowy.</p><span class="tag ts">Przerwa</span></div></div>
-    <div class="si"><div class="stm">15:00 – 18:00</div><div class="sc"><h4>Prelekcje i warsztaty</h4><p>Praktyczna wiedza od doświadczonych mówców – komunikacja, scena, przywództwo.</p><span class="tag ts">Rozwój</span></div></div>
-    <div class="si"><div class="stm">18:00 – 19:30</div><div class="sc"><h4>Ogłoszenie wyników konkursów</h4><p>Moment prawdy – ogłoszenie zwycięzców piątkowych i sobotnich konkursów.</p><span class="tag tk">Wyniki</span></div></div>
-    <div class="si"><div class="stm">21:00 – 02:00</div><div class="sc"><h4>Gala i integracja w Komodzie</h4><p>Uroczysta gala i wspólne świętowanie w Komoda Club przy ul. Niecałej 6.</p><span class="tag ts">Wieczór</span></div></div>
-  </div>
-  <div id="p3" class="dp">
-    <div class="dintro">Spokojniejszy finał – inspiracje, panele i wspólne pożegnanie.</div>
-    <div class="si"><div class="stm">09:00 – 09:45</div><div class="sc"><h4>Niespodzianka</h4><p>Poranny akcent, którego nie zdradzimy z wyprzedzeniem – warto być na miejscu.</p><span class="tag ts">Specjalne</span></div></div>
-    <div class="si"><div class="stm">09:45 – 15:00</div><div class="sc"><h4>Prelekcje i panele dyskusyjne</h4><p>Inspirujące wystąpienia i panele – wiedza i wymiana doświadczeń na finał.</p><span class="tag ts">Rozwój</span></div></div>
-    <div class="si"><div class="stm">15:00</div><div class="sc"><h4>Zakończenie wydarzenia</h4><p>Podsumowanie trzech dni i pożegnanie społeczności Efektu Feniksa.</p><span class="tag ts">Finał</span></div></div>
-  </div>
+  <AgendaCalendar />
+</section>
+
+<!-- PELNY PLAN W TABELI: niewidoczny na ekranie, sluzy tylko za wydruk / PDF -->
+<section id="tabela" class="printonly">
+  <AgendaSummary open />
 </section>
 
 <div class="fl"></div>
@@ -563,12 +525,6 @@ window.addEventListener('scroll',()=>nb.classList.toggle('sc',scrollY>40));
 function toggleNav(){
   document.getElementById('nl').classList.toggle('open');
   document.getElementById('hbg').classList.toggle('open');
-}
-function showDay(id,btn){
-  document.querySelectorAll('.dp').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.dtab').forEach(t=>t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
 }
 function faq(btn){
   const it=btn.closest('.fi');
