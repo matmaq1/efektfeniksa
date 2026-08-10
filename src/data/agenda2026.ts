@@ -125,9 +125,8 @@ export const agenda: AgendaDay[] = [
       { time: '10:40-11:00', room: 'AULA', kind: 'prelekcja', speaker: 'michal-golemo' },
       { time: '11:00-11:45', room: 'Warsztatowa I', kind: 'prelekcja', speaker: 'agnieszka-ciochon' },
       { time: '11:00-11:45', room: 'Warsztatowa II', kind: 'prelekcja', speaker: 'eliza-krzak' },
-      // 11:11 to celowa godzina startu panelu, nie literowka - potwierdzone przez organizatora
-      { time: '11:11-12:30', room: 'AULA', kind: 'scena', title: 'Panel dyskusyjny',
-        note: 'Historia i przyszłość Efektu Feniksa - rozmowa z organizatorami i społecznością. Start punktualnie o 11:11.' },
+      { time: '11:00-12:30', room: 'AULA', kind: 'scena', title: 'Panel dyskusyjny',
+        note: 'Historia i przyszłość Efektu Feniksa - rozmowa z organizatorami i społecznością.' },
       { time: '12:00-12:20', room: 'Warsztatowa I', kind: 'prelekcja', speaker: 'luiza-markiewicz' },
       { time: '12:00-12:20', room: 'Warsztatowa II', kind: 'prelekcja', speaker: 'marta-glegolska' },
       { time: '13:00-14:30', room: 'AULA', kind: 'scena', title: 'Uroczyste zakończenie konferencji',
