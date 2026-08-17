@@ -130,7 +130,7 @@ export const agenda: AgendaDay[] = [
     date: '28.08',
     intro: 'Dzień otwarcia - poznajemy miasto, ruszają pierwsze dwa konkursy, a wieczór należy do integracji przy grillu.',
     items: [
-      { time: '10:00-12:00', room: '', kind: 'logistyka', title: 'Zwiedzanie Kalisza', feature: true,
+      { time: '10:30-12:30', room: '', kind: 'logistyka', title: 'Zwiedzanie Kalisza', feature: true,
         image: '/images/kalisz-centrum-polski.webp',
         note: 'Spacer po najstarszym mieście w Polsce - historia, klimat i pierwsze rozmowy przed startem. Zaczynamy zanim ruszy konferencja, więc to najlepszy moment, żeby poznać Kalisz i ludzi, z którymi spędzisz kolejne trzy dni. Udział opcjonalny.' },
       { time: '12:00-14:30', room: 'Warsztatowa I', kind: 'logistyka', title: 'COT - Club Officer Training',
