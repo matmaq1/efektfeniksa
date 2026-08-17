@@ -201,7 +201,9 @@ export const agenda: AgendaDay[] = [
         note: 'Historia i przyszłość Efektu Feniksa - rozmowa z organizatorami i społecznością.' },
       { time: '12:00-12:20', room: 'Warsztatowa I', kind: 'prelekcja', speaker: 'luiza-markiewicz' },
       { time: '12:00-12:20', room: 'Warsztatowa II', kind: 'prelekcja', speaker: 'marta-glegolska' },
-      { time: '13:00-14:30', room: 'AULA', kind: 'scena', title: 'Uroczyste zakończenie konferencji',
+      // Bez godziny konca - wprost poproszone o to w arkuszu ("nie pisac godziny
+      // zakonczenia w agendzie"), zeby nikt nie wychodzil z sali z zegarkiem w reku.
+      { time: '13:00', room: 'AULA', kind: 'scena', title: 'Uroczyste zakończenie konferencji',
         note: 'Podsumowanie trzech dni i pożegnanie społeczności Efektu Feniksa.' },
     ],
   },

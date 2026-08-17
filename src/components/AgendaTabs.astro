@@ -199,9 +199,7 @@ a.sfeat:hover .sfimg img{transform:scale(1.035)}
     else bar.scrollLeft = left;
   }
 
-  bar.addEventListener('click', function (e) {
-    var btn = e.target.closest('.dtab');
-    if (!btn) return;
+  function select(btn, smooth) {
     [].forEach.call(document.querySelectorAll('.dtab'), function (b) {
       var on = b === btn;
       b.classList.toggle('active', on);
@@ -210,11 +208,33 @@ a.sfeat:hover .sfimg img{transform:scale(1.035)}
     [].forEach.call(document.querySelectorAll('.dp'), function (p) {
       p.classList.toggle('active', p.id === 'dp-' + btn.dataset.day);
     });
-    center(true);
+    center(smooth);
+  }
+
+  /* W trakcie wydarzenia otwieramy zakladke dnia, ktory wlasnie trwa: 27.08
+     czwartek, 28.08 piatek, 29.08 sobota, od 30.08 niedziela. Wczesniej zostaje
+     piatek, czyli dzien otwarcia konferencji - i to on siedzi w HTML-u, wiec bez
+     JS strona nadal pokazuje sensowny dzien. Liczymy w przegladarce, a nie przy
+     budowaniu: strona jest statyczna, wiec data z builda zamrozilaby wybor na
+     dniu ostatniego deployu. */
+  function dayOfEvent() {
+    var n = new Date(), y = n.getFullYear(), m = n.getMonth(), d = n.getDate();
+    if (y < 2026 || (y === 2026 && (m < 7 || (m === 7 && d < 27)))) return null;
+    if (y > 2026 || m > 7 || d > 30) return 'niedziela';
+    return ['czwartek', 'piatek', 'sobota', 'niedziela'][d - 27];
+  }
+
+  bar.addEventListener('click', function (e) {
+    var btn = e.target.closest('.dtab');
+    if (btn) select(btn, true);
   });
 
   addEventListener('resize', function () { center(false); });
-  center(false);
+
+  var today = dayOfEvent();
+  var todayBtn = today && bar.querySelector('.dtab[data-day="' + today + '"]');
+  if (todayBtn) select(todayBtn, false);
+  else center(false);
   // Montserrat dociaga sie pozniej i zmienia szerokosci zakladek - bez tego
   // piatek zostaje tam, gdzie wypadl przy foncie zastepczym.
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { center(false); });
