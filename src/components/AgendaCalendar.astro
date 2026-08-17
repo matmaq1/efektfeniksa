@@ -83,34 +83,56 @@ function layout(day: AgendaDay) {
     const solo = [...all].sort((a, b) => a.s - b.s);
     return {
       day,
-      band: [],
       rooms: false,
+      cols: 'var(--rail) repeat(3,minmax(0,1fr))',
+      para: false,
       rows: solo.map((x, i) => ({ line: i + 1, label: fmt(x.s), full: x.s % 60 === 0, px: rowPx(x.e - x.s) })),
-      items: solo.map((x, i) => ({ it: x.it, r1: i + 1, r2: i + 2 })),
+      items: solo.map((x, i) => ({ it: x.it, r1: i + 1, r2: i + 2, col: '2/-1', para: false })),
     };
   }
 
   // Pozycje bez sali, ktore nachodza czasowo na cokolwiek innego (rejestracja
-  // przez pol dnia, zwiedzanie w trakcie COT), nie zmieszcza sie w siatce sal -
-  // ida do paska "Rownolegle przez cały dzień" nad nia.
-  const band = all.filter(x => !x.it.room && all.some(o => o !== x && o.s < x.e && x.s < o.e));
-  const grid = all.filter(x => !band.includes(x))
+  // przez pol dnia), nie zmieszcza sie w kolumnie zadnej sali - dostaja wlasna,
+  // waska kolumne tuz przy osi godzin. Wczesniej wisialy w pasku NAD siatka i
+  // przez to wypadaly z osi czasu: rejestracja 14:00-19:00 nie miala na planie
+  // zadnego punktu zaczepienia.
+  const para = all.filter(x => !x.it.room && all.some(o => o !== x && o.s < x.e && x.s < o.e));
+  const grid = all.filter(x => !para.includes(x))
     .sort((a, b) => a.s - b.s || ROOMS.indexOf(a.it.room) - ROOMS.indexOf(b.it.room));
 
-  const bounds = [...new Set(grid.flatMap(x => [x.s, x.e]))].sort((a, b) => a - b);
-  const starts = new Set(grid.map(x => x.s));
+  // Granice wierszy licza sie ze WSZYSTKICH pozycji, takze rownoleglych -
+  // inaczej 14:00 w ogole nie pojawiloby sie na osi.
+  const bounds = [...new Set(all.flatMap(x => [x.s, x.e]))].sort((a, b) => a - b);
+  const starts = new Set(all.map(x => x.s));
+  const off = para.length ? 1 : 0;
+  const place = (x: typeof all[number]) => ({
+    r1: bounds.indexOf(x.s) + 1,
+    r2: bounds.indexOf(x.e) + 1,
+  });
 
   return {
     day,
-    band: band.map(x => x.it),
     rooms: true,
+    para: off === 1,
+    cols: `var(--rail) ${off ? 'var(--para) ' : ''}repeat(3,minmax(0,1fr))`,
     rows: bounds.slice(0, -1).map((s, i) => ({
       line: i + 1,
       label: starts.has(s) ? fmt(s) : null,
       full: s % 60 === 0,
       px: rowPx(bounds[i + 1] - s),
     })),
-    items: grid.map(x => ({ it: x.it, r1: bounds.indexOf(x.s) + 1, r2: bounds.indexOf(x.e) + 1 })),
+    items: [
+      ...para.map(x => ({ it: x.it, ...place(x), col: '2', para: true })),
+      ...grid.map(x => ({
+        it: x.it,
+        ...place(x),
+        // "Cale wydarzenie" idzie przez wszystkie kolumny, takze te rownolegla -
+        // kolizji byc nie moze, bo cokolwiek by na nie nachodzilo, samo
+        // wyladowaloby w kolumnie rownoleglej.
+        col: x.it.room ? String(off + ROOMS.indexOf(x.it.room) + 2) : '2/-1',
+        para: false,
+      })),
+    ],
   };
 }
 
@@ -133,21 +155,6 @@ const days = agenda.map(layout);
   </div>
   <p class="dayintro">{d.day.intro}</p>
 
-  {d.band.length > 0 && (
-    <div class="calband">
-      <span class="cbl">Równolegle</span>
-      <div class="cbi">
-        {d.band.map(it => (
-          <div class:list={['cb', it.kind]}>
-            <span class="cbt">{it.time}</span>
-            <span class="cbn">{it.title}</span>
-            {it.note && <span class="cbd">{it.note}</span>}
-          </div>
-        ))}
-      </div>
-    </div>
-  )}
-
   {d.rooms && (
     <div class="rfilter">
       <div class="rfbar" role="tablist" aria-label="Filtruj po sali">
@@ -161,18 +168,19 @@ const days = agenda.map(layout);
   )}
 
   {d.rooms && (
-    <div class="calhd">
+    <div class="calhd" style={`grid-template-columns:${d.cols}`}>
       <div class="chtime">Czas</div>
+      {d.para && <div class="chpara">Równolegle</div>}
       {ROOMS.map(r => <div class:list={[r === 'AULA' && 'aula']}>{r}</div>)}
     </div>
   )}
 
-  <div class="cal" data-filter="all" style={`grid-template-rows:${d.rows.map(r => `minmax(${r.px}px,auto)`).join(' ')}`}>
+  <div class="cal" data-filter="all" style={`grid-template-columns:${d.cols};grid-template-rows:${d.rows.map(r => `minmax(${r.px}px,auto)`).join(' ')}`}>
     {d.rows.map(row => (
       <>
         {row.label && <div class:list={['ct', !row.full && 'half']} style={`grid-row:${row.line}`}>{row.label}</div>}
         {row.label && <div class="cl" style={`grid-row:${row.line}`} aria-hidden="true"></div>}
-        {d.items.filter(x => x.r1 === row.line).map(({ it, r1, r2 }) => {
+        {d.items.filter(x => x.r1 === row.line).map(({ it, r1, r2, col, para }) => {
           const sp = it.speaker ? bySlug[it.speaker] : null;
           const micro = microText(it, sp);
           const long = fullText(sp);
@@ -184,7 +192,7 @@ const days = agenda.map(layout);
           const open = !!(sp || body || it.image);
           const mini = sp?.photo ? sp.photo.replace('/prelegenci/', '/prelegenci/mini/') : null;
           const href = sp ? `/prelegenci/#${sp.slug}` : it.link ?? null;
-          const style = `grid-row:${r1}/${r2};grid-column:${it.room ? ROOMS.indexOf(it.room) + 2 : '2/-1'}`;
+          const style = `grid-row:${r1}/${r2};grid-column:${col}`;
           const inner = (
             <>
               <div class="evhd">
@@ -213,9 +221,9 @@ const days = agenda.map(layout);
             </>
           );
           return href
-            ? <a class:list={['ev', it.kind, !it.room && 'wide']} data-room={roomSlug(it.room)} data-x="1" style={style}
+            ? <a class:list={['ev', it.kind, para && 'para', !it.room && !para && 'wide']} data-room={roomSlug(it.room)} data-x="1" style={style}
                  href={href} target={sp ? null : '_blank'} rel={sp ? null : 'noopener'}>{inner}</a>
-            : <div class:list={['ev', it.kind, !it.room && 'wide']} data-room={roomSlug(it.room)} data-x={open ? '1' : null} style={style}>{inner}</div>;
+            : <div class:list={['ev', it.kind, para && 'para', !it.room && !para && 'wide']} data-room={roomSlug(it.room)} data-x={open ? '1' : null} style={style}>{inner}</div>;
         })}
       </>
     ))}
@@ -242,31 +250,22 @@ const days = agenda.map(layout);
 .calhint strong{color:var(--g);font-weight:700}
 
 /* DZIEN */
-.calday{--rail:74px;margin-bottom:56px;scroll-margin-top:86px}
+.calday{--rail:74px;--para:172px;margin-bottom:56px;scroll-margin-top:86px}
 .dayhd{display:flex;align-items:baseline;gap:14px;margin-bottom:10px;flex-wrap:wrap}
 .daynum{font-size:clamp(24px,3vw,36px);font-weight:800;letter-spacing:-.05em;line-height:1}
 .daytag{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--g);
   border:1px solid rgba(252,163,17,.25);background:rgba(252,163,17,.1);padding:4px 11px;border-radius:2px}
 .dayintro{font-size:14px;color:var(--w6);line-height:1.7;max-width:640px;margin-bottom:22px}
 
-/* PASEK "ROWNOLEGLE" - pozycje bez sali, ktore trwaja obok calej reszty */
-.calband{display:flex;align-items:stretch;gap:10px;margin-bottom:14px}
-.cbl{writing-mode:vertical-rl;transform:rotate(180deg);font-size:8.5px;font-weight:800;letter-spacing:.16em;
-  text-transform:uppercase;color:rgba(255,255,255,.28);text-align:center;padding:2px 0}
-.cbi{flex:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2px}
-.cb{background:rgba(255,255,255,.025);border:1px dashed rgba(255,255,255,.12);border-left:2px solid rgba(255,255,255,.18);
-  padding:10px 14px;display:flex;flex-direction:column;gap:3px}
-.cbt{font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--o)}
-.cbn{font-size:13px;font-weight:800;letter-spacing:-.03em}
-.cbd{font-size:11.5px;color:var(--w6);line-height:1.55}
-
-/* SIATKA: os godzin + trzy stale kolumny sal */
-.calhd,.cal{display:grid;grid-template-columns:var(--rail) repeat(3,minmax(0,1fr));gap:2px}
+/* SIATKA: os godzin + (opcjonalnie) kolumna rzeczy rownoleglych + trzy sale.
+   Sama siatka kolumn idzie inline z layout(), bo zalezy od dnia. */
+.calhd,.cal{display:grid;gap:2px}
 .calhd{position:sticky;top:68px;z-index:5;background:rgba(0,1,16,.94);backdrop-filter:blur(10px);margin-bottom:2px}
 .calhd>div{font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--w6);
   padding:11px 14px;border:1px solid rgba(255,255,255,.08)}
 .calhd>div.aula{color:var(--g);border-color:rgba(252,163,17,.25)}
 .chtime{color:var(--o)}
+.chpara{color:rgba(255,255,255,.42);border-style:dashed!important}
 .cal{position:relative;align-items:stretch}
 .cal::before{content:'';position:absolute;top:0;bottom:0;left:calc(var(--rail) - 1px);width:1px;pointer-events:none;
   background:linear-gradient(180deg,rgba(252,163,17,.3),rgba(252,163,17,.05))}
@@ -289,6 +288,11 @@ a.ev{cursor:pointer}
 .ev.wieczor,.ev.scena{border-left-color:var(--g)}
 .ev.klub{border-left-color:var(--g);background:rgba(255,91,0,.06)}
 .ev.przerwa{background:rgba(255,255,255,.02);border-left-color:rgba(255,255,255,.1)}
+/* kolumna rzeczy rownoleglych - kreskowana ramka mowi "to trwa obok reszty",
+   a waska kolumna wymusza mniejszy krok typografii */
+.ev.para{border-style:dashed;border-left-style:solid;background:rgba(255,255,255,.025);padding:11px 12px}
+.ev.para .evtitle{font-size:13px}
+.ev.para .evmicro{font-size:11px;-webkit-line-clamp:8}
 .evhd{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
 .evtime{font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--w6);white-space:nowrap}
 .rm{display:none;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--w6);
@@ -362,7 +366,7 @@ a.ev{cursor:pointer}
 .lgh{margin-left:auto;color:rgba(255,255,255,.32);font-size:10.5px}
 
 @media(max-width:1000px){
-  .calday{--rail:62px}
+  .calday{--rail:62px;--para:142px}
   .ct{font-size:12px;padding-right:10px}
   .evnote{font-size:11.5px}
   /* waskie kolumny - te same ~150 znakow potrzebuje wiecej linijek */
@@ -373,8 +377,12 @@ a.ev{cursor:pointer}
      Inline'owe grid-row/column z siatki desktopowej trzeba zdjac. */
   .rfilter{display:block}
   .calhd,.cl,.cal::before{display:none}
-  .cal{grid-template-columns:1fr;grid-template-rows:none!important}
+  /* !important, bo siatka kolumn przychodzi inline z layout() */
+  .cal{grid-template-columns:1fr!important;grid-template-rows:none!important}
   .cal>*{grid-row:auto!important;grid-column:1!important}
+  .ev.para{padding:12px 15px}
+  .ev.para .evtitle{font-size:14.5px}
+  .ev.para .evmicro{font-size:12px;-webkit-line-clamp:4}
   .ct{text-align:left;padding:16px 0 3px;font-size:13.5px;font-weight:800;letter-spacing:.06em;color:var(--o)}
   .ct.half{font-size:12.5px;color:rgba(255,91,0,.8)}
   .ct:first-child{padding-top:0}
@@ -382,10 +390,8 @@ a.ev{cursor:pointer}
   /* bez kolumn sal godzina "od-do" jest jedynym punktem odniesienia - musi byc czytelna */
   .evhd{gap:9px}
   .evtime{font-size:12px;font-weight:800;letter-spacing:.02em;color:var(--g)}
-  .cbt{font-size:11px;font-weight:800;letter-spacing:.02em}
   .evmicro{-webkit-line-clamp:4}
   .rm{display:inline-block}
-  .calband{gap:8px}
   .lgh{margin-left:0;flex-basis:100%}
   /* filtrowanie po sali; pozycje ogolnodostepne (data-room="all") zostaja zawsze */
   .cal[data-filter="aula"] .ev[data-room="w1"],
@@ -399,7 +405,6 @@ a.ev{cursor:pointer}
   .caltop{padding:14px 15px;gap:12px}
   .calpdf{width:100%;justify-content:center}
   .rfb{font-size:9px;letter-spacing:.05em;padding:9px 2px}
-  .cbl{display:none}
 }
 @media(prefers-reduced-motion:reduce){
   .evx,.evmicro,.evxi,.rfpill{transition:none}
