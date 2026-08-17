@@ -132,22 +132,26 @@ export const agenda: AgendaDay[] = [
     items: [
       { time: '10:30-12:30', room: '', kind: 'logistyka', title: 'Zwiedzanie Kalisza', feature: true,
         image: '/images/kalisz-centrum-polski.webp',
-        note: 'Spacer po najstarszym mieście w Polsce - historia, klimat i pierwsze rozmowy przed startem. Zaczynamy zanim ruszy konferencja, więc to najlepszy moment, żeby poznać Kalisz i ludzi, z którymi spędzisz kolejne trzy dni. Udział opcjonalny.' },
+        note: 'Spacer z przewodnikiem po najstarszym mieście w Polsce - historia, klimat i pierwsze rozmowy przed startem. Po wycieczce zostaje czas, żeby zostać w centrum na obiad i wrócić na kampus na własnych zasadach. Udział opcjonalny.' },
       { time: '12:00-14:30', room: 'Warsztatowa I', kind: 'logistyka', title: 'COT - Club Officer Training',
         note: 'Szkolenie dla zarządów klubów Toastmasters: prezentacja o Dystrykcie 231, szkolenia z funkcji oficerów (równolegle na dwóch salach) i panel o rozwiązywaniu konfliktów.' },
-      { time: '14:00-19:00', room: '', kind: 'logistyka', title: 'Rejestracja uczestników i gości',
-        note: 'Odbiór wejściówek i materiałów, zapoznanie z przestrzenią Uniwersytetu Kaliskiego.' },
+      // Rejestracja realnie dziala dluzej, ale w agendzie podajemy zamkniete
+      // okna - zeby ludzie zjawiali sie wtedy, kiedy przy stanowisku stoi pelna
+      // obsada, a nie w trakcie pierwszego konkursu.
+      { time: '14:00-14:30', room: '', kind: 'logistyka', title: 'Rejestracja zawodników konkursów',
+        note: 'Zawodnicy rejestrują się jako pierwsi, jeszcze przed próbą generalną na scenie głównej.' },
+      { time: '14:30-15:15', room: '', kind: 'logistyka', title: 'Rejestracja gości i uczestników',
+        note: 'Odbiór wejściówek i materiałów, zapoznanie z przestrzenią Uniwersytetu Kaliskiego. To okno, w którym przy stanowisku jest największa obsada - przyjdź wtedy, a odbierzesz wszystko bez kolejki i zdążysz na otwarcie.' },
       { time: '14:30-15:15', room: 'Warsztatowa I', kind: 'prelekcja', title: 'Moderowany Welcome Networking - Grzegorz Turniak',
         note: 'Rozgrzewka towarzyska przed otwarciem konferencji - moderowana tak, żeby każdy zdążył poznać kilka nowych osób.' },
-      { time: '15:30-17:00', room: 'AULA', kind: 'konkurs', title: 'Konkurs Mów Humorystycznych',
-        note: 'Otwarcie konferencji, a zaraz po nim pierwsza konkurencja - błyskotliwy humor na scenie głównej.' },
-      { time: '17:00-17:30', room: 'AULA', kind: 'przerwa', title: 'Przerwa' },
-      { time: '17:30-18:30', room: 'AULA', kind: 'konkurs', title: 'Konkurs Gorących Pytań',
-        note: 'Improwizacja pod presją czasu - każdy uczestnik wchodzi na scenę po kolei i odpowiada na to samo, nieznane wcześniej pytanie.' },
+      // Jeden blok zamiast rozpisywania konkursow na antrakty - szczegolowy
+      // scenariusz prowadzacych jeszcze sie zmienia.
+      { time: '15:30-18:40', room: 'AULA', kind: 'konkurs', title: 'Konkurs Mów Humorystycznych i Gorących Pytań',
+        note: 'Otwarcie konferencji, a po nim dwie pierwsze konkurencje Mistrzostw: błyskotliwy humor na scenie głównej i improwizacja pod presją czasu, w której każdy odpowiada na to samo, nieznane wcześniej pytanie. W środku przerwa.' },
       { time: '19:00-20:30', room: '', kind: 'prelekcja', speaker: 'artur-sojka',
         note: 'Networking z integracją - praktyczne warsztaty budowania relacji, prowadzi Artur Sójka. Zamiast luźnego mixera: konkretne techniki, które od razu ćwiczysz na sali.' },
-      { time: '20:30-23:30', room: '', kind: 'wieczor', title: 'Piknik i grill',
-        note: 'Luźny wieczór w dobrym towarzystwie: jedzenie, rozmowy i nowe znajomości.' },
+      { time: '20:30', room: '', kind: 'wieczor', title: 'Piknik i grill',
+        note: 'Luźny wieczór w dobrym towarzystwie: jedzenie, rozmowy i nowe znajomości. Kończymy wtedy, kiedy skończą się rozmowy.' },
     ],
   },
   {
@@ -158,11 +162,8 @@ export const agenda: AgendaDay[] = [
     items: [
       { time: '09:00-09:45', room: 'Warsztatowa I', kind: 'prelekcja', speaker: 'maciej-benben' },
       { time: '09:00-09:45', room: 'Warsztatowa II', kind: 'prelekcja', speaker: 'magdalena-andler' },
-      { time: '10:00-11:30', room: 'AULA', kind: 'konkurs', title: 'Konkurs Mów Wszelakich',
-        note: 'Najważniejsza konkurencja Mistrzostw - przygotowane przemówienia w języku polskim.' },
-      { time: '11:30-12:00', room: 'AULA', kind: 'przerwa', title: 'Przerwa' },
-      { time: '12:00-13:00', room: 'AULA', kind: 'konkurs', title: 'Konkurs Ewaluacji',
-        note: 'Sztuka informacji zwrotnej - mowa testowa, a po niej ewaluacje uczestników.' },
+      { time: '10:00-12:45', room: 'AULA', kind: 'konkurs', title: 'Konkurs Mów Wszelakich i Ewaluacji',
+        note: 'Dwie najważniejsze konkurencje Mistrzostw: przygotowane przemówienia w języku polskim, a po nich sztuka informacji zwrotnej - mowa testowa i ewaluacje uczestników. W środku przerwa.' },
       { time: '13:00-15:00', room: '', kind: 'przerwa', title: 'Przerwa obiadowa' },
       { time: '15:00-15:45', room: 'AULA', kind: 'prelekcja', speaker: 'greg-albrecht' },
       { time: '15:00-15:45', room: 'Warsztatowa I', kind: 'prelekcja', speaker: 'jerzy-zientkowski' },
@@ -184,10 +185,10 @@ export const agenda: AgendaDay[] = [
     key: 'niedziela',
     label: 'Niedziela',
     date: '30.08',
-    intro: 'Spokojniejszy finał - poranna niespodzianka, dwa bloki krótkich prelekcji na trzech salach, panel dyskusyjny i wspólne pożegnanie.',
+    intro: 'Spokojniejszy finał - poranna niespodzianka, dwa 45-minutowe bloki prelekcji i warsztatów na trzech salach, panel dyskusyjny i wspólne pożegnanie. W bloku albo jedno wystąpienie na pełne 45 minut, albo dwa po 20 minut.',
     items: [
       { time: '09:00-09:45', room: 'AULA', kind: 'scena', title: 'Niespodzianka',
-        note: 'Poranny akcent na scenie głównej. Nazwisko zostanie ogłoszone wkrótce.' },
+        note: 'Poranny akcent na scenie głównej. Szczegóły zdradzimy bliżej wydarzenia.' },
       { time: '09:45-10:05', room: 'AULA', kind: 'prelekcja', speaker: 'pawel-konieczko' },
       { time: '09:45-10:05', room: 'Warsztatowa I', kind: 'prelekcja', title: 'Arek Ćwiek',
         note: 'Temat wystąpienia podamy wkrótce.' },
