@@ -19,8 +19,11 @@ const kindTag: Record<string, string> = {
   klub: 'Spotkanie klubu',
 };
 
+/** Nazwisko do wyliczanki w zbiorczym bloku prelekcji. Pozycje bez wlasnej
+    sylwetki (np. prelegent dopisany do arkusza tuz przed konferencja) maja
+    nazwisko w tytule - inaczej wypadlyby z listy bez sladu. */
 const who = (it: AgendaItem): string | null =>
-  it.speaker ? bySlug[it.speaker]?.name ?? null : null;
+  it.speaker ? bySlug[it.speaker]?.name ?? null : it.title ?? null;
 
 /** Naglowek wiersza: nazwisko + temat dla pojedynczej prelekcji, tytul dla reszty. */
 function heading(it: AgendaItem): string {

@@ -307,7 +307,7 @@ export const speakers: Speaker[] = [
     slug: "pawel-konieczko",
     name: "Paweł Konieczko",
     photo: "/images/prelegenci/pawel-konieczko.webp",
-    day: "Niedziela", date: "30.08", room: "AULA", time: "10:00-10:20", format: "prelekcja 20 min",
+    day: "Niedziela", date: "30.08", room: "AULA", time: "9:45-10:05", format: "prelekcja 20 min",
     title: "Dlaczego twoje prezentacje nie prowadzą do decyzji?",
     micro: "Większość prezentacji kończy się serią pytań albo kolejnym spotkaniem - zamiast decyzją. O tym, jak zbudować wystąpienie, które ją domyka.",
     desc: [
@@ -331,7 +331,7 @@ export const speakers: Speaker[] = [
     slug: "lukasz-ostrowski",
     name: "Łukasz Ostrowski",
     photo: null,
-    day: "Niedziela", date: "30.08", room: "Warsztatowa I", time: "10:00-10:20", format: "prelekcja 20 min",
+    day: "Niedziela", date: "30.08", room: "AULA", time: "10:45-11:05", format: "prelekcja 20 min",
     title: "Nie ma ostatniej góry. Stoicka odwaga w świecie, którego nie da się kontrolować.",
     micro: "Każdy zdobyty szczyt odsłania kolejny. O stoickiej odwadze w świecie, którego nie da się kontrolować, i o tym, że trudności to nie dowód słabości.",
     desc: [
@@ -354,7 +354,7 @@ export const speakers: Speaker[] = [
     slug: "agnieszka-brak",
     name: "Agnieszka Brak",
     photo: "/images/prelegenci/agnieszka-brak.webp",
-    day: "Niedziela", date: "30.08", room: "Warsztatowa II", time: "10:00-10:45", format: "warsztaty 45 min",
+    day: "Sobota", date: "29.08", room: "Warsztatowa I", time: "16:00-16:45", format: "warsztaty 45 min",
     title: "Stres? To nie wróg, lecz sprzymierzeniec!",
     desc: [
       {t:"p",s:"Wielu widzi stres jako bezlitosnego przeciwnika – niszczyciela spokoju, sabotażystę planów, cień, który odbiera radość z działania. A co, jeśli prawda jest inna? Co, jeśli stres to nie twój wróg, lecz największy sojusznik na drodze do sukcesu?"},
@@ -379,7 +379,7 @@ export const speakers: Speaker[] = [
     slug: "karolina-rzeznik",
     name: "Karolina Kazanowska-Rzeźnik",
     photo: "/images/prelegenci/karolina-rzeznik.webp",
-    day: "Niedziela", date: "30.08", room: "Warsztatowa I", time: "10:30-10:50", format: "prelekcja 20 min",
+    day: "Niedziela", date: "30.08", room: "Warsztatowa I", time: "10:10-10:30", format: "prelekcja 20 min",
     title: "W świecie AI każdy może być ekspertem. Kto zostanie liderem?",
     desc: [
       {t:"p",s:"W świecie, w którym wiedza jest dostępna na wyciągnięcie ręki, niemal każdy może stać się ekspertem. Ale czy ekspert automatycznie staje się liderem?"},
@@ -410,7 +410,7 @@ export const speakers: Speaker[] = [
     slug: "michal-golemo",
     name: "Michał Golemo",
     photo: "/images/prelegenci/michal-golemo.webp",
-    day: "Niedziela", date: "30.08", room: "AULA", time: "10:40-11:00", format: "prelekcja 20 min",
+    day: "Niedziela", date: "30.08", room: "AULA", time: "11:10-11:30", format: "prelekcja 20 min",
     title: "Odrodzenie z popiołów. Jak wyjść ze status quo i przejąć kontrolę nad własnym rozwojem",
     desc: [
       {t:"p",s:"Często wolimy tkwić w niewygodnym, ale dobrze znanym status quo, niż zaryzykować zmianę. Budujemy klatki z własnych przekonań, pozwalając, by to ego dyktowało nam najbezpieczniejszą drogę."},
@@ -438,7 +438,7 @@ export const speakers: Speaker[] = [
     slug: "agnieszka-ciochon",
     name: "Agnieszka Ciochoń",
     photo: "/images/prelegenci/agnieszka-ciochon.webp",
-    day: "Niedziela", date: "30.08", room: "Warsztatowa I", time: "11:00-11:45", format: "prelekcja 45 min",
+    day: "Niedziela", date: "30.08", room: "Warsztatowa II", time: "9:45-10:30", format: "prelekcja 45 min",
     title: "A co, jeśli to, co Cię zatrzymuje, jest tylko przekonaniem?",
     micro: "Niewidzialne stery życia: dlaczego rezygnujemy z marzeń, nie potrafimy odmówić i boimy się oceny? O przekonaniach, które kierują nami po cichu.",
     desc: [
@@ -462,7 +462,7 @@ export const speakers: Speaker[] = [
     slug: "eliza-krzak",
     name: "Eliza Krzak",
     photo: "/images/prelegenci/eliza-krzak.webp",
-    day: "Niedziela", date: "30.08", room: "Warsztatowa II", time: "11:00-11:45", format: "warsztaty 45 min",
+    day: "Niedziela", date: "30.08", room: "Warsztatowa II", time: "10:45-11:30", format: "warsztaty 45 min",
     title: "W DRODZE DO SIEBIE. O autentyczności, własnej odpowiedzialności i sprawczości",
     micro: "Cudze wakacje, awanse i sukcesy w mediach - i pytanie, co ze mną nie tak. O odróżnianiu presji otoczenia od tego, co naprawdę twoje.",
     desc: [
@@ -491,7 +491,7 @@ export const speakers: Speaker[] = [
     slug: "luiza-markiewicz",
     name: "Luiza Markiewicz",
     photo: "/images/prelegenci/luiza-markiewicz.webp",
-    day: "Niedziela", date: "30.08", room: "Warsztatowa I", time: "12:00-12:20", format: "prelekcja 20 min",
+    day: "Niedziela", date: "30.08", room: "Warsztatowa I", time: "10:45-11:05", format: "prelekcja 20 min",
     title: "Po co wstajesz rano? O sile IKIGAI",
     micro: "Z zewnątrz wszystko wygląda dobrze, a mimo to gubisz sens? O japońskiej idei ikigai i o powodzie, dla którego warto wstawać rano.",
     desc: [
@@ -516,7 +516,7 @@ export const speakers: Speaker[] = [
     slug: "marta-glegolska",
     name: "Marta Glegolska",
     photo: null,
-    day: "Niedziela", date: "30.08", room: "Warsztatowa II", time: "12:00-12:20", format: "prelekcja 20 min",
+    day: "Niedziela", date: "30.08", room: "Warsztatowa I", time: "11:10-11:30", format: "prelekcja 20 min",
     title: "Z cyklu feniks w popiele czyli kryzys na scenie - jak bez pomocy narzędzi AI uratować sytuację?",
     micro: "Mowa humorystyczno-informacyjna o wpadkach na scenie: praktyczne triki, dzięki którym poradzisz sobie w kryzysie bez pomocy AI.",
     desc: [
@@ -540,7 +540,7 @@ export const speakers: Speaker[] = [
     slug: "anna-kaldonek",
     name: "Anna Kałdonek",
     photo: "/images/prelegenci/anna-kaldonek.webp",
-    day: "Niedziela", date: "30.08", room: "AULA", time: "10:20-10:40", format: "prelekcja 20 min",
+    day: "Niedziela", date: "30.08", room: "AULA", time: "10:10-10:30", format: "prelekcja 20 min",
     title: "Dlaczego rozłożyłam psa na części? Czyli jak tłumaczyć trudne zagadnienia, aby ludzie rzeczywiście Cię słuchali.",
     desc: [
       {t:"p",s:"Według badań prosty i zrozumiały język sprawia, że jesteśmy postrzegani jako osoby inteligentniejsze, bardziej kompetentne i godne zaufania."},
