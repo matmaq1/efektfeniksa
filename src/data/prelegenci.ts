@@ -409,7 +409,7 @@ export const speakers: Speaker[] = [
   {
     slug: "michal-golemo",
     name: "Michał Golemo",
-    photo: null,
+    photo: "/images/prelegenci/michal-golemo.webp",
     day: "Niedziela", date: "30.08", room: "AULA", time: "10:40-11:00", format: "prelekcja 20 min",
     title: "Odrodzenie z popiołów. Jak wyjść ze status quo i przejąć kontrolę nad własnym rozwojem",
     desc: [

@@ -18,6 +18,7 @@ const bySlug = Object.fromEntries(speakers.map(s => [s.slug, s]));
 const kindLabel: Record<string, string> = {
   konkurs: 'Konkurs', przerwa: 'Przerwa', wieczor: 'Wieczór',
   logistyka: 'Organizacja', scena: 'Scena główna', prelekcja: 'Prelekcja',
+  klub: 'Spotkanie klubu',
 };
 
 /** Przycina na granicy zdania, a gdy jej nie ma w rozsadnym miejscu - na granicy slowa. */
@@ -74,6 +75,21 @@ const rowPx = (dur: number): number => Math.round(Math.max(22, Math.min(160, 18 
 function layout(day: AgendaDay) {
   const all = day.items.map(it => ({ it, ...span(it.time) }));
 
+  // Dzien bez podzialu na sale (czwartkowe spotkanie klubu) nie ma czego
+  // rozkladac na kolumny - kazda pozycja dostaje wlasny wiersz i idzie pelna
+  // szerokoscia. Bez tego dwie nachodzace na siebie pozycje wyladowalyby w
+  // tej samej komorce siatki, jedna na drugiej.
+  if (all.length > 0 && all.every(x => !x.it.room)) {
+    const solo = [...all].sort((a, b) => a.s - b.s);
+    return {
+      day,
+      band: [],
+      rooms: false,
+      rows: solo.map((x, i) => ({ line: i + 1, label: fmt(x.s), full: x.s % 60 === 0, px: rowPx(x.e - x.s) })),
+      items: solo.map((x, i) => ({ it: x.it, r1: i + 1, r2: i + 2 })),
+    };
+  }
+
   // Pozycje bez sali, ktore nachodza czasowo na cokolwiek innego (rejestracja
   // przez pol dnia, zwiedzanie w trakcie COT), nie zmieszcza sie w siatce sal -
   // ida do paska "Rownolegle przez cały dzień" nad nia.
@@ -87,6 +103,7 @@ function layout(day: AgendaDay) {
   return {
     day,
     band: band.map(x => x.it),
+    rooms: true,
     rows: bounds.slice(0, -1).map((s, i) => ({
       line: i + 1,
       label: starts.has(s) ? fmt(s) : null,
@@ -110,7 +127,9 @@ const days = agenda.map(layout);
 <div class="calday" id={d.day.key}>
   <div class="dayhd">
     <h2 class="daynum">{d.day.label} {d.day.date}</h2>
-    <span class="daytag">{d.day.items.filter(i => i.kind === 'prelekcja').length} wystąpień</span>
+    {d.day.items.filter(i => i.kind === 'prelekcja').length > 0 && (
+      <span class="daytag">{d.day.items.filter(i => i.kind === 'prelekcja').length} wystąpień</span>
+    )}
   </div>
   <p class="dayintro">{d.day.intro}</p>
 
@@ -129,20 +148,24 @@ const days = agenda.map(layout);
     </div>
   )}
 
-  <div class="rfilter">
-    <div class="rfbar" role="tablist" aria-label="Filtruj po sali">
-      <span class="rfpill" aria-hidden="true"></span>
-      <button type="button" class="rfb" role="tab" aria-selected="true" data-f="all">Wszystko</button>
-      <button type="button" class="rfb" role="tab" aria-selected="false" data-f="aula">AULA</button>
-      <button type="button" class="rfb" role="tab" aria-selected="false" data-f="w1">Warsztatowa I</button>
-      <button type="button" class="rfb" role="tab" aria-selected="false" data-f="w2">Warsztatowa II</button>
+  {d.rooms && (
+    <div class="rfilter">
+      <div class="rfbar" role="tablist" aria-label="Filtruj po sali">
+        <span class="rfpill" aria-hidden="true"></span>
+        <button type="button" class="rfb" role="tab" aria-selected="true" data-f="all">Wszystko</button>
+        <button type="button" class="rfb" role="tab" aria-selected="false" data-f="aula">AULA</button>
+        <button type="button" class="rfb" role="tab" aria-selected="false" data-f="w1">Warsztatowa I</button>
+        <button type="button" class="rfb" role="tab" aria-selected="false" data-f="w2">Warsztatowa II</button>
+      </div>
     </div>
-  </div>
+  )}
 
-  <div class="calhd">
-    <div class="chtime">Czas</div>
-    {ROOMS.map(r => <div class:list={[r === 'AULA' && 'aula']}>{r}</div>)}
-  </div>
+  {d.rooms && (
+    <div class="calhd">
+      <div class="chtime">Czas</div>
+      {ROOMS.map(r => <div class:list={[r === 'AULA' && 'aula']}>{r}</div>)}
+    </div>
+  )}
 
   <div class="cal" data-filter="all" style={`grid-template-rows:${d.rows.map(r => `minmax(${r.px}px,auto)`).join(' ')}`}>
     {d.rows.map(row => (
@@ -154,10 +177,13 @@ const days = agenda.map(layout);
           const micro = microText(it, sp);
           const long = fullText(sp);
           // rozwiniecie ma sens tylko wtedy, gdy dokłada cos ponad zajawke:
-          // dluzszy opis, zdjecie albo link do pelnej sylwetki
-          const body = long && long !== micro ? long : '';
-          const open = !!(sp || body);
+          // dluzszy opis, zdjecie albo link do pelnej sylwetki. Pozycje z wlasna
+          // grafika (czwartkowe spotkanie klubu) powtarzaja notke pod obrazkiem -
+          // zajawka zwija sie przy rozwijaniu, wiec bez tego tekst by zniknal.
+          const body = long && long !== micro ? long : (it.image ? it.note ?? '' : '');
+          const open = !!(sp || body || it.image);
           const mini = sp?.photo ? sp.photo.replace('/prelegenci/', '/prelegenci/mini/') : null;
+          const href = sp ? `/prelegenci/#${sp.slug}` : it.link ?? null;
           const style = `grid-row:${r1}/${r2};grid-column:${it.room ? ROOMS.indexOf(it.room) + 2 : '2/-1'}`;
           const inner = (
             <>
@@ -175,8 +201,10 @@ const days = agenda.map(layout);
                     <div class="evxi">
                       {mini && <img class="evph" src={mini} width="128" height="160" alt={sp!.name} loading="lazy" decoding="async" />}
                       <div class="evxt">
+                        {it.image && <img class="evbn" src={it.image} alt={it.title} loading="lazy" decoding="async" />}
                         {body && <p class="evnote">{body}</p>}
                         {sp && <span class="evgo">Pełny opis i sylwetka &rarr;</span>}
+                        {!sp && it.link && <span class="evgo">Wydarzenie na Facebooku &rarr;</span>}
                       </div>
                     </div>
                   </div>
@@ -184,8 +212,9 @@ const days = agenda.map(layout);
               )}
             </>
           );
-          return sp
-            ? <a class:list={['ev', it.kind, !it.room && 'wide']} data-room={roomSlug(it.room)} data-x="1" style={style} href={`/prelegenci/#${sp.slug}`}>{inner}</a>
+          return href
+            ? <a class:list={['ev', it.kind, !it.room && 'wide']} data-room={roomSlug(it.room)} data-x="1" style={style}
+                 href={href} target={sp ? null : '_blank'} rel={sp ? null : 'noopener'}>{inner}</a>
             : <div class:list={['ev', it.kind, !it.room && 'wide']} data-room={roomSlug(it.room)} data-x={open ? '1' : null} style={style}>{inner}</div>;
         })}
       </>
@@ -258,6 +287,7 @@ const days = agenda.map(layout);
 a.ev{cursor:pointer}
 .ev.konkurs{border-left-color:var(--o);background:rgba(255,91,0,.07)}
 .ev.wieczor,.ev.scena{border-left-color:var(--g)}
+.ev.klub{border-left-color:var(--g);background:rgba(255,91,0,.06)}
 .ev.przerwa{background:rgba(255,255,255,.02);border-left-color:rgba(255,255,255,.1)}
 .evhd{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
 .evtime{font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--w6);white-space:nowrap}
@@ -282,6 +312,12 @@ a.ev{cursor:pointer}
 .evph{width:48px;height:60px;flex-shrink:0;object-fit:cover;object-position:top;border-radius:2px;
   border:1px solid rgba(252,163,17,.22)}
 .evxt{min-width:0}
+/* grafika wydarzenia (zamiast portretu prelegenta) - panorama, wiec idzie
+   nad tekstem, a nie jako 48px kadr obok niego. Limit szerokosci jest po to,
+   zeby na karcie "Cale wydarzenie" (pelna szerokosc siatki) plakat nie urosl
+   na pol ekranu. */
+.evbn{width:100%;max-width:380px;height:auto;margin-bottom:10px;border-radius:2px;
+  border:1px solid rgba(252,163,17,.22)}
 .evnote{font-size:12px;font-weight:400;color:var(--wb);line-height:1.6}
 .evgo{display:inline-block;margin-top:9px;font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
   color:var(--g);border-bottom:1px solid rgba(252,163,17,.45);padding-bottom:2px}

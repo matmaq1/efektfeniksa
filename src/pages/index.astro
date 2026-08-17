@@ -1,7 +1,7 @@
 ---
 import { speakers } from '../data/prelegenci';
 import { agenda } from '../data/agenda2026';
-import AgendaCalendar from '../components/AgendaCalendar.astro';
+import AgendaTabs from '../components/AgendaTabs.astro';
 import AgendaSummary from '../components/AgendaSummary.astro';
 
 // Najpierw prelegenci ze zdjeciem - sort jest stabilny, wiec wewnatrz obu grup
@@ -113,7 +113,7 @@ section{position:relative;z-index:2;padding:80px 5%}
 .at p strong{color:var(--w);font-weight:700}
 .at p.highlight{font-size:15px;color:var(--g);font-weight:700;border-left:3px solid var(--o);padding-left:18px}
 
-/* PROGRAM - siatka kalendarza siedzi w AgendaCalendar.astro */
+/* PROGRAM - zakladki dni siedza w AgendaTabs.astro */
 #program{background:linear-gradient(180deg,rgba(5,5,113,.12) 0%,rgba(5,5,113,.2) 100%)}
 #program .sh{margin-bottom:34px}
 .printonly{display:none}
@@ -352,9 +352,9 @@ footer{position:relative;z-index:2;padding:40px 5% 22px;border-top:1px solid rgb
   <div class="sh">
     <div class="slb">Agenda</div>
     <h2 class="st">Trzy dni.<br>Jeden płomień.</h2>
-    <p class="sd">Cztery konkursy mów, {talkCount} prelekcji i warsztatów na trzech salach równolegle, piknik przy grillu i sobotnia gala. Kliknij w wystąpienie, żeby przeczytać pełny opis i notkę o prelegencie.</p>
+    <p class="sd">Cztery konkursy mów, {talkCount} prelekcji i warsztatów na trzech salach równolegle, piknik przy grillu i sobotnia gala. A dzień wcześniej - czwartkowe spotkanie klubu Toastmasters Centrum w Kaliszu.</p>
   </div>
-  <AgendaCalendar />
+  <AgendaTabs />
 </section>
 
 <!-- PELNY PLAN W TABELI: niewidoczny na ekranie, sluzy tylko za wydruk / PDF -->

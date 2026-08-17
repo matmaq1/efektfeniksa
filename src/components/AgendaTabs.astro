@@ -1,0 +1,222 @@
+---
+// Skrocona agenda w zakladkach dni - sekcja PROGRAM na stronie glownej.
+//
+// Wraca tu uklad z pierwszej wersji strony (zakladki + lista "godzina | co sie
+// dzieje"), ale tresc nie jest juz przepisywana recznie: kazdy wiersz powstaje
+// z tych samych danych, co pelny kalendarz na /agenda (summarise() w
+// ../data/agenda2026). Dzieki temu skrot nie moze sie rozjechac z programem.
+//
+// Pozycje oznaczone feature:true dostaja duza karte ze zdjeciem - to one maja
+// zlapac wzrok, zanim ktokolwiek zacznie czytac liste godzin.
+import { agenda, summarise, type AgendaItem } from '../data/agenda2026';
+import { speakers } from '../data/prelegenci';
+
+const bySlug = Object.fromEntries(speakers.map(s => [s.slug, s]));
+
+const kindTag: Record<string, string> = {
+  konkurs: 'Konkurs', przerwa: 'Przerwa', wieczor: 'Wieczór',
+  logistyka: 'Organizacja', scena: 'Scena główna', prelekcja: 'Rozwój',
+  klub: 'Spotkanie klubu',
+};
+
+const who = (it: AgendaItem): string | null =>
+  it.speaker ? bySlug[it.speaker]?.name ?? null : null;
+
+/** Naglowek wiersza: nazwisko + temat dla pojedynczej prelekcji, tytul dla reszty. */
+function heading(it: AgendaItem): string {
+  const sp = it.speaker ? bySlug[it.speaker] : null;
+  if (sp) return `${sp.name} - ${sp.title || 'temat wkrótce'}`;
+  return it.title ?? '';
+}
+
+const days = agenda.map(d => ({ day: d, rows: summarise(d) }));
+// Piatek to pierwszy dzien wlasciwej konferencji - czwartkowe spotkanie klubu
+// jest dodatkiem, wiec zakladki otwieraja sie na piatku.
+const openKey = 'piatek';
+---
+
+<div class="dtabs" role="tablist" aria-label="Program dnia">
+  {days.map(({ day }) => (
+    <button
+      type="button"
+      role="tab"
+      class:list={['dtab', day.key === openKey && 'active']}
+      aria-selected={day.key === openKey ? 'true' : 'false'}
+      aria-controls={`dp-${day.key}`}
+      data-day={day.key}
+    >{day.label} - {day.date}</button>
+  ))}
+</div>
+
+{days.map(({ day, rows }) => (
+  <div class:list={['dp', day.key === openKey && 'active']} id={`dp-${day.key}`} role="tabpanel">
+    <p class="dintro">{day.intro}</p>
+
+    {rows.map(row => {
+      const lead = row.items[0];
+
+      // BLOK ROWNOLEGLYCH PRELEKCJI - jeden wiersz zamiast dziewieciu
+      if (row.items.length > 1) {
+        const names = row.items.map(who).filter(Boolean);
+        const halls = [...new Set(row.items.map(i => i.room).filter(Boolean))];
+        return (
+          <div class="si">
+            <div class="stm">{row.time}</div>
+            <div class="sc">
+              <h4>Prelekcje i warsztaty</h4>
+              <p>{halls.length > 1 ? `${halls.length} sale równolegle: ` : ''}{names.join(', ')}.</p>
+              <span class="tag ts">Rozwój</span>
+            </div>
+          </div>
+        );
+      }
+
+      // POZYCJA WYROZNIONA - duza karta ze zdjeciem
+      if (lead.feature) {
+        const Card = lead.link ? 'a' : 'div';
+        return (
+          <Card
+            class="sfeat"
+            href={lead.link}
+            target={lead.link ? '_blank' : null}
+            rel={lead.link ? 'noopener' : null}
+          >
+            {lead.image && (
+              <div class="sfimg">
+                <img src={lead.image} alt={lead.title} loading="lazy" decoding="async" width="1400" height="732" />
+              </div>
+            )}
+            <div class="sfbody">
+              <div class="sftime">{row.time}{lead.room && <span class="sfroom">{lead.room}</span>}</div>
+              <h4>{heading(lead)}</h4>
+              {lead.note && <p>{lead.note}</p>}
+              <span class="tag tk">{lead.link ? 'Wydarzenie na Facebooku →' : kindTag[lead.kind]}</span>
+            </div>
+          </Card>
+        );
+      }
+
+      // ZWYKLY WIERSZ
+      return (
+        <div class="si">
+          <div class="stm">{row.time}</div>
+          <div class="sc">
+            <h4>{heading(lead)}</h4>
+            {lead.note && <p>{lead.note}</p>}
+            <span class:list={['tag', lead.kind === 'konkurs' ? 'tk' : 'ts']}>{kindTag[lead.kind]}</span>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+))}
+
+<div class="dmore">
+  <a href="/agenda/" class="dmore-btn">Pełny program z podziałem na sale &rarr;</a>
+  <span class="dmore-note">Na /agenda znajdziesz każdą prelekcję z opisem, salą i sylwetką prelegenta - oraz plan do pobrania w PDF.</span>
+</div>
+
+<style>
+/* ZAKLADKI DNI */
+.dtabs{display:flex;border-bottom:1px solid rgba(255,255,255,.07);overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:30px}
+.dtab{padding:12px 22px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.6);
+  cursor:pointer;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;background:none;
+  font-family:'Montserrat',sans-serif;white-space:nowrap;transition:color .2s,border-color .2s}
+.dtab.active{color:#FCA311;border-bottom-color:#FCA311}
+.dtab:hover:not(.active){color:#fff}
+
+.dp{display:none}
+.dp.active{display:block}
+.dintro{font-size:13px;font-weight:400;letter-spacing:-.01em;color:rgba(255,255,255,.6);line-height:1.6;
+  margin-bottom:8px;max-width:620px}
+
+/* WIERSZ: godzina | co sie dzieje */
+.si{display:flex;gap:20px;align-items:flex-start;padding:18px 0;border-top:1px solid rgba(255,255,255,.06)}
+.stm{font-size:15px;font-weight:800;letter-spacing:-.02em;color:#FCA311;min-width:118px;white-space:nowrap;padding-top:2px}
+.sc h4{font-size:16px;font-weight:800;letter-spacing:-.02em;margin-bottom:5px;line-height:1.3}
+.sc p{font-size:13px;font-weight:400;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:9px;max-width:600px}
+.tag{display:inline-block;font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:3px 9px;border-radius:2px}
+.tag.ts{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.6)}
+.tag.tk{background:linear-gradient(135deg,#FF5B00,#FCA311);color:#000110}
+
+/* POZYCJA WYROZNIONA - zdjecie u gory, tresc pod spodem, pelna szerokosc kolumny */
+.sfeat{display:block;margin:22px 0;border:1px solid rgba(252,163,17,.28);background:rgba(5,5,113,.28);
+  overflow:hidden;text-decoration:none;color:inherit;transition:border-color .3s,transform .3s,box-shadow .3s}
+a.sfeat:hover{border-color:#FCA311;transform:translateY(-3px);box-shadow:0 18px 42px rgba(0,0,0,.45)}
+/* proporcje grafiki wydarzenia (1734x907) - dzieki temu plakat z Facebooka
+   miesci sie w calosci, a zdjecia 4:3 kadruja sie do panoramy */
+.sfimg{position:relative;aspect-ratio:1734/907;overflow:hidden;background:#02020f}
+.sfimg img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+a.sfeat:hover .sfimg img{transform:scale(1.035)}
+.sfimg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,1,16,.72),transparent 55%)}
+.sfbody{padding:22px 26px 26px}
+.sftime{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:12px;font-weight:800;letter-spacing:.06em;color:#FCA311;margin-bottom:8px}
+.sfroom{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6);
+  border:1px solid rgba(255,255,255,.13);padding:2px 8px;border-radius:2px}
+.sfbody h4{font-size:clamp(20px,2.6vw,28px);font-weight:800;letter-spacing:-.04em;line-height:1.15;margin-bottom:10px}
+.sfbody p{font-size:14px;font-weight:400;color:rgba(255,255,255,.72);line-height:1.7;margin-bottom:14px;max-width:660px}
+
+/* PRZEJSCIE DO PELNEJ AGENDY */
+.dmore{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:34px;padding-top:24px;border-top:1px solid rgba(255,255,255,.07)}
+.dmore-btn{background:linear-gradient(135deg,#FF5B00,#FCA311);color:#000110;font-weight:800;font-size:11px;
+  letter-spacing:.08em;text-transform:uppercase;padding:13px 24px;border-radius:2px;text-decoration:none;
+  transition:transform .2s,opacity .2s;white-space:nowrap}
+.dmore-btn:hover{transform:translateY(-2px);opacity:.9}
+.dmore-note{font-size:12px;color:rgba(255,255,255,.6);line-height:1.55;max-width:440px}
+
+@media(max-width:680px){
+  .dtab{padding:11px 15px;font-size:9px;letter-spacing:.06em}
+  .si{flex-direction:column;gap:4px;padding:16px 0}
+  .stm{font-size:13px;min-width:0}
+  .sc h4{font-size:15px}
+  .sfbody{padding:18px 17px 20px}
+  .sfimg{aspect-ratio:1400/700}
+  .dmore-btn{width:100%;text-align:center}
+}
+@media(prefers-reduced-motion:reduce){
+  .sfeat,.sfimg img,.dmore-btn{transition:none}
+  a.sfeat:hover{transform:none}
+}
+</style>
+
+<script is:inline>
+/* Przelaczanie zakladek dni. Zdarzenie wisi na pasku, a nie na kazdym przycisku,
+   zeby nie mnozyc listenerow - dni jest kilka, ale to i tak czystszy uklad. */
+(function () {
+  var bar = document.querySelector('.dtabs');
+  if (!bar) return;
+
+  /* Na waskim ekranie caly pasek sie nie miesci. Domyslnie otwarty jest piatek,
+     wiec ustawiamy go na srodku: czwartek zostaje widoczny z lewej (chcemy, zeby
+     ktos go zauwazyl), a sobota i niedziela wystaja z prawej i same mowia, ze
+     pasek da sie przewinac. Ustawiamy scrollLeft samego paska - scrollIntoView
+     przeciagnalby przy okazji cala strone. */
+  function center(smooth) {
+    var btn = bar.querySelector('.dtab.active');
+    if (!btn || bar.scrollWidth <= bar.clientWidth) return;
+    var left = btn.offsetLeft - (bar.clientWidth - btn.offsetWidth) / 2;
+    if (smooth && bar.scrollTo) bar.scrollTo({ left: left, behavior: 'smooth' });
+    else bar.scrollLeft = left;
+  }
+
+  bar.addEventListener('click', function (e) {
+    var btn = e.target.closest('.dtab');
+    if (!btn) return;
+    [].forEach.call(document.querySelectorAll('.dtab'), function (b) {
+      var on = b === btn;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-selected', String(on));
+    });
+    [].forEach.call(document.querySelectorAll('.dp'), function (p) {
+      p.classList.toggle('active', p.id === 'dp-' + btn.dataset.day);
+    });
+    center(true);
+  });
+
+  addEventListener('resize', function () { center(false); });
+  center(false);
+  // Montserrat dociaga sie pozniej i zmienia szerokosci zakladek - bez tego
+  // piatek zostaje tam, gdzie wypadl przy foncie zastepczym.
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { center(false); });
+})();
+</script>
