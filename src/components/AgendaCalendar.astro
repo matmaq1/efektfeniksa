@@ -84,10 +84,10 @@ function layout(day: AgendaDay) {
     return {
       day,
       rooms: false,
-      cols: 'var(--rail) repeat(3,minmax(0,1fr))',
-      para: false,
+      heads: [],
+      cols: 'var(--rail) minmax(0,1fr)',
       rows: solo.map((x, i) => ({ line: i + 1, label: fmt(x.s), full: x.s % 60 === 0, px: rowPx(x.e - x.s) })),
-      items: solo.map((x, i) => ({ it: x.it, r1: i + 1, r2: i + 2, col: '2/-1', para: false })),
+      items: solo.map((x, i) => ({ it: x.it, r1: i + 1, r2: i + 2, col: '2/-1', para: false, wide: true })),
     };
   }
 
@@ -100,6 +100,16 @@ function layout(day: AgendaDay) {
   const grid = all.filter(x => !para.includes(x))
     .sort((a, b) => a.s - b.s || ROOMS.indexOf(a.it.room) - ROOMS.indexOf(b.it.room));
 
+  /** Czy w tym samym czasie dzieje sie cos w innej sali? Tylko wtedy pozycja
+      musi siedziec w waskiej kolumnie swojej sali. */
+  const shared = (x: typeof grid[number]) => grid.some(o =>
+    o !== x && o.it.room && o.it.room !== x.it.room && o.s < x.e && x.s < o.e);
+
+  // Piatek nie ma ANI JEDNEJ pozycji granej rownolegle w dwoch salach, wiec
+  // trzy kolumny sal robily mu tylko puste miejsce obok pojedynczych kart.
+  // Taki dzien leci jedna kolumna, a sala schodzi do plakietki na karcie.
+  const rooms = grid.some(x => x.it.room && shared(x));
+
   // Granice wierszy licza sie ze WSZYSTKICH pozycji, takze rownoleglych -
   // inaczej 14:00 w ogole nie pojawiloby sie na osi.
   const bounds = [...new Set(all.flatMap(x => [x.s, x.e]))].sort((a, b) => a - b);
@@ -110,11 +120,25 @@ function layout(day: AgendaDay) {
     r2: bounds.indexOf(x.e) + 1,
   });
 
+  /** Czy w tym czasie kolumna rownolegla jest wolna? Tylko wtedy karta moze
+      wejsc az do niej - inaczej wjechalaby na rejestracje albo zwiedzanie. */
+  const clear = (x: typeof all[number]) => !para.some(p => p.s < x.e && x.s < p.e);
+
+  // Pozycja, ktora nie ma w danym czasie konkurencji w innej sali, idzie przez
+  // cala szerokosc: sala schodzi do plakietki na karcie, a tytul ma wreszcie
+  // miejsce, zeby byc tytulem.
+  const colOf = (x: typeof grid[number]) =>
+    rooms && x.it.room && shared(x)
+      ? String(off + ROOMS.indexOf(x.it.room) + 2)
+      : `${off && !clear(x) ? off + 2 : 2}/-1`;
+
   return {
     day,
-    rooms: true,
-    para: off === 1,
-    cols: `var(--rail) ${off ? 'var(--para) ' : ''}repeat(3,minmax(0,1fr))`,
+    rooms,
+    heads: rooms
+      ? ['Czas', ...(off ? ['Równolegle'] : []), ...ROOMS]
+      : (off ? ['Czas', 'Równolegle', 'Program dnia'] : []),
+    cols: `var(--rail) ${off ? 'var(--para) ' : ''}${rooms ? 'repeat(3,minmax(0,1fr))' : 'minmax(0,1fr)'}`,
     rows: bounds.slice(0, -1).map((s, i) => ({
       line: i + 1,
       label: starts.has(s) ? fmt(s) : null,
@@ -122,16 +146,11 @@ function layout(day: AgendaDay) {
       px: rowPx(bounds[i + 1] - s),
     })),
     items: [
-      ...para.map(x => ({ it: x.it, ...place(x), col: '2', para: true })),
-      ...grid.map(x => ({
-        it: x.it,
-        ...place(x),
-        // "Cale wydarzenie" idzie przez wszystkie kolumny, takze te rownolegla -
-        // kolizji byc nie moze, bo cokolwiek by na nie nachodzilo, samo
-        // wyladowaloby w kolumnie rownoleglej.
-        col: x.it.room ? String(off + ROOMS.indexOf(x.it.room) + 2) : '2/-1',
-        para: false,
-      })),
+      ...para.map(x => ({ it: x.it, ...place(x), col: '2', para: true, wide: false })),
+      ...grid.map(x => {
+        const col = colOf(x);
+        return { it: x.it, ...place(x), col, para: false, wide: col.endsWith('/-1') };
+      }),
     ],
   };
 }
@@ -167,11 +186,11 @@ const days = agenda.map(layout);
     </div>
   )}
 
-  {d.rooms && (
+  {d.heads.length > 0 && (
     <div class="calhd" style={`grid-template-columns:${d.cols}`}>
-      <div class="chtime">Czas</div>
-      {d.para && <div class="chpara">Równolegle</div>}
-      {ROOMS.map(r => <div class:list={[r === 'AULA' && 'aula']}>{r}</div>)}
+      {d.heads.map(h => (
+        <div class:list={[h === 'Czas' && 'chtime', h === 'Równolegle' && 'chpara', h === 'AULA' && 'aula']}>{h}</div>
+      ))}
     </div>
   )}
 
@@ -180,7 +199,7 @@ const days = agenda.map(layout);
       <>
         {row.label && <div class:list={['ct', !row.full && 'half']} style={`grid-row:${row.line}`}>{row.label}</div>}
         {row.label && <div class="cl" style={`grid-row:${row.line}`} aria-hidden="true"></div>}
-        {d.items.filter(x => x.r1 === row.line).map(({ it, r1, r2, col, para }) => {
+        {d.items.filter(x => x.r1 === row.line).map(({ it, r1, r2, col, para, wide }) => {
           const sp = it.speaker ? bySlug[it.speaker] : null;
           const micro = microText(it, sp);
           const long = fullText(sp);
@@ -221,9 +240,9 @@ const days = agenda.map(layout);
             </>
           );
           return href
-            ? <a class:list={['ev', it.kind, para && 'para', !it.room && !para && 'wide']} data-room={roomSlug(it.room)} data-x="1" style={style}
+            ? <a class:list={['ev', it.kind, para && 'para', wide && 'wide']} data-room={roomSlug(it.room)} data-x="1" style={style}
                  href={href} target={sp ? null : '_blank'} rel={sp ? null : 'noopener'}>{inner}</a>
-            : <div class:list={['ev', it.kind, para && 'para', !it.room && !para && 'wide']} data-room={roomSlug(it.room)} data-x={open ? '1' : null} style={style}>{inner}</div>;
+            : <div class:list={['ev', it.kind, para && 'para', wide && 'wide']} data-room={roomSlug(it.room)} data-x={open ? '1' : null} style={style}>{inner}</div>;
         })}
       </>
     ))}
@@ -250,7 +269,7 @@ const days = agenda.map(layout);
 .calhint strong{color:var(--g);font-weight:700}
 
 /* DZIEN */
-.calday{--rail:74px;--para:172px;margin-bottom:56px;scroll-margin-top:86px}
+.calday{--rail:74px;--para:210px;margin-bottom:56px;scroll-margin-top:86px}
 .dayhd{display:flex;align-items:baseline;gap:14px;margin-bottom:10px;flex-wrap:wrap}
 .daynum{font-size:clamp(24px,3vw,36px);font-weight:800;letter-spacing:-.05em;line-height:1}
 .daytag{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--g);
@@ -303,6 +322,16 @@ a.ev{cursor:pointer}
 .evwho{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--o)}
 .evtitle{font-size:14.5px;font-weight:800;letter-spacing:-.03em;line-height:1.3}
 .ev.przerwa .evtitle{font-weight:700;color:var(--w6)}
+/* Karta na calej szerokosci ma miejsce na wieksza typografie. Konkursy sa osia
+   calego dnia, wiec dostaja najwiecej: grubsza krawedz, mocniejsze tlo i tytul,
+   ktory widac z drugiego konca strony. */
+.ev.wide{padding:14px 18px}
+.ev.wide .evtitle{font-size:17px}
+.ev.konkurs.wide{padding:18px 20px;border-left-width:3px;background:rgba(255,91,0,.11)}
+.ev.konkurs.wide .evtitle{font-size:clamp(19px,2.1vw,25px);letter-spacing:-.045em}
+.ev.konkurs.wide .evkind,.ev.konkurs.wide .evtime{font-size:10px}
+.ev.konkurs.wide .rm{font-size:10px;color:var(--g);border-color:rgba(252,163,17,.35)}
+.ev.konkurs.wide .evmicro{font-size:13px;max-width:70ch}
 /* zajawka: do trzech linijek (~150 znakow), zwija sie tak samo plynnie jak panel */
 .evm{display:grid;grid-template-rows:1fr;transition:grid-template-rows .45s cubic-bezier(.22,1,.36,1)}
 .evmc{overflow:hidden;min-height:0}
@@ -366,7 +395,7 @@ a.ev{cursor:pointer}
 .lgh{margin-left:auto;color:rgba(255,255,255,.32);font-size:10.5px}
 
 @media(max-width:1000px){
-  .calday{--rail:62px;--para:142px}
+  .calday{--rail:62px;--para:170px}
   .ct{font-size:12px;padding-right:10px}
   .evnote{font-size:11.5px}
   /* waskie kolumny - te same ~150 znakow potrzebuje wiecej linijek */
@@ -383,6 +412,13 @@ a.ev{cursor:pointer}
   .ev.para{padding:12px 15px}
   .ev.para .evtitle{font-size:14.5px}
   .ev.para .evmicro{font-size:12px;-webkit-line-clamp:4}
+  /* na telefonie kazda karta jest i tak pelnej szerokosci - konkursy zostaja
+     wieksze od reszty, ale bez rozmiaru z desktopu */
+  .ev.wide{padding:12px 15px}
+  .ev.wide .evtitle{font-size:15px}
+  .ev.konkurs.wide{padding:14px 16px}
+  .ev.konkurs.wide .evtitle{font-size:18px}
+  .ev.konkurs.wide .evmicro{font-size:12px}
   .ct{text-align:left;padding:16px 0 3px;font-size:13.5px;font-weight:800;letter-spacing:.06em;color:var(--o)}
   .ct.half{font-size:12.5px;color:rgba(255,91,0,.8)}
   .ct:first-child{padding-top:0}
