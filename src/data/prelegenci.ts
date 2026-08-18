@@ -280,7 +280,7 @@ export const speakers: Speaker[] = [
   {
     slug: "adrian-dornia",
     name: "Adrian Dornia",
-    photo: null,
+    photo: "/images/prelegenci/adrian-dornia.webp",
     day: "Sobota", date: "29.08", room: "Warsztatowa II", time: "17:00-17:45", format: "warsztaty 45 min",
     title: "Jak założyć firmę i nie zwariować?",
     micro: "Za kulisami kilku branż: realne case study od pozyskania środków na start, przez marketing i sprzedaż, po obsługę klienta - bez owijania w bawełnę.",
@@ -516,7 +516,7 @@ export const speakers: Speaker[] = [
   {
     slug: "marta-glegolska",
     name: "Marta Glegolska",
-    photo: null,
+    photo: "/images/prelegenci/marta-glegolska.webp",
     day: "Niedziela", date: "30.08", room: "Warsztatowa I", time: "11:10-11:30", format: "prelekcja 20 min",
     title: "Z cyklu feniks w popiele czyli kryzys na scenie - jak bez pomocy narzędzi AI uratować sytuację?",
     micro: "Mowa humorystyczno-informacyjna o wpadkach na scenie: praktyczne triki, dzięki którym poradzisz sobie w kryzysie bez pomocy AI.",
