@@ -139,19 +139,20 @@ export const agenda: AgendaDay[] = [
       // okna - zeby ludzie zjawiali sie wtedy, kiedy przy stanowisku stoi pelna
       // obsada, a nie w trakcie pierwszego konkursu.
       { time: '14:00-14:30', room: '', kind: 'logistyka', title: 'Rejestracja zawodników konkursów',
-        note: 'Zawodnicy rejestrują się jako pierwsi, jeszcze przed próbą generalną na scenie głównej.' },
+        note: 'Stanowisko w holu głównym. Zawodnicy rejestrują się jako pierwsi, jeszcze przed próbą generalną na scenie głównej.' },
       { time: '14:30-15:15', room: '', kind: 'logistyka', title: 'Rejestracja gości i uczestników',
-        note: 'Odbiór wejściówek i materiałów, zapoznanie z przestrzenią Uniwersytetu Kaliskiego. To okno, w którym przy stanowisku jest największa obsada - przyjdź wtedy, a odbierzesz wszystko bez kolejki i zdążysz na otwarcie.' },
-      { time: '14:30-15:15', room: 'Warsztatowa I', kind: 'prelekcja', title: 'Moderowany Welcome Networking - Grzegorz Turniak',
-        note: 'Rozgrzewka towarzyska przed otwarciem konferencji - moderowana tak, żeby każdy zdążył poznać kilka nowych osób.' },
+        note: 'Stanowisko w holu głównym: odbiór wejściówek i materiałów, zapoznanie z przestrzenią Uniwersytetu Kaliskiego. To okno, w którym przy rejestracji jest największa obsada - przyjdź wtedy, a odbierzesz wszystko bez kolejki i zdążysz na otwarcie.' },
+      { time: '14:30-15:15', room: 'Warsztatowa I', kind: 'prelekcja',
+        title: 'Moderowany Welcome Networking - budowanie członkostwa w klubie, Grzegorz Turniak',
+        note: 'Ostatni blok COT-u, otwarty dla wszystkich: rozgrzewka towarzyska przed otwarciem konferencji, moderowana tak, żeby każdy zdążył poznać kilka nowych osób.' },
       // Jeden blok zamiast rozpisywania konkursow na antrakty - szczegolowy
       // scenariusz prowadzacych jeszcze sie zmienia.
       { time: '15:30-18:40', room: 'AULA', kind: 'konkurs', title: 'Konkurs Mów Humorystycznych i Gorących Pytań',
         note: 'Otwarcie konferencji, a po nim dwie pierwsze konkurencje Mistrzostw: błyskotliwy humor na scenie głównej i improwizacja pod presją czasu, w której każdy odpowiada na to samo, nieznane wcześniej pytanie. W środku przerwa.' },
       { time: '19:00-20:30', room: '', kind: 'prelekcja', speaker: 'artur-sojka',
-        note: 'Networking z integracją - praktyczne warsztaty budowania relacji, prowadzi Artur Sójka. Zamiast luźnego mixera: konkretne techniki, które od razu ćwiczysz na sali.' },
+        note: 'Networking z integracją na świeżym powietrzu - praktyczne warsztaty budowania relacji, prowadzi Artur Sójka. Zamiast luźnego mixera: konkretne techniki, które od razu przećwiczysz.' },
       { time: '20:30', room: '', kind: 'wieczor', title: 'Piknik i grill',
-        note: 'Luźny wieczór w dobrym towarzystwie: jedzenie, rozmowy i nowe znajomości. Kończymy wtedy, kiedy skończą się rozmowy.' },
+        note: 'Luźny wieczór na terenie kampusu: jedzenie, rozmowy i nowe znajomości. Kończymy wtedy, kiedy skończą się rozmowy.' },
     ],
   },
   {
@@ -160,6 +161,10 @@ export const agenda: AgendaDay[] = [
     date: '29.08',
     intro: 'Najintensywniejszy dzień - dwa kluczowe konkursy przed obiadem, trzy bloki prelekcji i warsztatów po nim, a na koniec wyniki i gala.',
     items: [
+      { time: '08:30-09:00', room: '', kind: 'logistyka', title: 'Rejestracja zawodników konkursów',
+        note: 'Stanowisko w holu głównym. Zawodnicy odbierają wejściówki przed próbą generalną na scenie głównej.' },
+      { time: '09:00-09:45', room: '', kind: 'logistyka', title: 'Rejestracja gości i uczestników',
+        note: 'Stanowisko w holu głównym - dla wszystkich, którzy dołączają dopiero w sobotę.' },
       { time: '09:00-09:45', room: 'Warsztatowa I', kind: 'prelekcja', speaker: 'maciej-benben' },
       { time: '09:00-09:45', room: 'Warsztatowa II', kind: 'prelekcja', speaker: 'magdalena-andler' },
       { time: '10:00-12:45', room: 'AULA', kind: 'konkurs', title: 'Konkurs Mów Wszelakich i Ewaluacji',
@@ -172,8 +177,7 @@ export const agenda: AgendaDay[] = [
       { time: '16:00-16:45', room: 'Warsztatowa I', kind: 'prelekcja', speaker: 'agnieszka-brak' },
       { time: '16:00-16:45', room: 'Warsztatowa II', kind: 'prelekcja', speaker: 'robert-umpirowicz' },
       { time: '17:00-17:45', room: 'AULA', kind: 'prelekcja', speaker: 'piotr-rudzki' },
-      { time: '17:00-17:45', room: 'Warsztatowa I', kind: 'prelekcja', speaker: 'czarniewski-turek',
-        note: 'Wywiad z Ewą Turek, prowadzi Michał Czarniewski.' },
+      { time: '17:00-17:45', room: 'Warsztatowa I', kind: 'prelekcja', speaker: 'czarniewski-turek' },
       { time: '17:00-17:45', room: 'Warsztatowa II', kind: 'prelekcja', speaker: 'adrian-dornia' },
       { time: '18:00-19:00', room: 'AULA', kind: 'konkurs', title: 'Ogłoszenie wyników konkursów',
         note: 'Moment prawdy - wyniki wszystkich czterech konkurencji.' },
