@@ -22,6 +22,14 @@ export type AgendaItem = {
   venue?: { name: string; address: string };
   /** Pozycja wyróżniona: na stronie głównej dostaje dużą kartę ze zdjęciem. */
   feature?: boolean;
+  /**
+   * Ogranicza pozycję do jednego widoku:
+   *   'skrot' - tylko zakładki dni na stronie głównej (przegląd),
+   *   'pelna' - tylko kalendarz /agenda i tabela z całym programem.
+   * Bez tego pola pozycja jest widoczna wszędzie. Używane tam, gdzie przegląd
+   * ma pokazać jeden zbiorczy blok, a szczegóły - rozpisane wystąpienia.
+   */
+  only?: 'skrot' | 'pelna';
 };
 
 export type AgendaDay = {
@@ -52,6 +60,10 @@ const startMin = (t: string): number => {
  * 10:00-10:20 i 10:00-10:45 trafily do jednego wiersza siatki i trzy sale
  * stanely obok siebie. Pelny zakres kazdej pozycji zostaje na jej karcie.
  */
+/** Pozycje widoczne w danym widoku - patrz AgendaItem.only. */
+export const viewItems = (items: AgendaItem[], view: 'skrot' | 'pelna'): AgendaItem[] =>
+  items.filter(it => !it.only || it.only === view);
+
 export function groupByStart(items: AgendaItem[]): { start: string; items: AgendaItem[] }[] {
   const sorted = [...items].sort((a, b) => startMin(a.time) - startMin(b.time));
   const out: { start: string; items: AgendaItem[] }[] = [];
@@ -136,8 +148,10 @@ export const agenda: AgendaDay[] = [
       { time: '10:30-12:30', room: '', kind: 'logistyka', title: 'Zwiedzanie Kalisza', feature: true,
         image: '/images/kalisz-centrum-polski.webp',
         note: 'Spacer z przewodnikiem po najstarszym mieście w Polsce - historia, klimat i pierwsze rozmowy przed startem. Po wycieczce zostaje czas, żeby zostać w centrum na obiad i wrócić na kampus na własnych zasadach. Udział opcjonalny.' },
-      { time: '12:00-14:30', room: 'Warsztatowa I', kind: 'logistyka', title: 'COT - Club Officer Training',
-        note: 'Szkolenie dla zarządów klubów Toastmasters: prezentacja o Dystrykcie 231, szkolenia z funkcji oficerów (równolegle na dwóch salach) i panel o rozwiązywaniu konfliktów.' },
+      // Welcome networking celowo nie jest osobna pozycja - to ostatni blok COT-u
+      // i organizatorzy poprosili, zeby nie wydzielac go w agendzie.
+      { time: '12:00-15:15', room: 'Warsztatowa I', kind: 'logistyka', title: 'COT - Club Officer Training',
+        note: 'Szkolenie dla zarządów klubów Toastmasters: prezentacja o Dystrykcie 231, szkolenia z funkcji oficerów (równolegle na dwóch salach), panel o rozwiązywaniu konfliktów, a na koniec moderowany welcome networking otwarty dla wszystkich.' },
       // Rejestracja realnie dziala dluzej, ale w agendzie podajemy zamkniete
       // okna - zeby ludzie zjawiali sie wtedy, kiedy przy stanowisku stoi pelna
       // obsada, a nie w trakcie pierwszego konkursu.
@@ -145,15 +159,12 @@ export const agenda: AgendaDay[] = [
         note: 'Stanowisko w holu głównym. Zawodnicy rejestrują się jako pierwsi, jeszcze przed próbą generalną na scenie głównej.' },
       { time: '14:30-15:15', room: '', kind: 'logistyka', title: 'Rejestracja gości i uczestników',
         note: 'Stanowisko w holu głównym: odbiór wejściówek i materiałów, zapoznanie z przestrzenią Uniwersytetu Kaliskiego. To okno, w którym przy rejestracji jest największa obsada - przyjdź wtedy, a odbierzesz wszystko bez kolejki i zdążysz na otwarcie.' },
-      { time: '14:30-15:15', room: 'Warsztatowa I', kind: 'prelekcja',
-        title: 'Moderowany Welcome Networking - budowanie członkostwa w klubie, Grzegorz Turniak',
-        note: 'Ostatni blok COT-u, otwarty dla wszystkich: rozgrzewka towarzyska przed otwarciem konferencji, moderowana tak, żeby każdy zdążył poznać kilka nowych osób.' },
-      // Jeden blok zamiast rozpisywania konkursow na antrakty - szczegolowy
-      // scenariusz prowadzacych jeszcze sie zmienia.
-      { time: '15:30-18:40', room: 'AULA', kind: 'konkurs', title: 'Konkurs Mów Humorystycznych i Gorących Pytań',
-        note: 'Otwarcie konferencji, a po nim dwie pierwsze konkurencje Mistrzostw: błyskotliwy humor na scenie głównej i improwizacja pod presją czasu, w której każdy odpowiada na to samo, nieznane wcześniej pytanie. W środku przerwa.' },
-      { time: '19:00', room: '', kind: 'wieczor', title: 'Piknik i grill',
-        note: 'Luźny wieczór na terenie kampusu: jedzenie, rozmowy i nowe znajomości. Kończymy wtedy, kiedy skończą się rozmowy.' },
+      { time: '15:30-17:10', room: 'AULA', kind: 'konkurs', title: 'Konkurs Mów Humorystycznych',
+        note: 'Otwarcie konferencji, a zaraz po nim pierwsza konkurencja Mistrzostw - błyskotliwy humor na scenie głównej.' },
+      { time: '17:40-18:40', room: 'AULA', kind: 'konkurs', title: 'Konkurs Gorących Pytań',
+        note: 'Improwizacja pod presją czasu: każdy zawodnik odpowiada na to samo, nieznane wcześniej pytanie.' },
+      { time: '19:00', room: '', kind: 'wieczor', title: 'Piknik i zabawy integracyjne',
+        note: 'Luźny wieczór na terenie kampusu: jedzenie, zabawy integracyjne i nowe znajomości. Kończymy wtedy, kiedy skończą się rozmowy.' },
     ],
   },
   {
@@ -168,8 +179,10 @@ export const agenda: AgendaDay[] = [
         note: 'Stanowisko w holu głównym - dla wszystkich, którzy dołączają dopiero w sobotę.' },
       { time: '09:00-09:45', room: 'Warsztatowa I', kind: 'prelekcja', speaker: 'maciej-benben' },
       { time: '09:00-09:45', room: 'Warsztatowa II', kind: 'prelekcja', speaker: 'magdalena-andler' },
-      { time: '10:00-12:45', room: 'AULA', kind: 'konkurs', title: 'Konkurs Mów Wszelakich i Ewaluacji',
-        note: 'Dwie najważniejsze konkurencje Mistrzostw: przygotowane przemówienia w języku polskim, a po nich sztuka informacji zwrotnej - mowa testowa i ewaluacje uczestników. W środku przerwa.' },
+      { time: '10:00-11:30', room: 'AULA', kind: 'konkurs', title: 'Konkurs Mów Wszelakich',
+        note: 'Najważniejsza konkurencja Mistrzostw: przygotowane przemówienia w języku polskim.' },
+      { time: '11:50-12:45', room: 'AULA', kind: 'konkurs', title: 'Konkurs Ewaluacji',
+        note: 'Sztuka informacji zwrotnej: mowa testowa, a po niej ewaluacje uczestników.' },
       { time: '13:00-15:00', room: '', kind: 'przerwa', title: 'Przerwa obiadowa' },
       { time: '15:00-15:45', room: 'AULA', kind: 'prelekcja', speaker: 'greg-albrecht' },
       { time: '15:00-15:45', room: 'Warsztatowa I', kind: 'prelekcja', speaker: 'jerzy-zientkowski' },
@@ -190,22 +203,27 @@ export const agenda: AgendaDay[] = [
     key: 'niedziela',
     label: 'Niedziela',
     date: '30.08',
-    intro: 'Spokojniejszy finał - poranna niespodzianka, dwa 45-minutowe bloki prelekcji i warsztatów na trzech salach, panel dyskusyjny i wspólne pożegnanie. W bloku albo jedno wystąpienie na pełne 45 minut, albo dwa po 20 minut.',
+    intro: 'Spokojniejszy finał - poranna niespodzianka, prelekcje i warsztaty na trzech salach, panel dyskusyjny i wspólne pożegnanie. W bloku albo jedno wystąpienie na pełne 45 minut, albo dwa po 20 minut.',
     items: [
       { time: '09:00-09:45', room: 'AULA', kind: 'scena', title: 'Niespodzianka',
         note: 'Poranny akcent na scenie głównej. Szczegóły zdradzimy bliżej wydarzenia.' },
-      { time: '09:45-10:05', room: 'AULA', kind: 'prelekcja', speaker: 'pawel-konieczko' },
-      { time: '09:45-10:05', room: 'Warsztatowa I', kind: 'prelekcja', title: 'Arek Ćwiek',
+      // Przeglad dnia pokazuje jeden zbiorczy blok (prosba organizatorow),
+      // ale szczegolowy kalendarz i tabela nadal rozpisuja kazde wystapienie.
+      { time: '09:45-13:00', room: '', kind: 'prelekcja', only: 'skrot',
+        title: 'Prelekcje, warsztaty, panel dyskusyjny',
+        note: 'Trzy sale równolegle: prelekcje i warsztaty w blokach 20- i 45-minutowych, a na zakończenie panel dyskusyjny o historii i przyszłości Efektu Feniksa.' },
+      { time: '09:45-10:05', room: 'AULA', kind: 'prelekcja', only: 'pelna', speaker: 'pawel-konieczko' },
+      { time: '09:45-10:05', room: 'Warsztatowa I', kind: 'prelekcja', only: 'pelna', title: 'Arek Ćwiek',
         note: 'Temat wystąpienia podamy wkrótce.' },
-      { time: '09:45-10:30', room: 'Warsztatowa II', kind: 'prelekcja', speaker: 'agnieszka-ciochon' },
-      { time: '10:10-10:30', room: 'AULA', kind: 'prelekcja', speaker: 'anna-kaldonek' },
-      { time: '10:10-10:30', room: 'Warsztatowa I', kind: 'prelekcja', speaker: 'karolina-rzeznik' },
-      { time: '10:45-11:05', room: 'AULA', kind: 'prelekcja', speaker: 'lukasz-ostrowski' },
-      { time: '10:45-11:05', room: 'Warsztatowa I', kind: 'prelekcja', speaker: 'luiza-markiewicz' },
-      { time: '10:45-11:30', room: 'Warsztatowa II', kind: 'prelekcja', speaker: 'eliza-krzak' },
-      { time: '11:10-11:30', room: 'AULA', kind: 'prelekcja', speaker: 'michal-golemo' },
-      { time: '11:10-11:30', room: 'Warsztatowa I', kind: 'prelekcja', speaker: 'marta-glegolska' },
-      { time: '11:45-12:45', room: 'AULA', kind: 'scena', title: 'Panel dyskusyjny',
+      { time: '09:45-10:30', room: 'Warsztatowa II', kind: 'prelekcja', only: 'pelna', speaker: 'agnieszka-ciochon' },
+      { time: '10:10-10:30', room: 'AULA', kind: 'prelekcja', only: 'pelna', speaker: 'anna-kaldonek' },
+      { time: '10:10-10:30', room: 'Warsztatowa I', kind: 'prelekcja', only: 'pelna', speaker: 'karolina-rzeznik' },
+      { time: '10:45-11:05', room: 'AULA', kind: 'prelekcja', only: 'pelna', speaker: 'lukasz-ostrowski' },
+      { time: '10:45-11:05', room: 'Warsztatowa I', kind: 'prelekcja', only: 'pelna', speaker: 'luiza-markiewicz' },
+      { time: '10:45-11:30', room: 'Warsztatowa II', kind: 'prelekcja', only: 'pelna', speaker: 'eliza-krzak' },
+      { time: '11:10-11:30', room: 'AULA', kind: 'prelekcja', only: 'pelna', speaker: 'michal-golemo' },
+      { time: '11:10-11:30', room: 'Warsztatowa I', kind: 'prelekcja', only: 'pelna', speaker: 'marta-glegolska' },
+      { time: '11:45-12:45', room: 'AULA', kind: 'scena', only: 'pelna', title: 'Panel dyskusyjny',
         note: 'Historia i przyszłość Efektu Feniksa - historie byłych organizatorów. Prowadzi Angelika Głowacka, w panelu m.in. Renata Grenda, Damian Głowiński, Anna Białkowska, Michał Włosiński i Wojciech Mach.' },
       // Bez godziny konca - wprost poproszone o to w arkuszu ("nie pisac godziny
       // zakonczenia w agendzie"), zeby nikt nie wychodzil z sali z zegarkiem w reku.

@@ -1,9 +1,9 @@
 ---
-import { agenda } from '../data/agenda2026';
+import { agenda, viewItems } from '../data/agenda2026';
 import AgendaSummary from '../components/AgendaSummary.astro';
 import AgendaCalendar from '../components/AgendaCalendar.astro';
 
-const talkCount = agenda.flatMap(d => d.items).filter(i => i.kind === 'prelekcja').length;
+const talkCount = agenda.flatMap(d => viewItems(d.items, 'pelna')).filter(i => i.kind === 'prelekcja').length;
 ---
 <!DOCTYPE html>
 <html lang="pl">
