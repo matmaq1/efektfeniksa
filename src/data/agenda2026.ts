@@ -18,6 +18,8 @@ export type AgendaItem = {
   image?: string;
   /** Link zewnętrzny - np. wydarzenie na Facebooku. */
   link?: string;
+  /** Miejsce poza kampusem - na stronie głównej dostaje małą mapkę pod kartą. */
+  venue?: { name: string; address: string };
   /** Pozycja wyróżniona: na stronie głównej dostaje dużą kartę ze zdjęciem. */
   feature?: boolean;
 };
@@ -119,7 +121,8 @@ export const agenda: AgendaDay[] = [
       { time: '19:15-21:30', room: '', kind: 'klub', title: 'Spotkanie klubu Toastmasters Centrum', feature: true,
         image: '/images/wydarzenia/tm-centrum-kalisz.webp',
         link: 'https://www.facebook.com/events/2059887384612880/',
-        note: 'Klub z Warszawy przenosi swoje 572. spotkanie do Kalisza. Przemówienia, improwizacja, inspirujące historie i przestrzeń na poznanie nowych ludzi - to nie będzie zwykłe spotkanie klubu, tylko spotkanie klubów z całej Polski. Dokładną lokalizację podamy wkrótce.' },
+        venue: { name: 'Ramen Shop & Sushi', address: 'ul. Kazimierzowska 4, 62-800 Kalisz' },
+        note: 'Klub z Warszawy przenosi swoje 572. spotkanie do Kalisza. Przemówienia, improwizacja, inspirujące historie i przestrzeń na poznanie nowych ludzi - to nie będzie zwykłe spotkanie klubu, tylko spotkanie klubów z całej Polski. Spotykamy się w restauracji Ramen Shop & Sushi przy ul. Kazimierzowskiej 4 w Kaliszu.' },
       { time: '21:00', room: '', kind: 'wieczor', title: 'Before party',
         note: 'Luźne spotkanie na rozgrzewkę - bez agendy i bez scenariusza. Dla wszystkich, którzy przyjeżdżają do Kalisza dzień wcześniej.' },
     ],
@@ -149,9 +152,7 @@ export const agenda: AgendaDay[] = [
       // scenariusz prowadzacych jeszcze sie zmienia.
       { time: '15:30-18:40', room: 'AULA', kind: 'konkurs', title: 'Konkurs Mów Humorystycznych i Gorących Pytań',
         note: 'Otwarcie konferencji, a po nim dwie pierwsze konkurencje Mistrzostw: błyskotliwy humor na scenie głównej i improwizacja pod presją czasu, w której każdy odpowiada na to samo, nieznane wcześniej pytanie. W środku przerwa.' },
-      { time: '19:00-20:30', room: '', kind: 'prelekcja', speaker: 'artur-sojka',
-        note: 'Networking z integracją na świeżym powietrzu - praktyczne warsztaty budowania relacji, prowadzi Artur Sójka. Zamiast luźnego mixera: konkretne techniki, które od razu przećwiczysz.' },
-      { time: '20:30', room: '', kind: 'wieczor', title: 'Piknik i grill',
+      { time: '19:00', room: '', kind: 'wieczor', title: 'Piknik i grill',
         note: 'Luźny wieczór na terenie kampusu: jedzenie, rozmowy i nowe znajomości. Kończymy wtedy, kiedy skończą się rozmowy.' },
     ],
   },

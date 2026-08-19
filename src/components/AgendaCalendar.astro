@@ -331,7 +331,10 @@ a.ev{cursor:pointer}
 .ev.konkurs.wide .evtitle{font-size:clamp(19px,2.1vw,25px);letter-spacing:-.045em}
 .ev.konkurs.wide .evkind,.ev.konkurs.wide .evtime{font-size:10px}
 .ev.konkurs.wide .rm{font-size:10px;color:var(--g);border-color:rgba(252,163,17,.35)}
-.ev.konkurs.wide .evmicro{font-size:13px;max-width:70ch}
+/* Konkursy to jedyne pozycje bez rozwiniecia - ich notka nie ma sie gdzie
+   dopowiedziec, a karta i tak ciagnie sie przez kilka godzin siatki. Zdejmujemy
+   wiec obciecie do czterech linijek i puszczamy caly opis. */
+.ev.konkurs.wide .evmicro{display:block;overflow:visible;font-size:13px;max-width:76ch}
 /* zajawka: do trzech linijek (~150 znakow), zwija sie tak samo plynnie jak panel */
 .evm{display:grid;grid-template-rows:1fr;transition:grid-template-rows .45s cubic-bezier(.22,1,.36,1)}
 .evmc{overflow:hidden;min-height:0}
@@ -418,7 +421,7 @@ a.ev{cursor:pointer}
   .ev.wide .evtitle{font-size:15px}
   .ev.konkurs.wide{padding:14px 16px}
   .ev.konkurs.wide .evtitle{font-size:18px}
-  .ev.konkurs.wide .evmicro{font-size:12px}
+  .ev.konkurs.wide .evmicro{font-size:12px;max-width:none}
   .ct{text-align:left;padding:16px 0 3px;font-size:13.5px;font-weight:800;letter-spacing:.06em;color:var(--o)}
   .ct.half{font-size:12.5px;color:rgba(255,91,0,.8)}
   .ct:first-child{padding-top:0}

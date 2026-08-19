@@ -29,36 +29,6 @@ export type Speaker = {
 
 export const speakers: Speaker[] = [
   {
-    slug: "artur-sojka",
-    name: "Artur Sójka",
-    photo: "/images/prelegenci/artur-sojka.webp",
-    day: "Piątek", date: "28.08", room: "", time: "19:00-20:30", format: "networking",
-    title: "Praktyczne warsztaty umiejętności networkingowych",
-    micro: "Praktyczne warsztaty networkingu w cyklu Kolba: konkretne techniki zaczynania i kończenia rozmów, które od razu przećwiczysz na sali.",
-    desc: [
-      {t:"p",s:"„Jedyne życie, które ma sens, to życie towarzyskie” – mawiał Edward Dziewoński (pseudonim „Dudek”) - wybitny polski aktor, reżyser i legendarny twórca kabaretu Dudek."},
-      {t:"p",s:"Ale co jeśli jesteś osobą nieśmiałą, introwertyczną? Jak prowadzić życie towarzyskie, gdy wyzwaniem jest samo przebywanie wśród obcych? A co, jeśli jesteś osobą zbyt ekspansywną i ekstrawertyczną? Widzisz, jak bardzo wielu ludzi zamyka się w sobie i masz kłopot. Czujesz, że dominowanie rozmów to nie najlepsza strategia, ale gdy Ty milkniesz, nastaje ta krępująca cisza? Jak ośmielić innych? A może umiejętności budowania relacji potrzebne Ci są zawodowo/biznesowo? Potrafisz to robić, ale jakoś tak intuicyjnie i nie do końca profesjonalnie?"},
-      {t:"p",s:"Jeśli dotyczy Cię którakolwiek z wymienionych sytuacji, to praktyczne warsztaty networkingowe są dla Ciebie! Dzięki zastosowaniu cyklu Kolba pozyskaną podczas nich wiedzę od razu przećwiczysz, a doświadczenia te przekształcisz w trwałe umiejętności."},
-      {t:"h",s:"Nauczysz się"},
-      {t:"li",s:"kiedy i jak zainicjować rozmowę"},
-      {t:"li",s:"jak ją prowadzić, aby zrobić świetnie pierwsze wrażenie"},
-      {t:"li",s:"kiedy i jak kulturalnie ją zakończyć"},
-      {t:"li",s:"co zrobić po poznaniu nowych ludzi, aby kontakty zamienić w relacje"},
-      {t:"p",s:"Networking nie jest umiejętnością dla ekstrawertyków. Jest umiejętnością dla ludzi, którzy chcą budować wartościowe relacje. A tego można się nauczyć. Jeśli więc jesteś osobą, której zależy na dobrych relacjach z innymi, zapraszam."}
-    ],
-    intro: [
-      {t:"p",s:"Jestem praktykiem sprzedaży relacyjnej i networkingu oraz trenerem, który od 2007 roku rozwija i wdraża systemy pozyskiwania klientów poprzez rekomendacje. Jako mówca i moderator networkingu występowałem na licznych wydarzeniach biznesowych i konferencjach. Pełnię funkcję Prezesa Biznes Klub Polska, prowadzę agencję social media, wyspecjalizowaną w LinkedIn Ghost Writers. Jestem też współautorem książki „Eventworking”. Były redaktor naczelny portalu InfoBydgoszcz.pl oraz dziennikarz serwisu MyPolInfo.pl."}
-    ],
-    tm: [
-      {t:"p",s:"Jestem współtwórcą klubów Toastmasters w Bydgoszczy, Lublinie i Warszawie (tutaj zainicjowałem powstanie trzech). Pełniłem funkcje Area Director, wielokrotnie Prezesa Klubu (w 4 klubach), Wiceprezesów ds. Członkowskich i PR."}
-    ],
-    misjaLabel: "Misja",
-    misja: [
-      {t:"p",s:"Dziś łączę swoje wszystkie doświadczenia zawodowe w jednym obszarze: uczę, jak budować biznes poprzez relacje, zaufanie i rekomendacje, zamiast przypadkowej sprzedaży."}
-    ],
-    links: [{label:"LinkedIn",url:"https://www.linkedin.com/in/artursojka/"}],
-  },
-  {
     slug: "maciej-benben",
     name: "Maciej Benben",
     photo: "/images/prelegenci/maciej-benben.webp",
