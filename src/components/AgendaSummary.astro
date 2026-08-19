@@ -3,7 +3,7 @@
 // Przycisk "Pobierz / drukuj" otwiera systemowe okno druku; arkusz @media print
 // pokazuje wtedy TYLKO te tabele, wiec "Zapisz jako PDF" daje czysty plan
 // do zabrania offline (dziala tak samo na iOS, Androidzie i desktopie).
-import { agenda, ROOMS, groupByStart } from '../data/agenda2026';
+import { agenda, ROOMS, groupByStart, viewItems } from '../data/agenda2026';
 import { speakers } from '../data/prelegenci';
 
 const bySlug = Object.fromEntries(speakers.map(s => [s.slug, s]));
@@ -19,7 +19,7 @@ function label(it: (typeof agenda)[number]['items'][number]) {
   return { who: '', what: it.title || '', time: it.time };
 }
 
-const days = agenda.map(d => ({ ...d, slots: groupByStart(d.items) }));
+const days = agenda.map(d => ({ ...d, slots: groupByStart(viewItems(d.items, 'pelna')) }));
 ---
 
 <div class="asum">

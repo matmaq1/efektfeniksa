@@ -1,0 +1,352 @@
+---
+// Wspolna powloka dla ukrytych ekranow projektorowych (/logo, /timer).
+// Zalozenia: ciemna sala, rzutnik, brak interakcji poza klawiatura prezentera.
+// Strony sa noindex i nie sa podlinkowane z nawigacji ani sitemapy.
+const { title = 'Efekt Feniksa' } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#000110">
+<title>{title}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="/images/logo.png">
+<style is:global>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#000110;--bl:#050571;--o:#FF5B00;--g:#FCA311;--w:#fff;
+  --w6:rgba(255,255,255,.6);--w3:rgba(255,255,255,.32);
+  --red:#FF2D20;
+}
+html,body{height:100%}
+html{background:var(--bg)}
+body{
+  font-family:'Montserrat',system-ui,sans-serif;
+  letter-spacing:-.05em;
+  background:var(--bg);
+  color:var(--w);
+  overflow:hidden;
+  overscroll-behavior:none;
+  -webkit-font-smoothing:antialiased;
+  /* Chlodne kaluze swiatla z marki + cieplejszy zar tuz nad dolna krawedzia. */
+  background-image:
+    radial-gradient(ellipse 90% 60% at 26% 16%,rgba(5,5,113,.30) 0%,transparent 62%),
+    radial-gradient(ellipse 80% 55% at 82% 74%,rgba(5,5,113,.22) 0%,transparent 66%),
+    radial-gradient(ellipse 130% 38% at 50% 106%,rgba(196,68,0,.34) 0%,transparent 72%);
+}
+body.idle{cursor:none}
+img{display:block;max-width:100%}
+
+/* Ogien rysowany na canvasie; screen trzyma granatowe kaluze widoczne pod zarem. */
+#fire{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;mix-blend-mode:screen}
+
+/* Winieta - na rzutniku w ciemnej sali prowadzi wzrok do srodka kadru. */
+.pj-vignette{
+  position:fixed;inset:0;z-index:3;pointer-events:none;
+  background:radial-gradient(ellipse 78% 78% at 50% 46%,transparent 38%,rgba(0,0,4,.62) 100%);
+}
+/* Ziarno filmowe: laczy kinowy charakter z rozbiciem pasm na gradientach,
+   ktore rzutniki pokazuja wyjatkowo brzydko. */
+.pj-grain{
+  position:fixed;inset:-120px;z-index:4;pointer-events:none;
+  opacity:.085;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+  animation:pjGrain 1s steps(1) infinite;
+}
+@keyframes pjGrain{
+  0%{transform:translate3d(0,0,0)}      20%{transform:translate3d(-38px,22px,0)}
+  40%{transform:translate3d(29px,-31px,0)} 60%{transform:translate3d(-19px,-24px,0)}
+  80%{transform:translate3d(34px,17px,0)}  100%{transform:translate3d(0,0,0)}
+}
+
+.pj-stage{position:relative;z-index:2;height:100%;display:flex;flex-direction:column}
+
+/* Podpowiedz sterowania - gasnie sama, wraca przy ruchu myszy. */
+.pj-hint{
+  position:fixed;left:50%;bottom:2.2vh;transform:translateX(-50%);z-index:5;
+  display:flex;gap:clamp(10px,1.6vw,26px);flex-wrap:wrap;justify-content:center;
+  font-size:clamp(9px,.82vw,13px);font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--w3);background:rgba(0,1,16,.55);backdrop-filter:blur(8px);
+  padding:9px 18px;border-radius:2px;
+  transition:opacity .5s ease;pointer-events:none;
+}
+body.idle .pj-hint{opacity:0}
+.pj-hint kbd{
+  font:inherit;color:var(--w6);background:rgba(255,255,255,.08);
+  padding:2px 6px;border-radius:2px;margin-right:6px;
+}
+@media (prefers-reduced-motion:reduce){
+  .pj-grain{animation:none}
+}
+</style>
+<slot name="head" />
+</head>
+<body>
+<canvas id="fire"></canvas>
+<div class="pj-vignette"></div>
+<div class="pj-grain"></div>
+
+<div class="pj-stage">
+  <slot />
+</div>
+
+<slot name="hint" />
+
+<script is:inline>
+/* ------------------------------------------------------------------ *
+ * Pole ognia: zar + iskry + wolumetryczna poswiata.                   *
+ * Wszystko addytywnie ('lighter') na przezroczystym canvasie, ktory    *
+ * jest zmieszany w trybie screen z tlem strony.                        *
+ * ------------------------------------------------------------------ */
+(function () {
+  var cv = document.getElementById('fire');
+  var ctx = cv.getContext('2d');
+  var calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var W = 0, H = 0, DPR = 1;
+
+  /* Rampa stygniecia: bialy zar -> zloto marki -> pomarancz -> czerwien. */
+  var RAMP = [[255,246,224],[255,209,102],[252,163,17],[255,122,24],[255,91,0],[201,62,0]];
+
+  function blob(rgb) {
+    var S = 64, c = document.createElement('canvas');
+    c.width = c.height = S;
+    var g = c.getContext('2d');
+    var grd = g.createRadialGradient(S/2, S/2, 0, S/2, S/2, S/2);
+    var p = rgb[0] + ',' + rgb[1] + ',' + rgb[2];
+    grd.addColorStop(0,    'rgba(' + p + ',1)');
+    grd.addColorStop(0.16, 'rgba(' + p + ',0.82)');
+    grd.addColorStop(0.42, 'rgba(' + p + ',0.26)');
+    grd.addColorStop(1,    'rgba(' + p + ',0)');
+    g.fillStyle = grd;
+    g.fillRect(0, 0, S, S);
+    return c;
+  }
+  var EMBER = RAMP.map(blob);
+  var PLUME = blob([255, 96, 12]);
+
+  var embers = [], plumes = [], sparks = [];
+  var emberCount = 0, sparkCount = 0;
+  var intensity = 1, target = 1;
+
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+
+  function seedEmber(p, spread) {
+    p.x = rnd(-0.05, 1.05) * W;
+    p.y = spread ? Math.random() * H : H + rnd(0, H * 0.14);
+    p.vx = rnd(-16, 16);
+    p.vy = -rnd(26, 88);
+    p.age = spread ? Math.random() * 5 : 0;
+    p.life = rnd(5.0, 11.0);
+    p.r = rnd(2.0, 5.2);
+    p.seed = Math.random() * 100;
+    p.heat = Math.random();
+    p.wob = rnd(0.5, 1.8);
+    return p;
+  }
+  function seedPlume(p, spread) {
+    p.x = rnd(0.06, 0.94) * W;
+    p.y = spread ? rnd(0.25, 1.1) * H : H + rnd(0, H * 0.2);
+    p.vx = rnd(-7, 7);
+    p.vy = -rnd(11, 26);
+    p.age = spread ? Math.random() * 10 : 0;
+    p.life = rnd(15, 26);
+    p.r = rnd(140, 340);
+    return p;
+  }
+  function seedSpark(p) {
+    p.x = rnd(0.12, 0.88) * W;
+    p.y = H + rnd(0, 40);
+    p.vx = rnd(-40, 40);
+    p.vy = -rnd(150, 330);
+    p.age = 0;
+    p.life = rnd(1.1, 2.4);
+    return p;
+  }
+
+  function retarget() {
+    /* Gestosc skalowana powierzchnia ekranu - ten sam obraz na 1080p i 4K. */
+    var scale = Math.max(0.55, Math.min(1.7, (W * H) / (1920 * 1080)));
+    emberCount = Math.round(230 * scale * (calm ? 0.45 : 1));
+    sparkCount = Math.round(11 * scale * (calm ? 0.4 : 1));
+    var pool = Math.round(emberCount * 1.75), i;
+    /* Pula liczona dla maksymalnej intensywnosci; nadmiar czeka bezczynnie,
+       dzieki czemu skok gestosci nie alokuje niczego w trakcie animacji. */
+    while (embers.length < pool) embers.push(seedEmber({}, true));
+    embers.length = pool;
+    while (sparks.length < Math.round(sparkCount * 1.75)) sparks.push(seedSpark({}));
+    sparks.length = Math.round(sparkCount * 1.75);
+    while (plumes.length < 11) plumes.push(seedPlume({}, true));
+    plumes.length = 11;
+  }
+
+  function resize() {
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = Math.round(W * DPR);
+    cv.height = Math.round(H * DPR);
+    cv.style.width = W + 'px';
+    cv.style.height = H + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    retarget();
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  /* Trzy palenisko-zrodla przy dolnej krawedzi, kazde z wlasna faza migotania. */
+  var HEARTHS = [
+    { x: 0.20, w: 0.52, a: 0.30, f1: 1.7, f2: 4.3, ph: 0.0 },
+    { x: 0.50, w: 0.68, a: 0.40, f1: 2.1, f2: 5.7, ph: 1.9 },
+    { x: 0.80, w: 0.48, a: 0.28, f1: 1.4, f2: 6.6, ph: 3.4 }
+  ];
+
+  var last = performance.now(), t = 0;
+
+  function frame(now) {
+    requestAnimationFrame(frame);
+    if (document.hidden) { last = now; return; }
+
+    var dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+    t += dt;
+    intensity += (target - intensity) * Math.min(1, dt * 2.2);
+
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'lighter';
+
+    /* 1. Zar paleniska pod kadrem. */
+    for (var h = 0; h < HEARTHS.length; h++) {
+      var s = HEARTHS[h];
+      var flick = 0.78 + 0.14 * Math.sin(t * s.f1 + s.ph) + 0.08 * Math.sin(t * s.f2 + s.ph * 2);
+      var rad = W * s.w;
+      var a = s.a * flick * intensity;
+      /* Splaszczone w elipse - zar ma lezec wzdluz dolnej krawedzi,
+         a nie swiecic kula na pol ekranu. */
+      ctx.save();
+      ctx.translate(W * s.x, H * 1.03);
+      ctx.scale(1, 0.46);
+      var grd = ctx.createRadialGradient(0, 0, 0, 0, 0, rad);
+      grd.addColorStop(0,    'rgba(255,132,30,' + (a).toFixed(3) + ')');
+      grd.addColorStop(0.30, 'rgba(255,74,0,'   + (a * 0.44).toFixed(3) + ')');
+      grd.addColorStop(0.65, 'rgba(190,40,0,'   + (a * 0.13).toFixed(3) + ')');
+      grd.addColorStop(1,    'rgba(120,20,0,0)');
+      ctx.fillStyle = grd;
+      ctx.fillRect(-rad, -rad, rad * 2, rad * 2);
+      ctx.restore();
+    }
+
+    /* 2. Pioropusze - duze, ledwo widoczne plamy dajace glebie slupowi ognia. */
+    for (var i = 0; i < plumes.length; i++) {
+      var q = plumes[i];
+      q.age += dt;
+      q.vx += Math.sin(q.y * 0.004 + i) * 5 * dt;
+      q.x += q.vx * dt; q.y += q.vy * dt;
+      if (q.age > q.life || q.y < -q.r) { seedPlume(q, false); continue; }
+      var qt = q.age / q.life;
+      /* Wysoko nad ogniem pioropusz musi zniknac - inaczej robi mleczna
+         mgle na calym kadrze i zabija czern, ktora rzutnik i tak ledwo trzyma. */
+      var fade = Math.max(0, Math.min(1, q.y / (H * 0.62)));
+      var qa = Math.min(1, qt * 5) * Math.pow(1 - qt, 1.3) * 0.032 * fade * intensity;
+      var qd = q.r * (1 + qt * 1.5);
+      ctx.globalAlpha = qa;
+      ctx.drawImage(PLUME, q.x - qd / 2, q.y - qd / 2, qd, qd);
+    }
+
+    /* 3. Zar. */
+    var live = Math.min(embers.length, Math.round(emberCount * intensity));
+    for (var j = 0; j < live; j++) {
+      var p = embers[j];
+      p.age += dt;
+      if (p.age > p.life || p.y < -80) { seedEmber(p, false); }
+      var pt = p.age / p.life;
+      p.vy -= 26 * dt * intensity;                                  /* wypor */
+      p.vx += Math.sin(p.y * 0.008 + p.seed + t * 0.55) * 30 * dt * p.wob;
+      p.vx *= (1 - 0.9 * dt);                                       /* opor */
+      p.x += p.vx * dt;
+      p.y += p.vy * dt;
+
+      var pa = Math.min(1, pt * 6) * Math.pow(1 - pt, 1.5);
+      /* Przesuniete w strone zlota i pomaranczu - czysto bialy zar czytalby sie
+         jak gwiazdy, a nie jak ogien. Bialy trafia sie tylko sporadycznie. */
+      var ci = Math.max(0, Math.min(5, (0.85 + pt * 3.4 + p.heat * 1.7) | 0));
+      var d = p.r * (0.5 + 0.8 * (1 - pt)) * 6.5;
+      ctx.globalAlpha = pa * Math.min(1.35, intensity);
+      ctx.drawImage(EMBER[ci], p.x - d / 2, p.y - d / 2, d, d);
+    }
+
+    /* 4. Iskry - szybkie, jasne, z krotka smuga ruchu. */
+    var liveS = Math.min(sparks.length, Math.round(sparkCount * intensity));
+    ctx.lineCap = 'round';
+    for (var k = 0; k < liveS; k++) {
+      var z = sparks[k];
+      z.age += dt;
+      if (z.age > z.life || z.y < -40) { seedSpark(z); }
+      z.vy -= 34 * dt;
+      z.vx += Math.sin(z.y * 0.02 + k) * 44 * dt;
+      z.x += z.vx * dt;
+      z.y += z.vy * dt;
+      var zt = z.age / z.life;
+      var za = Math.min(1, zt * 9) * Math.pow(1 - zt, 1.1);
+      ctx.globalAlpha = za * 0.5;
+      ctx.strokeStyle = 'rgba(255,206,120,1)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(z.x, z.y);
+      ctx.lineTo(z.x - z.vx * 0.026, z.y - z.vy * 0.026);
+      ctx.stroke();
+      ctx.globalAlpha = za * 0.9;
+      ctx.drawImage(EMBER[1], z.x - 7, z.y - 7, 14, 14);
+    }
+
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = 'source-over';
+  }
+  requestAnimationFrame(frame);
+
+  /* Sterowanie natezeniem ognia dla stron (finisz odliczania podbija ogien). */
+  window.fire = {
+    set: function (v) { target = Math.max(0.2, Math.min(1.75, v)); }
+  };
+})();
+
+/* ------------------------------------------------------------------ *
+ * Powloka prezentacyjna: pelny ekran, chowanie kursora, blokada uspienia.
+ * ------------------------------------------------------------------ */
+(function () {
+  var idleTimer;
+  function wake() {
+    document.body.classList.remove('idle');
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(function () { document.body.classList.add('idle'); }, 2600);
+  }
+  ['mousemove', 'mousedown', 'keydown', 'touchstart'].forEach(function (e) {
+    window.addEventListener(e, wake, { passive: true });
+  });
+  wake();
+
+  window.pjFullscreen = function () {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+  };
+  window.addEventListener('keydown', function (e) {
+    if (e.key === 'f' || e.key === 'F') window.pjFullscreen();
+  });
+  window.addEventListener('dblclick', function () { window.pjFullscreen(); });
+
+  /* Ekran ma swiecic caly blok programu, nie gasnac po chwili bezczynnosci. */
+  var lock = null;
+  function hold() {
+    if (!navigator.wakeLock || document.hidden) return;
+    navigator.wakeLock.request('screen').then(function (l) { lock = l; }).catch(function () {});
+  }
+  hold();
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) hold(); });
+})();
+</script>
+</body>
+</html>

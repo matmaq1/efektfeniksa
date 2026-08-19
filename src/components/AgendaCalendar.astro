@@ -10,7 +10,7 @@
 // Na hover (desktop) albo na srodku ekranu (mobile, klasa .on z JS ponizej)
 // rozwija sie plynnie do pelnej notki ze zdjeciem prelegenta i linkiem do
 // pelnego opisu, spychajac pozycje ponizej w dol.
-import { agenda, ROOMS, roomSlug, type AgendaDay, type AgendaItem } from '../data/agenda2026';
+import { agenda, ROOMS, roomSlug, viewItems, type AgendaDay, type AgendaItem } from '../data/agenda2026';
 import { speakers, type Speaker } from '../data/prelegenci';
 
 const bySlug = Object.fromEntries(speakers.map(s => [s.slug, s]));
@@ -73,7 +73,7 @@ const fmt = (m: number): string =>
 const rowPx = (dur: number): number => Math.round(Math.max(22, Math.min(160, 18 + dur * 0.75)));
 
 function layout(day: AgendaDay) {
-  const all = day.items.map(it => ({ it, ...span(it.time) }));
+  const all = viewItems(day.items, 'pelna').map(it => ({ it, ...span(it.time) }));
 
   // Dzien bez podzialu na sale (czwartkowe spotkanie klubu) nie ma czego
   // rozkladac na kolumny - kazda pozycja dostaje wlasny wiersz i idzie pelna
@@ -168,8 +168,8 @@ const days = agenda.map(layout);
 <div class="calday" id={d.day.key}>
   <div class="dayhd">
     <h2 class="daynum">{d.day.label} {d.day.date}</h2>
-    {d.day.items.filter(i => i.kind === 'prelekcja').length > 0 && (
-      <span class="daytag">{d.day.items.filter(i => i.kind === 'prelekcja').length} wystąpień</span>
+    {viewItems(d.day.items, 'pelna').filter(i => i.kind === 'prelekcja').length > 0 && (
+      <span class="daytag">{viewItems(d.day.items, 'pelna').filter(i => i.kind === 'prelekcja').length} wystąpień</span>
     )}
   </div>
   <p class="dayintro">{d.day.intro}</p>

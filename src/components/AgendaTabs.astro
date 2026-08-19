@@ -8,7 +8,7 @@
 //
 // Pozycje oznaczone feature:true dostaja duza karte ze zdjeciem - to one maja
 // zlapac wzrok, zanim ktokolwiek zacznie czytac liste godzin.
-import { agenda, summarise, type AgendaItem } from '../data/agenda2026';
+import { agenda, summarise, viewItems, type AgendaItem } from '../data/agenda2026';
 import { speakers } from '../data/prelegenci';
 
 const bySlug = Object.fromEntries(speakers.map(s => [s.slug, s]));
@@ -32,7 +32,7 @@ function heading(it: AgendaItem): string {
   return it.title ?? '';
 }
 
-const days = agenda.map(d => ({ day: d, rows: summarise(d) }));
+const days = agenda.map(d => ({ day: d, rows: summarise({ ...d, items: viewItems(d.items, 'skrot') }) }));
 // Piatek to pierwszy dzien wlasciwej konferencji - czwartkowe spotkanie klubu
 // jest dodatkiem, wiec zakladki otwieraja sie na piatku.
 const openKey = 'piatek';

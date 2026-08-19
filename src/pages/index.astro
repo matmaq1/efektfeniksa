@@ -1,6 +1,6 @@
 ---
 import { speakers } from '../data/prelegenci';
-import { agenda } from '../data/agenda2026';
+import { agenda, viewItems } from '../data/agenda2026';
 import AgendaTabs from '../components/AgendaTabs.astro';
 import AgendaSummary from '../components/AgendaSummary.astro';
 
@@ -8,7 +8,7 @@ import AgendaSummary from '../components/AgendaSummary.astro';
 // zostaje kolejnosc chronologiczna z arkusza.
 const lineup = [...speakers].sort((a, b) => (a.photo ? 0 : 1) - (b.photo ? 0 : 1));
 
-const talkCount = agenda.flatMap(d => d.items).filter(i => i.kind === 'prelekcja').length;
+const talkCount = agenda.flatMap(d => viewItems(d.items, 'pelna')).filter(i => i.kind === 'prelekcja').length;
 ---
 <!DOCTYPE html>
 <html lang="pl">
